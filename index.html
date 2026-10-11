@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Behavecounting - Platform Perkuliahan Akuntansi Keperilakuan</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              400: '#2dd4bf',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              900: '#134e4a',
+              950: '#042f2e'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #090d16; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    @media print {
+      body { background: white !important; color: black !important; }
+      header, footer, #viewLanding, #viewStudentPortal, #globalDoodleBackdrop, .no-print, #toastContainer, #modalCustomConfirm, #modalAuth, #modalDeskripsiRPS, #modalMeetingWorkspace, #modalLecturerConsole {
+        display: none !important;
+      }
+      #modalPortfolioPreview { display: block !important; position: static !important; background: transparent !important; padding: 0 !important; margin: 0 !important; }
+      #modalPortfolioPreview > div { max-width: 100% !important; border: none !important; box-shadow: none !important; background: transparent !important; }
+      #modalPortfolioPreview > div > div:first-child, #modalPortfolioPreview > div > div:last-child { display: none !important; }
+      #portfolioPaperSheet { box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-teal-500 selection:text-slate-950 relative overflow-x-hidden">
+
+  <!-- Ambient Backdrop -->
+  <div id="globalDoodleBackdrop" class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-[0.14]" aria-hidden="true">
+    <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1600 1200">
+      <defs>
+        <radialGradient id="doodleGlow1" cx="20%" cy="30%" r="50%">
+          <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.8" />
+          <stop offset="100%" stop-color="#14b8a6" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="doodleGlow2" cx="80%" cy="70%" r="60%">
+          <stop offset="0%" stop-color="#6366f1" stop-opacity="0.8" />
+          <stop offset="100%" stop-color="#6366f1" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="300" cy="350" r="350" fill="url(#doodleGlow1)" />
+      <circle cx="1300" cy="850" r="400" fill="url(#doodleGlow2)" />
+    </svg>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header class="relative z-30 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer group" onclick="navigateHome()">
+        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-teal-500 via-teal-400 to-indigo-600 flex items-center justify-center shadow-lg shadow-teal-500/20 group-hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-brain text-slate-950 text-lg sm:text-xl"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-base sm:text-lg font-black tracking-tight text-white group-hover:text-teal-400 transition-colors">Behavecounting</span>
+            <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 font-bold hidden sm:inline-block">RPS 14 Sesi</span>
+          </div>
+          <p id="headerSubtitle" class="text-[11px] text-slate-400 font-medium">Laboratorium Akuntansi Keperilakuan Berbasis Evaluasi Presisi</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2.5 sm:space-x-4">
+        <div id="headerLiveUserCountBadge" class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/60 text-xs shadow-inner">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <i class="fa-solid fa-users text-teal-400 text-xs hidden sm:inline"></i>
+          <span id="txtLiveUserCount" class="font-mono font-bold text-slate-200 text-[11px] sm:text-xs">1 Pengguna Aktif</span>
+        </div>
+
+        <button onclick="toggleAudioChimes()" id="btnAudioToggle" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-teal-400 flex items-center justify-center transition-all text-xs" title="Suara Interaktif">
+          <i id="iconAudioState" class="fa-solid fa-volume-high"></i>
+        </button>
+
+        <div id="headerAuthArea">
+          <button onclick="openAuthModal('login')" id="btnHeaderAuth" class="px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs sm:text-sm flex items-center space-x-2 shadow-md shadow-teal-500/10 transition-all hover:scale-[1.02] active:scale-[0.98]">
+            <i class="fa-solid fa-arrow-right-to-bracket text-xs"></i>
+            <span id="txtBtnHeaderLogin">Masuk / Registrasi</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main id="appMainContainer" class="flex-1 relative z-10 flex flex-col">
+    <!-- VIEW 1: LANDING & LEADERBOARD -->
+    <section id="viewLanding" class="flex-1 flex flex-col justify-start py-8 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-12">
+      <div class="text-center max-w-4xl mx-auto space-y-5">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-bold tracking-wide">
+          <i class="fa-solid fa-certificate text-teal-400"></i>
+          <span>Kurikulum Lengkap 14 Pertemuan RPS • Evaluasi Otomatis Tanpa Uji Ulang</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.15]">
+          Eksplorasi Perilaku Manusia di Balik <span class="bg-gradient-to-r from-teal-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">Angka & Keputusan Finansial</span>
+        </h1>
+
+        <p class="text-sm sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
+          Uji bias kognitif, senjangan anggaran, skeptisisme audit, dan dilema etika manajerial. Status evaluasi teori akuntansi keperilakuan diuji secara objektif saat Anda mengunci keputusan.
+        </p>
+
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-5">
+          <button onclick="handleEnterPortalClick()" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-sm sm:text-base flex items-center justify-center space-x-3 shadow-xl shadow-teal-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+            <i class="fa-solid fa-graduation-cap text-base"></i>
+            <span>Masuk Portal Pembelajaran</span>
+          </button>
+          <button onclick="openDeskripsiRPSModal()" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700/80 font-bold text-sm sm:text-base flex items-center justify-center space-x-3 shadow-lg transition-all hover:scale-[1.02]">
+            <i class="fa-solid fa-map-location-dot text-teal-400 text-base"></i>
+            <span>Peta Pembelajaran Semester</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Leaderboard Section -->
+      <div class="pt-4 max-w-5xl mx-auto w-full space-y-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="space-y-0.5">
+            <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-trophy text-amber-400"></i>
+              Papan Peringkat Real-Time Mahasiswa
+            </h2>
+            <p class="text-xs text-slate-400">Rekapitulasi pencapaian laboratorium dan skor performa kompetensi psikometri.</p>
+          </div>
+          <div class="flex items-center space-x-2 w-full sm:w-auto">
+            <span class="text-xs text-slate-400 font-medium whitespace-nowrap"><i class="fa-solid fa-filter mr-1 text-teal-400"></i>Saring Kelas:</span>
+            <select id="leaderboardClassFilter" onchange="renderLandingLeaderboard()" class="w-full sm:w-48 bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-teal-500">
+              <option value="ALL">Semua Kelas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="bg-slate-900/70 border border-slate-800/80 rounded-2xl overflow-hidden backdrop-blur-md shadow-2xl">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-950/80 border-b border-slate-800 font-bold text-slate-300">
+                <tr>
+                  <th class="p-3.5 w-16 text-center">Posisi</th>
+                  <th class="p-3.5">Mahasiswa (NIM)</th>
+                  <th class="p-3.5 text-center w-32">Total Skor</th>
+                  <th class="p-3.5">Kelas Perkuliahan</th>
+                  <th class="p-3.5 text-center w-48">Status Asesmen</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardTableBody" class="divide-y divide-slate-800/60 font-medium text-slate-200"></tbody>
+            </table>
+          </div>
+          <div id="leaderboardEmptyState" class="hidden p-8 text-center space-y-2">
+            <i class="fa-solid fa-user-clock text-3xl text-slate-600"></i>
+            <p class="text-xs text-slate-400">Belum ada aktivitas mahasiswa terdaftar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: STUDENT LEARNING PORTAL VIEW -->
+    <section id="viewStudentPortal" class="hidden flex-1 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-8">
+      <div class="p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-900/90 to-teal-950/40 border border-slate-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div class="flex items-center space-x-4">
+          <div class="w-14 h-14 rounded-2xl bg-teal-500/20 border border-teal-500/40 text-teal-400 flex items-center justify-center text-2xl font-bold shadow-inner flex-shrink-0">
+            <i class="fa-solid fa-user-graduate"></i>
+          </div>
+          <div class="space-y-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 id="spStudentName" class="text-lg sm:text-xl font-black text-white">Nama Mahasiswa</h2>
+              <span id="spStudentClassBadge" class="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[11px] font-bold">Kelas</span>
+              <span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 text-[10px] font-mono">S1 Akuntansi</span>
+            </div>
+            <p class="text-xs text-slate-400 font-mono">NIM: <span id="spStudentNIM" class="text-slate-200 font-bold">20260000</span></p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+          <div class="text-right px-4 py-2 rounded-2xl bg-slate-950/70 border border-slate-800">
+            <span class="text-[10px] text-slate-400 uppercase font-bold block">Kemajuan Kurikulum</span>
+            <span id="spProgressCount" class="text-sm font-black text-teal-400 font-mono">0 / 14 Sesi</span>
+          </div>
+
+          <button onclick="openPortfolioModal()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-teal-300 hover:text-teal-200 border border-teal-500/40 font-bold text-xs flex items-center space-x-2 transition shadow-lg shadow-teal-500/10">
+            <i class="fa-solid fa-file-lines text-teal-400"></i>
+            <span>Lihat/Cetak Portofolio</span>
+          </button>
+
+          <button onclick="handleUserLogout()" class="px-4 py-2.5 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/40 font-bold text-xs flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Keluar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Radar Kompetensi -->
+      <div class="p-6 rounded-3xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-sm grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+        <div class="lg:col-span-1 space-y-3">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-300 text-xs font-bold border border-indigo-500/30">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Indeks Kompetensi Psikometri Akuntan</span>
+          </div>
+          <h3 class="text-base font-extrabold text-white">Profil Kompetensi Keperilakuan Akuntan Profesional</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Dimensi psikometri diadaptasi dari standar IES 4 (IFAC): Integritas & Keberanian Etis, Skeptisisme Profesional, Objektivitas & Resistensi Bias, serta Pertimbangan Keputusan Fidusia.
+          </p>
+          <div class="pt-2 text-[11px] text-slate-400 font-mono space-y-1.5">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1">
+              <span class="text-slate-300"><i class="fa-solid fa-shield-halved text-teal-400 mr-1.5"></i>Integritas & Keberanian Etis:</span>
+              <span id="metricValEthic" class="text-teal-400 font-bold">50 Pts</span>
+            </div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1">
+              <span class="text-slate-300"><i class="fa-solid fa-magnifying-glass-chart text-indigo-400 mr-1.5"></i>Skeptisisme Profesional:</span>
+              <span id="metricValSkeptic" class="text-indigo-400 font-bold">50 Pts</span>
+            </div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1">
+              <span class="text-slate-300"><i class="fa-solid fa-scale-balanced text-amber-400 mr-1.5"></i>Objektivitas & Resistensi Bias:</span>
+              <span id="metricValSlack" class="text-amber-400 font-bold">50 Pts</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-300"><i class="fa-solid fa-compass text-rose-400 mr-1.5"></i>Pertimbangan Keputusan Fidusia:</span>
+              <span id="metricValRisk" class="text-rose-400 font-bold">50 Pts</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 flex justify-center items-center h-64 sm:h-72 w-full">
+          <canvas id="psychometricRadarChart" class="max-w-full max-h-full"></canvas>
+        </div>
+      </div>
+
+      <!-- 14 Sessions Grid -->
+      <div class="space-y-4">
+        <div class="border-b border-slate-800 pb-3">
+          <h3 class="text-base sm:text-lg font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-book-open-reader text-teal-400"></i>
+            Daftar 14 Pertemuan Laboratorium RPS
+          </h3>
+          <p class="text-xs text-slate-400">Pilih pertemuan untuk memulai simulasi. Setiap sesi dikerjakan sekali tanpa fitur uji ulang.</p>
+        </div>
+        <div id="studentSessionsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL: WORKSPACE SESI -->
+  <div id="modalMeetingWorkspace" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/90 backdrop-blur-md hidden">
+    <div class="w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+      <div class="px-6 py-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span id="wsSessionBadge" class="px-3 py-1 rounded-xl bg-indigo-600 text-white text-xs font-black font-mono">P1</span>
+          <div>
+            <h3 id="wsSessionTitle" class="text-sm sm:text-base font-extrabold text-white">Judul Pertemuan</h3>
+            <span id="wsSessionPhase" class="text-[11px] text-teal-400 font-medium">Fase Perkuliahan</span>
+          </div>
+        </div>
+        <button onclick="closeMeetingWorkspace()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 text-xs text-slate-200 flex-1">
+        <div class="p-4 rounded-2xl bg-indigo-950/30 border border-indigo-800/40 space-y-1.5">
+          <div class="flex items-center space-x-2 text-indigo-400 font-bold">
+            <i class="fa-solid fa-book-bookmark text-xs"></i>
+            <span>Landasan Teori & Konstruk Keperilakuan:</span>
+          </div>
+          <div id="wsTheoryDescription" class="text-slate-300 leading-relaxed text-[11px]"></div>
+          <div class="mt-2 pt-2 border-t border-indigo-900/40 text-[10px] text-indigo-300">
+            <i class="fa-solid fa-circle-info mr-1"></i>
+            <span>Konsep kunci wajib dalam refleksi: </span>
+            <span id="wsKeyTheoryConcepts" class="font-bold text-amber-300"></span>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="text-xs font-black uppercase tracking-wider text-teal-400 flex items-center gap-2">
+            <i class="fa-solid fa-file-lines"></i> Skenario Kasus Laboratorium
+          </h4>
+          <div id="wsCaseNarrative" class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-slate-300 leading-relaxed text-xs"></div>
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex justify-between items-center">
+            <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
+              <i class="fa-solid fa-code-branch"></i> Alternatif Keputusan Keperilakuan (Pilih 1 dari 4 Opsi)
+            </h4>
+            <span class="text-[10px] text-slate-400">Analisis implikasi setiap opsi secara teliti</span>
+          </div>
+          <div id="wsInteractiveControlArea" class="space-y-2.5"></div>
+          
+          <div id="wsConsequenceBox" class="hidden p-4 rounded-2xl bg-slate-950 border border-teal-500/40 text-teal-300 text-xs space-y-1.5">
+            <div class="font-bold flex items-center gap-1.5 text-teal-400">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Analisis Dampak Keputusan:</span>
+            </div>
+            <p id="wsConsequenceText" class="text-slate-300 leading-relaxed text-[11px]"></p>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-black uppercase tracking-wider text-indigo-400 flex items-center gap-2">
+              <i class="fa-solid fa-pen-fancy"></i> Lembar Kerja & Refleksi Mandiri Mahasiswa
+            </h4>
+            <span id="wsCharCountBadge" class="text-[10px] text-slate-400">Min. 40 Karakter & Relevan Teori</span>
+          </div>
+          <textarea id="wsReflectionText" oninput="handleReflectionTextInput()" rows="4" placeholder="Uraikan dasar pertimbangan Anda: kaitkan keputusan di atas dengan teori akuntansi keperilakuan yang relevan, identifikasi bias kognitif yang timbul, dan rumuskan mitigasinya..." class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-3.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 leading-relaxed"></textarea>
+          <div class="flex items-center justify-between pt-1 text-[11px] text-slate-400">
+            <span><i class="fa-solid fa-shield-halved text-teal-400 mr-1"></i>Analisis teori akan dievaluasi sistem saat Anda mengunci keputusan.</span>
+            <span id="wsReviewStatusBadge" class="font-mono"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 py-4 border-t border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
+        <button onclick="closeMeetingWorkspace()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs transition">Batal</button>
+        <button id="wsBtnCompleteSession" onclick="handleFinishMeetingSession()" class="px-5 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs transition flex items-center space-x-2 shadow-lg shadow-teal-500/20">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Simpan & Kunci Keputusan Sesi Ini</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PORTOFOLIO PREVIEW & CETAK -->
+  <div id="modalPortfolioPreview" class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/90 backdrop-blur-md hidden">
+    <div class="w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[96vh]">
+      <div class="px-5 py-3.5 border-b border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-graduation-cap text-base"></i>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold text-white">Transkrip Portofolio Laboratorium Akuntansi Keperilakuan</h3>
+            <p class="text-xs text-slate-400">Rekapitulasi Asesmen Tunggal & Status Kelulusan Teoretis</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="printPortfolioSheet()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-black text-xs flex items-center space-x-2 shadow-lg transition">
+            <i class="fa-solid fa-print"></i>
+            <span>Cetak / Simpan PDF</span>
+          </button>
+          <button onclick="closePortfolioModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+      </div>
+      <div class="p-4 sm:p-8 overflow-y-auto flex-1 bg-slate-950/60">
+        <div id="portfolioPaperSheet" class="max-w-[850px] mx-auto bg-white text-slate-900 p-6 sm:p-10 rounded-2xl shadow-2xl border border-slate-200"></div>
+      </div>
+      <div class="px-6 py-3 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-xs text-slate-400 flex-shrink-0">
+        <span>Pengampu: <strong class="text-slate-200">Sukma Lesmana, Ph.D</strong></span>
+        <button onclick="closePortfolioModal()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold transition">Tutup Pratinjau</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: RPS -->
+  <div id="modalDeskripsiRPS" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/85 backdrop-blur-md hidden">
+    <div class="w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="px-6 py-4 border-b border-slate-800 bg-slate-950/80 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-2xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-map-location-dot text-base"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-white">Peta Pembelajaran Semester (RPS)</h3>
+            <p class="text-xs text-teal-400 font-medium">14 Pertemuan Laboratorium Akuntansi Keperilakuan</p>
+          </div>
+        </div>
+        <button onclick="closeDeskripsiRPSModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+      <div id="rpsModalContentBody" class="p-6 overflow-y-auto space-y-4 flex-1"></div>
+      <div class="px-6 py-3.5 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs text-slate-400 flex-shrink-0">
+        <span>Pengembang Kurikulum: <strong class="text-slate-200">Sukma Lesmana, Ph.D</strong></span>
+        <button onclick="closeDeskripsiRPSModal()" class="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: AUTHENTICATION -->
+  <div id="modalAuth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden">
+    <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="p-6 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-lock text-sm"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-white">Autentikasi Pengguna</h3>
+            <p class="text-xs text-slate-400">Pilih jenis akses perkuliahan</p>
+          </div>
+        </div>
+        <button onclick="closeAuthModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-4 bg-slate-950 border-b border-slate-800 p-1 text-[11px] font-bold">
+        <button onclick="switchAuthTab('login')" id="tabBtnLogin" class="py-2 rounded-xl transition-all text-center bg-slate-800 text-white shadow-sm">Masuk</button>
+        <button onclick="switchAuthTab('register')" id="tabBtnRegister" class="py-2 rounded-xl transition-all text-center text-slate-400 hover:text-white">Registrasi</button>
+        <button onclick="switchAuthTab('forgot')" id="tabBtnForgot" class="py-2 rounded-xl transition-all text-center text-slate-400 hover:text-white">Lupa PIN</button>
+        <button onclick="switchAuthTab('lecturer')" id="tabBtnLecturer" class="py-2 rounded-xl transition-all text-center text-slate-400 hover:text-white">Pengampu</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 flex-1">
+        <form id="formStudentLogin" onsubmit="handleStudentLogin(event)" class="space-y-4">
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">Nomor Induk Mahasiswa (NIM)</label>
+            <input type="text" id="loginNIM" required placeholder="Contoh: 2108102001" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">PIN Mahasiswa (4-6 Digit)</label>
+            <input type="password" id="loginPIN" required maxlength="6" placeholder="••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 font-mono">
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs transition shadow-lg">
+            <span>Masuk ke Portal</span>
+          </button>
+        </form>
+
+        <form id="formStudentRegister" onsubmit="handleStudentRegister(event)" class="hidden space-y-3.5">
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">Nomor Induk Mahasiswa (NIM)</label>
+            <input type="text" id="regNIM" required placeholder="Contoh: 2108102001" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">Nama Lengkap Mahasiswa</label>
+            <input type="text" id="regName" required placeholder="Contoh: Siti Rahmawati" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">Kelas Perkuliahan</label>
+            <input type="text" id="regClass" required placeholder="Contoh: Akuntansi 5A" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">Buat PIN Akses (4-6 Digit Angka)</label>
+            <input type="password" id="regPIN" required maxlength="6" placeholder="Contoh: 1234" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 font-mono">
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-teal-500 to-indigo-600 hover:opacity-90 text-white font-black text-xs transition shadow-lg">
+            <span>Daftarkan Akun</span>
+          </button>
+        </form>
+
+        <div id="subTabForgotPIN" class="hidden space-y-4">
+          <div class="p-4 rounded-2xl bg-amber-950/40 border border-amber-500/40 text-amber-200 text-xs leading-relaxed">
+            PIN tersimpan aman di Konsol Dosen Pengampu (<strong>Sukma Lesmana, Ph.D</strong>). Masukkan NIM untuk memeriksa data akun Anda.
+          </div>
+          <div class="space-y-2">
+            <div class="flex space-x-2">
+              <input type="text" id="forgotCheckNIM" placeholder="Masukkan NIM Anda" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500">
+              <button onclick="checkStudentAccountForPIN()" type="button" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition">Cek</button>
+            </div>
+          </div>
+          <div id="forgotResultCard" class="hidden p-3.5 rounded-xl bg-slate-950 border border-slate-700 text-xs space-y-1.5"></div>
+        </div>
+
+        <form id="formLecturerLogin" onsubmit="handleLecturerLogin(event)" class="hidden space-y-4">
+          <div class="p-3.5 rounded-2xl bg-indigo-950/40 border border-indigo-500/40 text-indigo-200 text-xs flex items-center space-x-2.5">
+            <i class="fa-solid fa-shield-halved text-base text-indigo-400"></i>
+            <span>Otoritas Pengampu: Sukma Lesmana, Ph.D</span>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">PIN Otorisasi Pengampu</label>
+            <input type="password" id="lecturerPIN" required placeholder="Masukkan PIN Otorisasi" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono">
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs transition shadow-lg">
+            <span>Buka Konsol Pengampu</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: KONSOL PENGAMPU DENGAN SLIDE PRESENTASI & PENCARIAN MAHASISWA -->
+  <div id="modalLecturerConsole" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/90 backdrop-blur-md hidden">
+    <div class="w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+      <div class="px-6 py-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/40 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-chalkboard-user text-base"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-white">Konsol Dosen Pengampu</h3>
+            <p class="text-xs text-indigo-400 font-medium">Sukma Lesmana, Ph.D • Otoritas Akademik Semester</p>
+          </div>
+        </div>
+        <button onclick="closeLecturerConsole()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Navigation Tabs (3 Tabs) -->
+      <div class="grid grid-cols-3 bg-slate-950 border-b border-slate-800 p-1 text-xs font-bold flex-shrink-0">
+        <button onclick="switchLecturerTab('sessions')" id="tabLecSessions" class="py-2.5 rounded-xl bg-slate-800 text-white transition flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-sliders text-teal-400"></i>
+          <span>Kontrol 14 Sesi</span>
+        </button>
+        <button onclick="switchLecturerTab('slides')" id="tabLecSlides" class="py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-person-chalkboard text-indigo-400"></i>
+          <span>Slide Pembahasan RPS</span>
+        </button>
+        <button onclick="switchLecturerTab('students')" id="tabLecStudents" class="py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-users-gear text-amber-400"></i>
+          <span>Rekap & Cari Mahasiswa</span>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 flex-1 text-xs">
+        
+        <!-- TAB 1: KONTROL SESI -->
+        <div id="lecTabSessionsContent" class="space-y-4">
+          <div class="flex justify-between items-center p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <div>
+              <h4 class="font-extrabold text-white text-sm">Manajemen Buka/Tutup Sesi (14 Pertemuan)</h4>
+              <p class="text-slate-400 text-xs">Buka atau tutup akses laboratorium sesuai jadwal perkuliahan.</p>
+            </div>
+            <div class="flex space-x-2">
+              <button onclick="bulkSetSessions(true)" class="px-3 py-1.5 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/40 font-bold text-xs">Buka Semua Sesi</button>
+              <button onclick="bulkSetSessions(false)" class="px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold text-xs">Kunci Semua (Kecuali P1)</button>
+            </div>
+          </div>
+          <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950">
+            <table class="w-full text-left text-[11px]">
+              <thead class="bg-slate-900 font-bold text-slate-300 border-b border-slate-800">
+                <tr>
+                  <th class="p-3 w-14 text-center">Sesi</th>
+                  <th class="p-3">Materi Perkuliahan</th>
+                  <th class="p-3 w-32 text-center">Status Akses</th>
+                  <th class="p-3 w-40 text-right">Tindakan</th>
+                </tr>
+              </thead>
+              <tbody id="lecSessionsTableBody" class="divide-y divide-slate-800"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: SLIDE PRESENTASI PEMBAHASAN TEORETIS -->
+        <div id="lecTabSlidesContent" class="hidden space-y-5">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <div>
+              <h4 class="font-extrabold text-white text-sm flex items-center gap-2">
+                <i class="fa-solid fa-person-chalkboard text-teal-400"></i>
+                Slide Presentasi Pembahasan Teoretis RPS
+              </h4>
+              <p class="text-slate-400 text-xs">Modul tayang kuliah berisi argumen ilmiah, telaah opsi A-D, dan konstruk teori akuntansi keperilakuan.</p>
+            </div>
+            <div class="flex items-center space-x-2 w-full sm:w-auto">
+              <span class="text-slate-400 font-bold whitespace-nowrap">Pilih Sesi:</span>
+              <select id="lecSlideSessionSelect" onchange="loadLecturerSlideSession(this.value)" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-teal-300 font-bold focus:outline-none focus:border-teal-500">
+                <!-- Diisi via JS (Sesi 1 s.d. 14) -->
+              </select>
+            </div>
+          </div>
+
+          <!-- SLIDE VIEWER CONTAINER -->
+          <div id="lecSlideViewerWrapper" class="rounded-3xl border border-slate-700 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 p-6 sm:p-8 shadow-2xl relative min-h-[420px] flex flex-col justify-between">
+            <div id="lecSlideContentBody">
+              <!-- Render slide content dynamically -->
+            </div>
+
+            <!-- Slide Bottom Controls -->
+            <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between">
+              <button onclick="navigateSlideStep(-1)" id="btnSlidePrev" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs flex items-center space-x-2 transition">
+                <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                <span>Slide Sebelumnya</span>
+              </button>
+              
+              <div class="flex items-center space-x-2">
+                <span id="slideIndicatorBadge" class="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono font-bold text-xs">
+                  Slide 1 / 4
+                </span>
+              </div>
+
+              <button onclick="navigateSlideStep(1)" id="btnSlideNext" class="px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs flex items-center space-x-2 transition shadow-md shadow-teal-500/20">
+                <span>Slide Berikutnya</span>
+                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: REKAPITULASI & MESIN PENCARI MAHASISWA BERBASIS NIM -->
+        <div id="lecTabStudentsContent" class="hidden space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 font-bold uppercase block">Total Mahasiswa Terdaftar</span>
+              <span id="lecStatTotalStudents" class="text-xl font-black text-teal-400 font-mono">0</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 font-bold uppercase block">Rata-rata Total Skor</span>
+              <span id="lecStatAvgScore" class="text-xl font-black text-indigo-400 font-mono">0 Pts</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 font-bold uppercase block">Rata-rata Lab Selesai</span>
+              <span id="lecStatAvgCompleted" class="text-xl font-black text-amber-400 font-mono">0 / 14</span>
+            </div>
+          </div>
+
+          <!-- MESIN SEARCHING BERBASIS NIM -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-indigo-500/40 space-y-3">
+            <div class="flex items-center space-x-2 text-indigo-300 font-bold text-xs">
+              <i class="fa-solid fa-magnifying-glass text-teal-400"></i>
+              <span>Mesin Pencari Data Mahasiswa Berbasis NIM</span>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <div class="relative flex-1">
+                <input type="text" id="lecSearchNIMInput" oninput="handleLecturerLiveSearchNIM()" placeholder="Ketikkan NIM Mahasiswa untuk mencari data seketika..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 font-mono">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+              </div>
+              <button onclick="handleLecturerLiveSearchNIM()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-filter"></i>
+                <span>Cari Cepat</span>
+              </button>
+            </div>
+
+            <!-- Kartu Hasil Pencarian Spesifik -->
+            <div id="lecNIMQuickSearchResultCard" class="hidden p-4 rounded-xl bg-slate-900 border border-slate-700 text-xs space-y-2"></div>
+          </div>
+
+          <!-- Ekspor CSV & Filter Kelas -->
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
+            <div class="flex items-center space-x-2 w-full sm:w-auto">
+              <span class="text-slate-400 font-bold">Saring Kelas:</span>
+              <select id="lecStudentsClassFilter" onchange="renderLecturerStudentsTable()" class="bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1 text-xs text-white">
+                <option value="ALL">Semua Kelas</option>
+              </select>
+            </div>
+            <button onclick="exportClassGradesToCSV()" class="px-3.5 py-1.5 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 border border-teal-500/40 font-bold text-xs flex items-center space-x-1.5">
+              <i class="fa-solid fa-file-excel"></i>
+              <span>Ekspor Rekap CSV</span>
+            </button>
+          </div>
+
+          <!-- Tabel Data Mahasiswa -->
+          <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950">
+            <table class="w-full text-left text-[11px]">
+              <thead class="bg-slate-900 font-bold text-slate-300 border-b border-slate-800">
+                <tr>
+                  <th class="p-3 w-28">NIM</th>
+                  <th class="p-3">Nama Mahasiswa</th>
+                  <th class="p-3">Kelas</th>
+                  <th class="p-3 text-center">PIN</th>
+                  <th class="p-3 text-center">Total Skor</th>
+                  <th class="p-3 text-center">Lab Tuntas</th>
+                  <th class="p-3 text-center">Status Kelulusan Teori</th>
+                </tr>
+              </thead>
+              <tbody id="lecStudentsTableBody" class="divide-y divide-slate-800"></tbody>
+            </table>
+            <div id="lecStudentsEmptyBox" class="hidden p-6 text-center text-slate-500 text-xs">Tidak ada data mahasiswa yang cocok dengan pencarian NIM.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="px-6 py-3.5 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-xs text-slate-400 flex-shrink-0">
+        <span>Pengembang Platform: <strong class="text-slate-200">Sukma Lesmana, Ph.D</strong></span>
+        <button onclick="closeLecturerConsole()" class="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition">Tutup Konsol</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalCustomConfirm" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="w-full max-w-sm bg-slate-900 border border-slate-700 rounded-3xl p-5 space-y-4 shadow-2xl text-center">
+      <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto text-xl">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <div class="space-y-1">
+        <h4 id="confirmDialogTitle" class="text-sm font-extrabold text-white">Konfirmasi Tindakan</h4>
+        <p id="confirmDialogMessage" class="text-xs text-slate-300 leading-relaxed">Apakah Anda yakin?</p>
+      </div>
+      <div class="flex items-center justify-center gap-2 pt-2">
+        <button onclick="closeConfirmModal(false)" class="w-1/2 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition">Batal</button>
+        <button onclick="closeConfirmModal(true)" class="w-1/2 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-black transition">Lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- APPLICATION ENGINE & FIREBASE SYNC SCRIPT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyArYN7_RsE4piEE4XxvTvfezUwOuXVIOJI",
+      authDomain: "behavecounting.firebaseapp.com",
+      databaseURL: "https://behavecounting-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "behavecounting",
+      storageBucket: "behavecounting.firebasestorage.app",
+      messagingSenderId: "349540407744",
+      appId: "1:349540407744:web:849a39621b8c4589721025"
+    };
+
+    let db = null;
+    let auth = null;
+    let isCloudOnline = false;
+
+    try {
+      const app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      signInAnonymously(auth).then(() => {
+        isCloudOnline = true;
+        initCloudSync();
+      }).catch(err => console.warn("Firebase Auth fallback local:", err));
+    } catch (e) { console.warn("Firebase fallback:", e); }
+
+    function initCloudSync() {
+      if (!db) return;
+      onSnapshot(collection(db, "behave_students"), (snapshot) => {
+        const cloudStudents = [];
+        snapshot.forEach(docSnap => cloudStudents.push(docSnap.data()));
+        if (cloudStudents.length > 0) {
+          saveRegisteredStudents(cloudStudents, false);
+          renderLandingLeaderboard();
+          if (appState.isLoggedIn && appState.userType === 'student') {
+            const cur = cloudStudents.find(s => String(s.nim).trim() === String(appState.activeStudent.nim).trim());
+            if (cur) { appState.activeStudent = cur; renderStudentPortal(); }
+          }
+        }
+      }, err => console.warn(err));
+
+      onSnapshot(collection(db, "behave_controls"), (snapshot) => {
+        const ctrls = {};
+        snapshot.forEach(docSnap => { ctrls[docSnap.id] = docSnap.data(); });
+        if (Object.keys(ctrls).length > 0) {
+          saveSessionControls(ctrls, false);
+          renderLecturerSessions();
+          if (appState.isLoggedIn && appState.userType === 'student') renderStudentPortal();
+        }
+      }, err => console.warn(err));
+    }
+
+    async function syncStudentToCloud(student) {
+      if (db && isCloudOnline && student?.nim) {
+        try { await setDoc(doc(db, "behave_students", String(student.nim).trim()), student, { merge: true }); }
+        catch (e) { console.warn("Sync student failed:", e); }
+      }
+    }
+    async function syncControlToCloud(sNum, ctrl) {
+      if (db && isCloudOnline) {
+        try { await setDoc(doc(db, "behave_controls", String(sNum)), ctrl, { merge: true }); }
+        catch (e) { console.warn("Sync control failed:", e); }
+      }
+    }
+
+    /* STORAGE & STATE */
+    const memoryStorage = {};
+    const safeStorage = {
+      getItem: (k) => { try { return localStorage.getItem(k); } catch (e) { return memoryStorage[k] || null; } },
+      setItem: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { memoryStorage[k] = String(v); } }
+    };
+
+    let isAudioMuted = safeStorage.getItem("behave_audio_muted") === "true";
+
+    function showToast(message, type = "info") {
+      const container = document.getElementById("toastContainer");
+      if (!container) return;
+      const toast = document.createElement("div");
+      toast.className = `p-3.5 rounded-2xl text-xs font-bold text-white shadow-2xl transition-all duration-300 transform translate-y-3 opacity-0 flex items-center space-x-2.5 pointer-events-auto border ${
+        type === 'success' ? 'bg-teal-950/90 border-teal-500 text-teal-200' :
+        type === 'error' ? 'bg-rose-950/90 border-rose-500 text-rose-200' :
+        type === 'warning' ? 'bg-amber-950/90 border-amber-500 text-amber-200' : 'bg-slate-900/90 border-slate-700 text-slate-200'
+      }`;
+      const icon = type === 'success' ? 'fa-circle-check text-teal-400' :
+                   type === 'error' ? 'fa-circle-xmark text-rose-400' :
+                   type === 'warning' ? 'fa-triangle-exclamation text-amber-400' : 'fa-circle-info text-indigo-400';
+      toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
+      container.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.remove("translate-y-3", "opacity-0"));
+      setTimeout(() => {
+        toast.classList.add("opacity-0", "translate-y-2");
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    let confirmCallback = null;
+    function openConfirmModal(title, message, callback) {
+      document.getElementById("confirmDialogTitle").innerText = title;
+      document.getElementById("confirmDialogMessage").innerText = message;
+      confirmCallback = callback;
+      document.getElementById("modalCustomConfirm").classList.remove("hidden");
+    }
+    function closeConfirmModal(accepted) {
+      document.getElementById("modalCustomConfirm").classList.add("hidden");
+      if (confirmCallback) { confirmCallback(accepted); confirmCallback = null; }
+    }
+
+    /* 14 SESI RPS - DENGAN ARGUMEN TEORITIS LENGKAP UNTUK SLIDE PRESENTASI & EVALUASI */
+    const CURRICULUM_MEETINGS = [
+      {
+        session: 1, phase_id: "Fase I: Fondasi & Pengantar",
+        title_id: "Pengantar Akuntansi Keperilakuan & Aspek Kognitif",
+        theory_summary_id: "Bounded Rationality (Herbert Simon, 1957) & Heuristik Kognitif (Kahneman & Tversky, 1974)",
+        theory_id: "<p>Keterbatasan kapasitas pemrosesan informasi (<em>computational constraints</em>) dan tekanan batas waktu mendorong akuntan menggunakan jalan pintas mental (<em>heuristics</em>). Keputusan cenderung memuaskan secara heuristik (<em>satisficing</em>) alih-alih optimal, memicu bias ketersediaan (<em>availability bias</em>).</p>",
+        required_keywords: ["bounded rationality", "rasionalitas terbatas", "satisficing", "heuristik", "availability bias", "kognitif", "estimasi", "waktu"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi C (Mitigasi Bounded Rationality: Eskalasi Waktu Resmi 24 Jam)",
+        theoretical_defense: "Herbert Simon (1957) membuktikan bahwa batasan kognitif di bawah time pressure memicu distorsi sistematis. Mengajukan perpanjangan waktu terstruktur adalah tindakan fidusia rasional guna memutus heuristik availability bias dan menjamin reliabilitas laporan.",
+        cognitive_trap: "Availability Bias & Rule-of-Thumb Shortcut (mengasumsikan estimasi kasar tahun lalu sudah memadai tanpa rekonsiliasi faktual).",
+        narrative_id: "Anda menjabat asisten manajer keuangan di PT Sentosa. Di bawah tekanan tenggat waktu audit yang tinggal 4 jam, Anda diminta menentukan estimasi penyusutan dan cadangan piutang ragu-ragu atas aset lini produksi baru.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Jalan Pintas Heuristik Murni): Menggunakan estimasi persentase tahun lalu secara langsung tanpa verifikasi ulang demi memenuhi deadline audit tepat waktu.", consequence_id: "Laporan audit selesai kilat, namun audit mendeteksi distorsi estimasi sebesar 18%. Mengindikasikan Availability Bias yang parah.", metrics: { ethic: -15, skeptic: -20, slack: -5, risk: -15 } },
+          { id: "opt_b", label_id: "Opsi B (Satisficing Parsial): Menguji sampel 10% transaksi secara acak lalu mengekstrapolasikan sisanya tanpa rekonsiliasi rinci.", consequence_id: "Memitigasi sedikit deviasi, namun masih menyisakan risiko salah saji material karena sampel tidak terstratifikasi.", metrics: { ethic: -5, skeptic: -5, slack: 0, risk: -5 } },
+          { id: "opt_c", label_id: "Opsi C (Mitigasi Bounded Rationality): Mengajukan eskalasi resmi penambahan waktu 24 jam dengan melampirkan kertas kerja rekonsiliasi komprehensif.", consequence_id: "Sedikit terjadi keterlambatan administratif, namun keandalan laporan terjamin 100% dan bebas dari bias kognitif.", metrics: { ethic: 15, skeptic: 20, slack: 5, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Delegasi Tanpa Supervisi): Melimpahkan estimasi kepada staf magang tanpa panduan teknis agar tanggung jawab waktu terbagi.", consequence_id: "Melanggar asas due care dan memperbesar bias ketidaktahuan staf dalam kalkulasi aset.", metrics: { ethic: -20, skeptic: -15, slack: -10, risk: -20 } }
+        ]
+      },
+      {
+        session: 2, phase_id: "Fase I: Fondasi & Pengantar",
+        title_id: "Sikap, Persepsi, dan Nilai Personal Akuntan",
+        theory_summary_id: "Cognitive Dissonance Theory (Festinger, 1957) & Model Etika Rest (1986)",
+        theory_id: "<p>Disonansi kognitif muncul saat tuntutan kepatuhan hierarki berbenturan dengan nilai etika profesional. Sikap pasif akibat <em>obedience to authority</em> melumpuhkan sensitivitas moral akuntan.</p>",
+        required_keywords: ["disonansi", "cognitive dissonance", "nilai personal", "etika", "kapitalisasi", "psak", "kepatuhan", "sensitivitas moral"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi C (Advokasi Standar Teknis PSAK & Eskalasi ke Komite Audit)",
+        theoretical_defense: "Leon Festinger (1957) menekankan bahwa disonansi batin harus diselesaikan melalui tindakan nyata yang konsisten dengan nilai etika, bukan melalui rasionalisasi pasif atas perintah atasan.",
+        cognitive_trap: "Obedience to Authority Trap (merasionalisasi manipulasi kapitalisasi biaya dengan anggapan tanggung jawab moral berada pada direksi).",
+        narrative_id: "Direktur Keuangan menginstruksikan Anda mengkapitalisasi beban perbaikan rutin mesin sebesar Rp 800 Juta menjadi aset tetap agar laba kuartal berjalan tetap memenuhi target analis pasar modal.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Kepatuhan Pasif): Menyetujui kapitalisasi dan merasionalisasi bahwa keputusan tersebut adalah wewenang mutlak atasan.", consequence_id: "Menimbulkan disonansi moral berat. Terjadi pelanggaran prinsip objektivitas dan standar PSAK 16.", metrics: { ethic: -20, skeptic: -15, slack: -10, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Kompromi Parsial): Mengkapitalisasi 50% beban dan mencatat sisanya sebagai biaya operasional untuk meredam konflik.", consequence_id: "Manipulasi tetap terjadi dan menunjukkan kompromi integritas tanpa dasar akuntansi yang valid.", metrics: { ethic: -10, skeptic: -10, slack: -5, risk: -15 } },
+          { id: "opt_c", label_id: "Opsi C (Advokasi Standar Teknis): Menyusun memo kepatuhan resmi mengacu kriteria PSAK dan meminta pertemuan tinjauan dengan Komite Audit.", consequence_id: "Menyelamatkan laporan keuangan perusahaan dari potensi restatement dan menegakkan integritas fidusia.", metrics: { ethic: 20, skeptic: 20, slack: 10, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Menghindar / Lepas Tangan): Mengajukan cuti mendadak agar rekan kerja lain yang menandatangani jurnal pemindahbukuan.", consequence_id: "Perilaku menghindar tidak menyelesaikan masalah etika dan merusak akuntabilitas kepemimpinan.", metrics: { ethic: -15, skeptic: -15, slack: -5, risk: -10 } }
+        ]
+      },
+      {
+        session: 3, phase_id: "Fase I: Fondasi & Pengantar",
+        title_id: "Motivasi, Kebutuhan, & Desain Kompensasi Manajerial",
+        theory_summary_id: "Agency Theory (Jensen & Meckling, 1976) & Managerial Myopia",
+        theory_id: "<p>Kompensasi bonus jangka pendek berbasis angka laba memicu rabun manajerial (<em>managerial myopia</em>): agen memotong biaya pemeliharaan produktif demi bonus pribadi dengan merugikan nilai masa depan prinsipal.</p>",
+        required_keywords: ["agency theory", "teori agensi", "myopia", "rabun", "insentif", "bonus", "pemeliharaan", "balanced scorecard", "prinsipal"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi C (Restrukturisasi Insentif Berimbang / Balanced Scorecard)",
+        theoretical_defense: "Agency Theory (Jensen & Meckling, 1976) membuktikan perlunya multi-matriks insentif guna memitigasi asimetri kepentingan dan menjaga kelangsungan modal prinsipal.",
+        cognitive_trap: "Myopic Behavior Trap (mengorbankan kesehatan aset jangka panjang demi pemenuhan bonus moneter kuartalan).",
+        narrative_id: "Perusahaan menerapkan sistem bonus agresif berdasarkan laba bersih tahunan divisi. Anda mengetahui pemangkasan biaya pemeliharaan armada logistik akan mendongkrak laba saat ini namun merusak aset tahun depan.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Perilaku Miopik Ekstrem): Membatalkan seluruh jadwal perawatan preventif armada untuk mengamankan bonus 100%.", consequence_id: "Bonus cair maksimal, namun 40% armada mogok fatal di tahun berikutnya menimbulkan kerugian tiga kali lipat.", metrics: { ethic: -20, skeptic: -10, slack: -20, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Penundaan Sebagian): Hanya merawat armada yang mengalami gejala kerusakan kritis.", consequence_id: "Menunda kerusakan sementara namun tetap mempercepat depresiasi aset modal perusahaan.", metrics: { ethic: -5, skeptic: -5, slack: -10, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Restrukturisasi Insentif Berimbang): Merekomendasikan indikator kinerja berimbang (Balanced Scorecard) mencakup uptime armada.", consequence_id: "Menciptakan keselarasan tujuan (goal congruence) antara manajer dan pemilik modal jangka panjang.", metrics: { ethic: 20, skeptic: 15, slack: 15, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Membebankan Biaya ke Divisi Lain): Memindahkan alokasi biaya pemeliharaan ke pos biaya operasional divisi tetangga.", consequence_id: "Pelanggaran serius transfer pricing internal dan mendistorsi evaluasi kinerja antardivisi.", metrics: { ethic: -25, skeptic: -20, slack: -15, risk: -25 } }
+        ]
+      },
+      {
+        session: 4, phase_id: "Fase II: Penganggaran & Slack",
+        title_id: "Senjangan Anggaran (Budgetary Slack) & Asimetri Informasi",
+        theory_summary_id: "Budgetary Slack Theory (Dunk, 1993; Onsi, 1973) & Information Asymmetry",
+        theory_id: "<p>Manajer memanfaatkan keunggulan informasi operasional lokal (asimetri informasi) untuk menggelembungkan estimasi biaya demi mempermudah pencapaian target dan mengamankan insentif.</p>",
+        required_keywords: ["budgetary slack", "senjangan anggaran", "asimetri informasi", "padding", "efisiensi", "fidusia", "target"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi C (Pengajuan Anggaran Riil & Cadangan Kontinjensi Transparan 5%)",
+        theoretical_defense: "Dunk (1993) mengidentifikasi bahwa budgetary slack terjadi karena kombinasi budgetary participation, information asymmetry, dan budget emphasis. Mengajukan transparansi kontinjensi bersyarat mengeliminasi padding oportunistik.",
+        cognitive_trap: "Budget Padding & Cushion Bias (menggelembungkan pagu pengeluaran secara sepihak untuk menciptakan zona nyaman pribadi).",
+        narrative_id: "Kebutuhan anggaran riil departemen Anda adalah Rp 500 Juta. Direksi tidak memiliki informasi detail mengenai vendor lokal dan memberi Anda keleluasaan menentukan pagu pengajuan.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Padding Ekstrem): Mengajukan anggaran Rp 750 Juta (Slack 50%) agar divisi bekerja santai dan bonus terjamin.", consequence_id: "Menciptakan inefisiensi alokasi modal besar dan merugikan dividen pemegang saham.", metrics: { ethic: -25, skeptic: -15, slack: -30, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Slack Moderat): Mengajukan Rp 625 Juta (Slack 25%) dengan alasan cadangan risiko inflasi tak terduga.", consequence_id: "Bantalan anggaran masih berlebihan dan mengindikasikan eksploitasi asimetri informasi.", metrics: { ethic: -10, skeptic: -5, slack: -15, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Cadangan Kontinjensi Transparan): Mengajukan biaya pokok Rp 500 Juta ditambah dana kontinjensi bersyarat 5% dengan otorisasi ketat.", consequence_id: "Menjaga kejujuran fidusia sekaligus memberi fleksibilitas operasional yang akuntabel.", metrics: { ethic: 20, skeptic: 15, slack: 20, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Underbudgeting Tidak Realistis): Mengajukan Rp 450 Juta di bawah estimasi wajar demi reputasi efisiensi di mata direksi.", consequence_id: "Menyebabkan kemacetan operasional di tengah tahun karena kekurangan likuiditas riil.", metrics: { ethic: 5, skeptic: -15, slack: -10, risk: -20 } }
+        ]
+      }
+    ];
+
+    for (let i = 5; i <= 14; i++) {
+      const titles = {
+        5: { t: "Partisipasi Anggaran & Komitmen Kinerja", th: "Goal-Setting Theory (Locke & Latham) & Psychological Ownership", kw: ["goal setting", "partisipasi anggaran", "komitmen", "psychological ownership", "target"], gold: "Opsi D (Target Menantang Realistis & Peta Risiko)", def: "Locke & Latham membuktikan target spesifik dan menantang menghasilkan performa superior dibanding sasaran mudah (sandbagging).", trap: "Sandbagging Trap (menurunkan target agar mudah dicapai)." },
+        6: { t: "Balanced Scorecard & Evaluasi Kinerja Subjektif", th: "Common Measures Bias & Outcome Bias (Lipe & Salterio, 2000)", kw: ["common measures", "outcome bias", "balanced scorecard", "subjektif", "evaluasi"], gold: "Opsi D (Evaluasi Holistik Isolasi Kurs Makro)", def: "Lipe & Salterio menunjukkan penilai cenderung hanya mengamati common financial measures. Mengisolasi faktor eksternal menjaga prinsip keterkendalian (controllability).", trap: "Common Measures & Outcome Bias." },
+        7: { t: "Tekanan Waktu & Perilaku Disfungsional Audit", th: "Audit Quality Reduction & Premature Sign-Off (Herrbach, 2001)", kw: ["premature sign-off", "tekanan waktu", "audit quality", "skeptisisme", "kertas kerja"], gold: "Opsi D (Transparansi Kendala & Stratifikasi Audit Berbasis Risiko)", def: "Herrbach (2001) memetakan premature sign-off sebagai reduksi mutu fatal. Eskalasi risiko menjaga standar skeptisisme profesional.", trap: "Premature Sign-Off (menandatangani kertas kerja tanpa bukti fisik)." },
+        8: { t: "Framing Effect & Prospect Theory dalam Keputusan Modal", th: "Prospect Theory & Loss Aversion (Kahneman & Tversky, 1979)", kw: ["prospect theory", "framing", "loss aversion", "risk averse", "risk seeking"], gold: "Opsi D (Normalisasi Nilai Harapan / Expected Value Matematis)", def: "Kahneman & Tversky membuktikan fungsi nilai S-curve asimetris: risk-seeking pada domain kerugian. Normalisasi matematis memutus framing effect.", trap: "Loss Aversion Trap (berjudi spekulatif saat keputusan dibingkai sebagai kerugian pasti)." },
+        9: { t: "Eskalasi Komitmen & Sunk Cost Fallacy", th: "Self-Justification Theory & Sunk Cost Fallacy (Barry Staw, 1976)", kw: ["sunk cost", "eskalasi komitmen", "self-justification", "cut loss", "npv"], gold: "Opsi D (Audit Independen & Cut-Loss Berbasis NPV Prospektif)", def: "Barry Staw (1976) meneliti entrapment psikologis. Pemisahan sunk cost historis dari arus kas masa depan mutlak untuk alokasi modal rasional.", trap: "Sunk Cost Fallacy (mengucurkan dana baru demi membela reputasi masa lalu)." },
+        10: { t: "Anchoring & Adjustment dalam Audit Forecasting", th: "Anchoring Heuristic (Tversky & Kahneman, 1974)", kw: ["anchoring", "adjustment", "jangkar", "peramalan", "independen"], gold: "Opsi D (Membangun Model Ekonometrika Independen dari Nol)", def: "Epley & Gilovich menunjukkan penyesuaian mental dari anchor berhenti terlalu dini (insufficient adjustment). Model ekonometrika independen melindungi estimasi.", trap: "Insufficient Adjustment Bias (mengikuti angka awal klien)." },
+        11: { t: "Fraud Triangle & Rasionalisasi Moral Akuntan", th: "Fraud Triangle (Cressey, 1953) & Moral Disengagement", kw: ["fraud triangle", "rasionalisasi", "tekanan", "peluang", "pengendalian intern"], gold: "Opsi D (Tegakkan Opname Kas & Bantuan Jalur Institusional Formal)", def: "Cressey (1953) menegaskan rasionalisasi ('hanya meminjam sementara') merusak sistem. Kontrol kas ketat dipadukan bantuan legal memutus segitiga kecurangan.", trap: "Moral Disengagement (meringankan rasa bersalah karena simpati emosional)." },
+        12: { t: "Dilema Whistleblowing & Teori Perilaku Terencana", th: "Theory of Planned Behavior (Ajzen) & Bystander Effect", kw: ["whistleblowing", "bystander", "planned behavior", "retaliasi", "keberanian moral"], gold: "Opsi D (Laporan Enkripsi Saluran Independen & Kertas Kerja Otentik)", def: "Ajzen (1991) memodelkan kontrol perilaku. Saluran pelaporan berenkripsi memitigasi bystander effect dan rasa takut akan retaliasi.", trap: "Bystander Apathy (diam karena berasumsi orang lain yang akan melapor)." },
+        13: { t: "Kepercayaan Kognitif pada AI & Sistem Otomasi Akuntansi", th: "Automation Bias vs Human-in-the-Loop (Parasuraman, 2010)", kw: ["automation bias", "human in the loop", "algoritma", "otomasi", "skeptisisme"], gold: "Opsi D (Pendekatan Human-in-the-Loop Cross-Validasi Lapangan)", def: "Parasuraman (2010) memaparkan complacency dalam bias otomasi. Kedaulatan penilaian fidusia tetap menuntut skeptisisme manusia.", trap: "Automation Bias (menyetujui rekomendasi mesin secara pasif tanpa telaah)." },
+        14: { t: "Refleksi Holistik: Akuntan Masa Depan Beretika", th: "Virtue Ethics (Aristoteles, MacIntyre) & Standar IFAC IES 4", kw: ["virtue ethics", "etika keutamaan", "ies 4", "fidusia", "integritas", "holistik"], gold: "Opsi D (Manifesto Kepemimpinan Akuntansi Berkelanjutan & IES 4)", def: "Virtue Ethics memandang akuntan sebagai penjaga kepentingan publik pasar modal dunia. Penguasaan aspek keperilakuan membangun ketahanan karakter.", trap: "Instrumentalisme kaku (mengabaikan substansi keperilakuan di balik angka)." }
+      };
+
+      const cur = titles[i];
+      CURRICULUM_MEETINGS.push({
+        session: i,
+        phase_id: `Fase ${i <= 7 ? 'III' : i <= 10 ? 'IV' : i <= 12 ? 'V' : 'VI'}: Studi Lanjutan`,
+        title_id: `P${i}: ${cur.t}`,
+        theory_summary_id: cur.th,
+        theory_id: `<p>Menganalisis fenomena psikologis dan perilaku keuangan dalam <strong>${cur.t}</strong> berbasis teori ${cur.th}. Mahasiswa dituntut menguraikan implikasi kepatuhan dan mitigasi bias.</p>`,
+        required_keywords: cur.kw,
+        min_keywords_needed: 2,
+        golden_option: cur.gold,
+        theoretical_defense: cur.def,
+        cognitive_trap: cur.trap,
+        narrative_id: `Skenario kasus simulasi laboratorium ke-${i}. Anda dihadapkan pada dilema manajerial yang memerlukan pertimbangan analitis mendalam serta objektivitas profesional tingkat tinggi.`,
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Pilihan Oportunistik/Jalan Pintas): Memprioritaskan kepentingan personal atau angka jangka pendek tanpa verifikasi mendalam.", consequence_id: "Menimbulkan bias kognitif dan melanggar prinsip kehati-hatian profesi.", metrics: { ethic: -20, skeptic: -15, slack: -15, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Kepatuhan Formal Kaku): Mengikuti instruksi secara administratif tanpa telaah kritis terhadap dampak substansi bisnis.", consequence_id: "Menghindari sanksi langsung namun gagal menjalankan skeptisisme profesional.", metrics: { ethic: -5, skeptic: -5, slack: 0, risk: -5 } },
+          { id: "opt_c", label_id: "Opsi C (Solusi Kompromi Parsial): Mengambil keputusan tengah yang meredam konflik namun menyisakan distorsi akuntansi terselubung.", consequence_id: "Bukan solusi tuntas; risiko bias sistemik masih mengancam tata kelola organisasi.", metrics: { ethic: 0, skeptic: 5, slack: -5, risk: -5 } },
+          { id: "opt_d", label_id: "Opsi D (Prinsip Keutamaan & Tata Kelola Fidusia): Menegakkan standar etika, mitigasi bias kognitif, dan transparansi laporan secara menyeluruh.", consequence_id: "Menjunjung tinggi standar IES 4 dan menghasilkan nilai akuntabilitas berkelanjutan.", metrics: { ethic: 20, skeptic: 20, slack: 15, risk: 15 } }
+        ]
+      });
+    }
+
+    let appState = {
+      isLoggedIn: false,
+      userType: null,
+      activeStudent: null,
+      activeSessionNum: 1,
+      currentWorkspaceMeeting: null,
+      tempChoices: {},
+      radarChartInstance: null,
+      currentSlideSession: 1,
+      currentSlideStep: 0
+    };
+
+    function getSessionControls() {
+      const stored = safeStorage.getItem("behave_ctrls_v5");
+      if (stored) { try { return JSON.parse(stored); } catch (e) {} }
+      const init = {};
+      CURRICULUM_MEETINGS.forEach(m => init[m.session] = { session: m.session, isOpen: m.session === 1 });
+      return init;
+    }
+    function saveSessionControls(ctrls, sync = true) {
+      safeStorage.setItem("behave_ctrls_v5", JSON.stringify(ctrls));
+      if (sync) Object.keys(ctrls).forEach(k => syncControlToCloud(k, ctrls[k]));
+    }
+    function getSessionControl(s) {
+      return getSessionControls()[s] || { session: s, isOpen: false };
+    }
+
+    function getRegisteredStudents() {
+      const stored = safeStorage.getItem("behave_students_v5");
+      if (stored) { try { return JSON.parse(stored); } catch (e) {} }
+      return [];
+    }
+    function saveRegisteredStudents(students, sync = true) {
+      safeStorage.setItem("behave_students_v5", JSON.stringify(students));
+      renderLandingLeaderboard();
+      updateLiveUserCount();
+    }
+    function getStudentByNIM(nim) {
+      return getRegisteredStudents().find(s => String(s.nim).trim() === String(nim).trim()) || null;
+    }
+    function updateStudentInRegistry(st) {
+      const list = getRegisteredStudents();
+      const idx = list.findIndex(s => String(s.nim).trim() === String(st.nim).trim());
+      if (idx !== -1) list[idx] = st; else list.push(st);
+      saveRegisteredStudents(list);
+      syncStudentToCloud(st);
+    }
+
+    function calculateTotalScore(st) {
+      if (!st) return 0;
+      const completed = st.completedSessions || {};
+      let passedCount = 0;
+      Object.values(completed).forEach(item => {
+        if (item.statusGrade === "LULUS") passedCount += 1;
+        else if (item.statusGrade === "LULUS BERSYARAT") passedCount += 0.5;
+      });
+      const progress = Math.round((passedCount / 14) * 600);
+      const m = st.metrics || { ethic: 50, skeptic: 50, slack: 50, risk: 50 };
+      const avg = (m.ethic + m.skeptic + m.slack + m.risk) / 4;
+      return progress + Math.round(avg * 4);
+    }
+
+    function renderLandingLeaderboard() {
+      const tbody = document.getElementById("leaderboardTableBody");
+      const empty = document.getElementById("leaderboardEmptyState");
+      const filter = document.getElementById("leaderboardClassFilter");
+      if (!tbody) return;
+
+      const list = getRegisteredStudents();
+      const curFilter = filter ? filter.value : "ALL";
+
+      if (filter) {
+        const classes = [...new Set(list.map(s => (s.kelas || "").trim()).filter(Boolean))].sort();
+        filter.innerHTML = `<option value="ALL">Semua Kelas</option>`;
+        classes.forEach(c => {
+          const opt = document.createElement("option");
+          opt.value = c; opt.innerText = c;
+          if (c === curFilter) opt.selected = true;
+          filter.appendChild(opt);
+        });
+      }
+
+      let filtered = list.map(s => {
+        const completed = s.completedSessions || {};
+        let passed = 0, conditionallyPassed = 0, failed = 0;
+        Object.values(completed).forEach(item => {
+          if (item.statusGrade === "LULUS") passed++;
+          else if (item.statusGrade === "LULUS BERSYARAT") conditionallyPassed++;
+          else failed++;
+        });
+        return {
+          ...s,
+          totalScore: calculateTotalScore(s),
+          totalCompleted: Object.keys(completed).length,
+          passed, conditionallyPassed, failed
+        };
+      });
+
+      if (curFilter !== "ALL") filtered = filtered.filter(s => String(s.kelas).trim() === curFilter);
+      filtered.sort((a, b) => b.totalScore - a.totalScore);
+
+      tbody.innerHTML = "";
+      if (filtered.length === 0) {
+        if (empty) empty.classList.remove("hidden");
+        return;
+      }
+      if (empty) empty.classList.add("hidden");
+
+      filtered.forEach((st, idx) => {
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-slate-800/40 transition-colors";
+        tr.innerHTML = `
+          <td class="p-3.5 text-center font-bold text-slate-400">#${idx + 1}</td>
+          <td class="p-3.5"><strong class="text-white">${st.nama}</strong><span class="block text-[10px] text-teal-400 font-mono">NIM: ${st.nim}</span></td>
+          <td class="p-3.5 text-center font-bold text-teal-300 font-mono">${st.totalScore} Pts</td>
+          <td class="p-3.5"><span class="px-2 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[11px]">${st.kelas || 'Akuntansi'}</span></td>
+          <td class="p-3.5 text-center font-bold">
+            <span class="text-teal-400">${st.passed} Lulus</span> • 
+            <span class="text-amber-400">${st.conditionallyPassed} Bersyarat</span> • 
+            <span class="text-rose-400">${st.failed} Gagal</span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateLiveUserCount() {
+      const badge = document.getElementById("txtLiveUserCount");
+      if (!badge) return;
+      badge.innerText = `${Math.max(1, getRegisteredStudents().length)} Pengguna Aktif`;
+    }
+
+    function openDeskripsiRPSModal() {
+      const body = document.getElementById("rpsModalContentBody");
+      body.innerHTML = "";
+      CURRICULUM_MEETINGS.forEach(m => {
+        const card = document.createElement("div");
+        card.className = "p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2";
+        card.innerHTML = `
+          <div class="flex justify-between items-center">
+            <span class="px-2.5 py-0.5 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/40 font-mono font-bold text-xs">P${m.session}</span>
+            <span class="text-[10px] text-indigo-400">${m.phase_id}</span>
+          </div>
+          <h4 class="font-extrabold text-white text-xs">${m.title_id}</h4>
+          <p class="text-slate-400 text-[11px]">${m.theory_summary_id}</p>
+          <div class="text-[10px] text-slate-500 font-mono">Konsep Wajib: ${m.required_keywords.join(', ')}</div>
+        `;
+        body.appendChild(card);
+      });
+      document.getElementById("modalDeskripsiRPS").classList.remove("hidden");
+    }
+    function closeDeskripsiRPSModal() { document.getElementById("modalDeskripsiRPS").classList.add("hidden"); }
+
+    function openAuthModal(tab = 'login') {
+      document.getElementById("modalAuth").classList.remove("hidden");
+      switchAuthTab(tab);
+    }
+    function closeAuthModal() { document.getElementById("modalAuth").classList.add("hidden"); }
+
+    function switchAuthTab(tab) {
+      ['login', 'register', 'forgot', 'lecturer'].forEach(t => {
+        const btn = document.getElementById("tabBtn" + t.charAt(0).toUpperCase() + t.slice(1));
+        if (btn) btn.className = t === tab ? "py-2 rounded-xl transition-all text-center bg-slate-800 text-white shadow-sm font-bold" : "py-2 rounded-xl transition-all text-center text-slate-400 hover:text-white";
+      });
+      document.getElementById("formStudentLogin").classList.toggle("hidden", tab !== 'login');
+      document.getElementById("formStudentRegister").classList.toggle("hidden", tab !== 'register');
+      document.getElementById("subTabForgotPIN").classList.toggle("hidden", tab !== 'forgot');
+      document.getElementById("formLecturerLogin").classList.toggle("hidden", tab !== 'lecturer');
+    }
+
+    function handleStudentLogin(e) {
+      e.preventDefault();
+      const nim = document.getElementById("loginNIM").value.trim();
+      const pin = document.getElementById("loginPIN").value.trim();
+      const st = getStudentByNIM(nim);
+      if (!st) { showToast("NIM belum terdaftar, silakan registrasi.", "warning"); switchAuthTab('register'); return; }
+      if (String(st.pin).trim() !== pin) { showToast("PIN salah!", "error"); return; }
+      appState.isLoggedIn = true;
+      appState.userType = 'student';
+      appState.activeStudent = st;
+      closeAuthModal();
+      showToast(`Selamat datang, ${st.nama}!`, "success");
+      renderStudentPortal();
+      navigateToStudentPortal();
+    }
+
+    function handleStudentRegister(e) {
+      e.preventDefault();
+      const nim = document.getElementById("regNIM").value.trim();
+      const name = document.getElementById("regName").value.trim();
+      const kelas = document.getElementById("regClass").value.trim();
+      const pin = document.getElementById("regPIN").value.trim();
+
+      if (getStudentByNIM(nim)) {
+        showToast("NIM sudah terdaftar. Silakan login.", "warning");
+        switchAuthTab('login');
+        return;
+      }
+      const newSt = {
+        nim, nama: name, prodi: "S1 Akuntansi", kelas, pin,
+        registeredAt: new Date().toISOString(),
+        metrics: { ethic: 50, skeptic: 50, slack: 50, risk: 50 },
+        completedSessions: {}
+      };
+      updateStudentInRegistry(newSt);
+      appState.isLoggedIn = true;
+      appState.userType = 'student';
+      appState.activeStudent = newSt;
+      closeAuthModal();
+      showToast("Pendaftaran berhasil!", "success");
+      renderStudentPortal();
+      navigateToStudentPortal();
+    }
+
+    function checkStudentAccountForPIN() {
+      const nim = document.getElementById("forgotCheckNIM").value.trim();
+      const card = document.getElementById("forgotResultCard");
+      const st = getStudentByNIM(nim);
+      card.classList.remove("hidden");
+      if (st) {
+        card.innerHTML = `<span class="text-teal-400 font-bold">Akun Terdaftar: ${st.nama} (${st.kelas})</span><p class="text-slate-300 text-[11px]">Silakan hubungi Dosen Pengampu (Sukma Lesmana, Ph.D) untuk melihat PIN Anda.</p>`;
+      } else {
+        card.innerHTML = `<span class="text-rose-400 font-bold">NIM tidak ditemukan.</span>`;
+      }
+    }
+
+    function handleLecturerLogin(e) {
+      e.preventDefault();
+      if (document.getElementById("lecturerPIN").value.trim() === "140299") {
+        closeAuthModal();
+        openLecturerConsole();
+        showToast("Akses Pengampu Diotorisasi", "success");
+      } else {
+        showToast("PIN Pengampu Salah!", "error");
+      }
+    }
+
+    function handleUserLogout() {
+      openConfirmModal("Konfirmasi Keluar", "Apakah Anda yakin ingin keluar?", (yes) => {
+        if (yes) {
+          appState.isLoggedIn = false;
+          appState.activeStudent = null;
+          navigateHome();
+          showToast("Anda telah keluar.", "info");
+        }
+      });
+    }
+
+    function navigateHome() {
+      document.getElementById("viewLanding").classList.remove("hidden");
+      document.getElementById("viewStudentPortal").classList.add("hidden");
+      renderLandingLeaderboard();
+    }
+    function navigateToStudentPortal() {
+      document.getElementById("viewLanding").classList.add("hidden");
+      document.getElementById("viewStudentPortal").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function handleEnterPortalClick() {
+      if (appState.isLoggedIn && appState.userType === 'student') navigateToStudentPortal();
+      else openAuthModal('login');
+    }
+
+    function renderStudentPortal() {
+      if (!appState.activeStudent) return;
+      const s = appState.activeStudent;
+      document.getElementById("spStudentName").innerText = s.nama;
+      document.getElementById("spStudentClassBadge").innerText = s.kelas || "Akuntansi";
+      document.getElementById("spStudentNIM").innerText = s.nim;
+
+      const completed = s.completedSessions || {};
+      const count = Object.keys(completed).length;
+      document.getElementById("spProgressCount").innerText = `${count} / 14 Sesi Selesai`;
+
+      const m = s.metrics || { ethic: 50, skeptic: 50, slack: 50, risk: 50 };
+      document.getElementById("metricValEthic").innerText = `${m.ethic} Pts`;
+      document.getElementById("metricValSkeptic").innerText = `${m.skeptic} Pts`;
+      document.getElementById("metricValSlack").innerText = `${m.slack} Pts`;
+      document.getElementById("metricValRisk").innerText = `${m.risk} Pts`;
+
+      renderPsychometricRadarChart(m);
+
+      const grid = document.getElementById("studentSessionsGrid");
+      grid.innerHTML = "";
+      CURRICULUM_MEETINGS.forEach((meet) => {
+        const item = completed[meet.session];
+        const isDone = !!item;
+        const ctrl = getSessionControl(meet.session);
+
+        let badgeStatus = '<span class="text-[10px] font-bold text-slate-400">Tersedia</span>';
+        if (isDone) {
+          if (item.statusGrade === "LULUS") badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">LULUS</span>';
+          else if (item.statusGrade === "LULUS BERSYARAT") badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">LULUS BERSYARAT</span>';
+          else badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px] font-bold">TIDAK LULUS</span>';
+        } else if (!ctrl.isOpen) {
+          badgeStatus = '<span class="text-[10px] font-bold text-rose-400">Ditutup Pengampu</span>';
+        }
+
+        const card = document.createElement("div");
+        card.className = `p-5 rounded-3xl border flex flex-col justify-between ${isDone ? 'bg-slate-900/80 border-slate-700' : !ctrl.isOpen ? 'bg-slate-950/60 border-slate-800 opacity-60' : 'bg-slate-900 border-teal-500/30'}`;
+        
+        let actionButtonHTML = "";
+        if (isDone) {
+          actionButtonHTML = `
+            <div class="flex items-center space-x-1.5 text-xs text-slate-400 font-bold">
+              <i class="fa-solid fa-lock text-slate-500"></i>
+              <span>Sesi Tuntas (Terkunci)</span>
+            </div>
+          `;
+        } else if (!ctrl.isOpen) {
+          actionButtonHTML = `<button disabled class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-slate-800 text-slate-500 cursor-not-allowed">Terkunci</button>`;
+        } else {
+          actionButtonHTML = `
+            <button onclick="openMeetingWorkspace(${meet.session})" class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-teal-500 hover:bg-teal-400 text-slate-950 transition shadow-md">
+              Mulai Lab
+            </button>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="px-2 py-0.5 rounded-lg text-xs font-mono font-bold ${isDone ? 'bg-slate-800 text-slate-300' : 'bg-teal-500 text-slate-950'}">P${meet.session}</span>
+              ${badgeStatus}
+            </div>
+            <h4 class="font-extrabold text-sm text-white">${meet.title_id}</h4>
+            <p class="text-xs text-slate-400 line-clamp-2">${meet.theory_summary_id}</p>
+          </div>
+          <div class="pt-4 border-t border-slate-800 mt-4 flex justify-between items-center">
+            <span class="text-[10px] text-slate-500">${isDone ? 'Asesmen Tunggal' : 'Uji Pemahaman'}</span>
+            ${actionButtonHTML}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderPsychometricRadarChart(m) {
+      const ctx = document.getElementById("psychometricRadarChart");
+      if (!ctx) return;
+      if (appState.radarChartInstance) appState.radarChartInstance.destroy();
+      appState.radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['Integritas & Etika', 'Skeptisisme', 'Objektivitas / Slack', 'Pertimbangan Fidusia'],
+          datasets: [{
+            label: 'Kompetensi',
+            data: [m.ethic, m.skeptic, m.slack, m.risk],
+            backgroundColor: 'rgba(20, 184, 166, 0.25)',
+            borderColor: '#14b8a6',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { r: { min: 0, max: 100, ticks: { display: false } } },
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    /* SISTEM REVIEW JAWABAN MAHASISWA BERBASIS KESESUAIAN TEORI */
+    function evaluateStudentTheoryAlignment(text, meeting) {
+      const lower = text.toLowerCase();
+      const matched = meeting.required_keywords.filter(kw => lower.includes(kw.toLowerCase()));
+      const matchCount = matched.length;
+
+      let grade = "TIDAK LULUS";
+      let feedback = "";
+
+      if (matchCount >= 3 && text.length >= 60) {
+        grade = "LULUS";
+        feedback = `Refleksi Sangat Baik & Presisi! Anda berhasil mengintegrasikan teori (${matched.join(', ')}) ke dalam analisis keputusan secara komprehensif.`;
+      } else if (matchCount >= meeting.min_keywords_needed && text.length >= 40) {
+        grade = "LULUS BERSYARAT";
+        feedback = `Refleksi Cukup Baik. Teori (${matched.join(', ')}) telah teridentifikasi, namun elaborasi argumentasi mitigasi bias perlu diperdalam lagi.`;
+      } else {
+        grade = "TIDAK LULUS";
+        feedback = `Argumentasi Belum Sesuai Teori Akuntansi Keperilakuan. Jawaban belum menguraikan konstruk teoretis utama (misal: ${meeting.required_keywords.slice(0, 3).join(', ')}).`;
+      }
+
+      return { grade, feedback, matched, matchCount };
+    }
+
+    function openMeetingWorkspace(sNum) {
+      const meet = CURRICULUM_MEETINGS.find(m => m.session === sNum);
+      if (!meet) return;
+
+      if (appState.activeStudent?.completedSessions?.[sNum]) {
+        showToast("Sesi ini sudah Anda selesaikan. Fitur uji ulang ditiadakan untuk menjaga objektivitas hasil asesmen.", "warning");
+        return;
+      }
+
+      const ctrl = getSessionControl(sNum);
+      if (!ctrl.isOpen) {
+        showToast("Sesi ini sedang ditutup oleh dosen pengampu.", "warning");
+        return;
+      }
+
+      appState.activeSessionNum = sNum;
+      appState.currentWorkspaceMeeting = meet;
+      appState.tempChoices[sNum] = null;
+
+      document.getElementById("wsSessionBadge").innerText = `P${meet.session}`;
+      document.getElementById("wsSessionTitle").innerText = meet.title_id;
+      document.getElementById("wsSessionPhase").innerText = meet.phase_id;
+      document.getElementById("wsTheoryDescription").innerHTML = meet.theory_id;
+      document.getElementById("wsKeyTheoryConcepts").innerText = meet.required_keywords.join(" • ");
+      document.getElementById("wsCaseNarrative").innerHTML = `<p>${meet.narrative_id}</p>`;
+
+      const ctrlArea = document.getElementById("wsInteractiveControlArea");
+      ctrlArea.innerHTML = "";
+      document.getElementById("wsConsequenceBox").classList.add("hidden");
+
+      meet.options.forEach((opt, idx) => {
+        const card = document.createElement("div");
+        card.id = `optCard_${idx}`;
+        card.className = "p-3.5 rounded-xl border border-slate-700 bg-slate-950 hover:border-teal-500 cursor-pointer transition space-y-1";
+        card.onclick = () => selectWorkspaceOption(meet.session, opt, idx);
+        card.innerHTML = `
+          <div class="flex items-start space-x-2.5">
+            <span class="w-6 h-6 rounded-lg bg-slate-800 text-teal-300 flex items-center justify-center font-bold text-xs flex-shrink-0">${String.fromCharCode(65 + idx)}</span>
+            <span class="font-bold text-white text-xs leading-snug">${opt.label_id}</span>
+          </div>
+        `;
+        ctrlArea.appendChild(card);
+      });
+
+      document.getElementById("wsReflectionText").value = "";
+      document.getElementById("wsCharCountBadge").innerText = "Min. 40 Karakter & Relevan Teori";
+      document.getElementById("wsReviewStatusBadge").innerText = "";
+      document.getElementById("modalMeetingWorkspace").classList.remove("hidden");
+    }
+
+    function selectWorkspaceOption(sNum, opt, activeIdx) {
+      appState.tempChoices[sNum] = opt;
+      const m = appState.currentWorkspaceMeeting;
+      m.options.forEach((_, idx) => {
+        const el = document.getElementById(`optCard_${idx}`);
+        if (el) {
+          if (idx === activeIdx) {
+            el.className = "p-3.5 rounded-xl border-2 border-teal-400 bg-teal-950/60 cursor-pointer transition space-y-1 shadow-lg ring-1 ring-teal-400/40";
+          } else {
+            el.className = "p-3.5 rounded-xl border border-slate-800 bg-slate-950/80 hover:border-slate-600 cursor-pointer transition space-y-1 opacity-70";
+          }
+        }
+      });
+      document.getElementById("wsConsequenceBox").classList.remove("hidden");
+      document.getElementById("wsConsequenceText").innerText = opt.consequence_id;
+    }
+
+    function closeMeetingWorkspace() { document.getElementById("modalMeetingWorkspace").classList.add("hidden"); }
+
+    function handleReflectionTextInput() {
+      const len = document.getElementById("wsReflectionText").value.trim().length;
+      document.getElementById("wsCharCountBadge").innerText = `${len} Karakter`;
+      document.getElementById("wsCharCountBadge").className = len >= 40 ? "text-[10px] text-teal-400 font-bold" : "text-[10px] text-slate-400";
+    }
+
+    function handleFinishMeetingSession() {
+      const m = appState.currentWorkspaceMeeting;
+      const choice = appState.tempChoices[m.session];
+      if (!choice) { showToast("Pilih salah satu alternatif keputusan terlebih dahulu!", "error"); return; }
+      
+      const text = document.getElementById("wsReflectionText").value.trim();
+      if (text.length < 40) { showToast("Uraikan refleksi minimal 40 karakter!", "warning"); return; }
+
+      const evalResult = evaluateStudentTheoryAlignment(text, m);
+
+      openConfirmModal(
+        "Kunci Keputusan & Hasil Evaluasi Teori",
+        `Hasil Review Teori Akuntansi Keperilakuan: "${evalResult.grade}"\n\nCatatan Evaluasi: ${evalResult.feedback}\n\nPerhatian: Sesi ini akan TERKUNCI PERMANEN dan tidak dapat diubah kembali. Lanjutkan penyimpanan?`,
+        (accepted) => {
+          if (!accepted) return;
+
+          if (!appState.activeStudent.completedSessions) appState.activeStudent.completedSessions = {};
+          
+          appState.activeStudent.completedSessions[m.session] = {
+            session: m.session,
+            completedAt: new Date().toISOString(),
+            selectedOption: choice.label_id,
+            reflectionText: text,
+            statusGrade: evalResult.grade,
+            theoryMatchCount: evalResult.matchCount,
+            metrics: choice.metrics
+          };
+
+          Object.keys(choice.metrics).forEach(k => {
+            const delta = evalResult.grade === "LULUS" ? choice.metrics[k] : Math.round(choice.metrics[k] * 0.5);
+            appState.activeStudent.metrics[k] = Math.max(10, Math.min(100, appState.activeStudent.metrics[k] + delta));
+          });
+
+          updateStudentInRegistry(appState.activeStudent);
+          showToast(`Sesi P${m.session} berhasil dikunci: Predikat ${evalResult.grade}`, "success");
+          closeMeetingWorkspace();
+          renderStudentPortal();
+          renderLandingLeaderboard();
+        }
+      );
+    }
+
+    function openPortfolioModal() {
+      const s = appState.activeStudent;
+      if (!s) return;
+      const paper = document.getElementById("portfolioPaperSheet");
+      const completed = s.completedSessions || {};
+      let rows = "";
+      CURRICULUM_MEETINGS.forEach(m => {
+        const item = completed[m.session];
+        let statusBadge = '<span style="color:#94a3b8; font-weight:bold;">BELUM DIAMBIL</span>';
+        if (item) {
+          if (item.statusGrade === "LULUS") statusBadge = '<span style="color:#047857; font-weight:bold; background:#ecfdf5; padding:2px 6px; border-radius:4px; border:1px solid #a7f3d0;">LULUS</span>';
+          else if (item.statusGrade === "LULUS BERSYARAT") statusBadge = '<span style="color:#b45309; font-weight:bold; background:#fffbeb; padding:2px 6px; border-radius:4px; border:1px solid #fef3c7;">LULUS BERSYARAT</span>';
+          else statusBadge = '<span style="color:#be123c; font-weight:bold; background:#fff1f2; padding:2px 6px; border-radius:4px; border:1px solid #fecdd3;">TIDAK LULUS</span>';
+        }
+        rows += `
+          <tr style="border-bottom:1px solid #e2e8f0; font-size:11px;">
+            <td style="padding:6px; text-align:center; font-weight:bold;">P${m.session}</td>
+            <td style="padding:6px;"><strong>${m.title_id}</strong><div style="font-size:10px; color:#64748b;">${m.theory_summary_id}</div></td>
+            <td style="padding:6px; text-align:center;">${statusBadge}</td>
+            <td style="padding:6px; font-size:10px; color:#334155;">${item ? `"${item.reflectionText.slice(0, 100)}..."` : '-'}</td>
+          </tr>
+        `;
+      });
+
+      paper.innerHTML = `
+        <div style="font-family:sans-serif; color:#0f172a; line-height:1.4;">
+          <div style="border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:flex-end;">
+            <div>
+              <h2 style="margin:0; font-size:16px; font-weight:900;">PORTOFOLIO AKADEMIK AKUNTANSI KEPERILAKUAN</h2>
+              <p style="margin:2px 0 0 0; font-size:11px; color:#64748b;">Standar Penjaminan Kompetensi IES 4 • Sukma Lesmana, Ph.D</p>
+            </div>
+            <div style="font-size:10px; font-weight:bold; color:#0d9488;">HASIL ASESMEN TUNGGAL RESMI</div>
+          </div>
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px; font-size:11px; margin-bottom:12px;">
+            <strong>Nama Mahasiswa:</strong> ${s.nama} | <strong>NIM:</strong> ${s.nim} | <strong>Kelas:</strong> ${s.kelas} | <strong>Total Skor:</strong> ${calculateTotalScore(s)} Pts
+          </div>
+          <table style="width:100%; border-collapse:collapse; margin-top:10px;">
+            <thead><tr style="background:#f1f5f9; font-size:11px;"><th style="padding:6px; width:40px;">Sesi</th><th style="padding:6px; text-align:left;">Materi RPS & Konstruk Teori</th><th style="padding:6px; width:130px; text-align:center;">Status Kelulusan</th><th style="padding:6px; text-align:left;">Refleksi Mahasiswa</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <div style="margin-top:24px; display:flex; justify-content:space-between; font-size:11px;">
+            <div>Mahasiswa,<br><br><br><strong>${s.nama}</strong><br>NIM. ${s.nim}</div>
+            <div style="text-align:right;">Dosen Pengampu,<br><br><br><strong>Sukma Lesmana, Ph.D</strong><br>Otoritas Akademik</div>
+          </div>
+        </div>
+      `;
+      document.getElementById("modalPortfolioPreview").classList.remove("hidden");
+    }
+
+    function closePortfolioModal() { document.getElementById("modalPortfolioPreview").classList.add("hidden"); }
+
+    function printPortfolioSheet() {
+      const content = document.getElementById("portfolioPaperSheet")?.innerHTML;
+      if (!content) return;
+      const printWin = window.open('', '_blank', 'width=850,height=700');
+      if (printWin) {
+        printWin.document.open();
+        printWin.document.write(`<html><head><title>Portofolio - Behavecounting</title></head><body style="padding:20px;">${content}</body></html>`);
+        printWin.document.close();
+        printWin.focus();
+        setTimeout(() => { printWin.print(); printWin.close(); }, 350);
+      } else { window.print(); }
+    }
+
+    function openLecturerConsole() {
+      populateLecturerSlideSessionDropdown();
+      document.getElementById("modalLecturerConsole").classList.remove("hidden");
+      switchLecturerTab('sessions');
+    }
+    function closeLecturerConsole() { document.getElementById("modalLecturerConsole").classList.add("hidden"); }
+
+    function switchLecturerTab(tab) {
+      document.getElementById("lecTabSessionsContent").classList.toggle("hidden", tab !== 'sessions');
+      document.getElementById("lecTabSlidesContent").classList.toggle("hidden", tab !== 'slides');
+      document.getElementById("lecTabStudentsContent").classList.toggle("hidden", tab !== 'students');
+      
+      ['sessions', 'slides', 'students'].forEach(t => {
+        const btn = document.getElementById("tabLec" + t.charAt(0).toUpperCase() + t.slice(1));
+        if (btn) btn.className = t === tab ? "py-2.5 rounded-xl bg-slate-800 text-white transition flex items-center justify-center space-x-2 font-bold shadow-sm" : "py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center justify-center space-x-2";
+      });
+
+      if (tab === 'sessions') renderLecturerSessions();
+      else if (tab === 'slides') renderLecturerSlideView();
+      else if (tab === 'students') renderLecturerStudentsTable();
+    }
+
+    function renderLecturerSessions() {
+      const tbody = document.getElementById("lecSessionsTableBody");
+      tbody.innerHTML = "";
+      const ctrls = getSessionControls();
+      CURRICULUM_MEETINGS.forEach(m => {
+        const ctrl = ctrls[m.session] || { session: m.session, isOpen: m.session === 1 };
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="p-3 text-center font-bold">P${m.session}</td>
+          <td class="p-3 font-bold">${m.title_id}</td>
+          <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${ctrl.isOpen ? 'bg-teal-500/20 text-teal-300' : 'bg-rose-500/20 text-rose-300'}">${ctrl.isOpen ? 'Buka' : 'Kunci'}</span></td>
+          <td class="p-3 text-right">
+            <button onclick="toggleSessionAccess(${m.session})" class="px-2 py-1 rounded bg-slate-800 text-xs font-bold text-slate-300">${ctrl.isOpen ? 'Tutup' : 'Buka'}</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function toggleSessionAccess(sNum) {
+      const ctrls = getSessionControls();
+      if (!ctrls[sNum]) ctrls[sNum] = { session: sNum, isOpen: false };
+      ctrls[sNum].isOpen = !ctrls[sNum].isOpen;
+      saveSessionControls(ctrls);
+      renderLecturerSessions();
+      showToast(`Sesi P${sNum} diperbarui`, "info");
+    }
+
+    function bulkSetSessions(isOpen) {
+      const ctrls = getSessionControls();
+      CURRICULUM_MEETINGS.forEach(m => {
+        ctrls[m.session] = { session: m.session, isOpen: (!isOpen && m.session === 1) ? true : isOpen };
+      });
+      saveSessionControls(ctrls);
+      renderLecturerSessions();
+      showToast(isOpen ? "Semua sesi dibuka!" : "Sesi dikunci (kecuali P1)", "info");
+    }
+
+    /* SLIDE PRESENTASI PEMBAHASAN RPS DOSEN */
+    function populateLecturerSlideSessionDropdown() {
+      const select = document.getElementById("lecSlideSessionSelect");
+      if (!select) return;
+      select.innerHTML = "";
+      CURRICULUM_MEETINGS.forEach(m => {
+        const opt = document.createElement("option");
+        opt.value = m.session;
+        opt.innerText = `P${m.session}: ${m.title_id.slice(0, 38)}...`;
+        select.appendChild(opt);
+      });
+      select.value = appState.currentSlideSession;
+    }
+
+    function loadLecturerSlideSession(sessionNum) {
+      appState.currentSlideSession = parseInt(sessionNum);
+      appState.currentSlideStep = 0;
+      renderLecturerSlideView();
+    }
+
+    function navigateSlideStep(delta) {
+      const totalSteps = 4;
+      appState.currentSlideStep = Math.max(0, Math.min(totalSteps - 1, appState.currentSlideStep + delta));
+      renderLecturerSlideView();
+    }
+
+    function renderLecturerSlideView() {
+      const m = CURRICULUM_MEETINGS.find(item => item.session === appState.currentSlideSession);
+      const container = document.getElementById("lecSlideContentBody");
+      const indicator = document.getElementById("slideIndicatorBadge");
+      const btnPrev = document.getElementById("btnSlidePrev");
+      const btnNext = document.getElementById("btnSlideNext");
+      if (!container || !m) return;
+
+      const step = appState.currentSlideStep;
+      indicator.innerText = `Slide ${step + 1} / 4`;
+      btnPrev.disabled = step === 0;
+      btnPrev.className = step === 0 ? "px-4 py-2 rounded-xl bg-slate-900 text-slate-600 font-bold text-xs cursor-not-allowed" : "px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs flex items-center space-x-2 transition";
+      btnNext.disabled = step === 3;
+      btnNext.className = step === 3 ? "px-4 py-2 rounded-xl bg-slate-900 text-slate-600 font-bold text-xs cursor-not-allowed" : "px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs flex items-center space-x-2 transition shadow-md shadow-teal-500/20";
+
+      let slideHTML = "";
+
+      if (step === 0) {
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-teal-500/20 text-teal-300 font-mono font-black text-sm">SLIDE 1: PENGANTAR KASUS & DILEMA</span>
+              <span class="text-xs text-indigo-400 font-bold">Sesi P${m.session} • ${m.phase_id}</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white leading-tight">${m.title_id}</h2>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-slate-300 text-xs sm:text-sm leading-relaxed space-y-2">
+              <div class="text-teal-400 font-bold flex items-center gap-2">
+                <i class="fa-solid fa-file-contract"></i>
+                <span>Skenario Kasus Keputusan Manajerial:</span>
+              </div>
+              <p>${m.narrative_id}</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-500/40 text-xs text-indigo-200">
+              <i class="fa-solid fa-lightbulb text-amber-400 mr-1.5"></i>
+              <strong>Tujuan Instruksional:</strong> Menguji sensitivitas akuntan terhadap bias keputusan, dorongan heuristik, dan kepatuhan kode etik fidusia.
+            </div>
+          </div>
+        `;
+      } else if (step === 1) {
+        let optionsCards = "";
+        m.options.forEach((opt, idx) => {
+          const isGold = opt.label_id.includes("Opsi C") || opt.label_id.includes("Opsi D") && m.session >= 5;
+          optionsCards += `
+            <div class="p-3 rounded-xl border ${isGold ? 'border-teal-500/60 bg-teal-950/30' : 'border-slate-800 bg-slate-950/70'} space-y-1">
+              <div class="flex items-center justify-between">
+                <strong class="text-xs ${isGold ? 'text-teal-300 font-black' : 'text-slate-300'}">${String.fromCharCode(65 + idx)}. ${opt.label_id.split(':')[0]}</strong>
+                ${isGold ? '<span class="px-2 py-0.5 rounded-full bg-teal-400 text-slate-950 text-[9px] font-black">SOLUSI REKOMENDASI</span>' : '<span class="text-[9px] text-slate-500">DISTRAKTOR</span>'}
+              </div>
+              <p class="text-[11px] text-slate-400 leading-snug">${opt.label_id}</p>
+              <div class="text-[10px] text-slate-500 pt-1 border-t border-slate-800/80">Konsekuensi: ${opt.consequence_id}</div>
+            </div>
+          `;
+        });
+
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-teal-500/20 text-teal-300 font-mono font-black text-sm">SLIDE 2: DEKOMPOSISI ALTERNATIF KEPUTUSAN</span>
+              <span class="text-xs text-indigo-400 font-bold">P${m.session} • Spektrum Opsi</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              ${optionsCards}
+            </div>
+          </div>
+        `;
+      } else if (step === 2) {
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-indigo-500/20 text-indigo-300 font-mono font-black text-sm">SLIDE 3: SINTESIS LANDASAN TEORI KEPERILAKUAN</span>
+              <span class="text-xs text-teal-400 font-bold">P${m.session} • Teori Ilmiah</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-indigo-950/50 border border-indigo-500/50 space-y-3">
+              <div class="text-amber-400 font-black text-sm flex items-center gap-2">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>${m.theory_summary_id}</span>
+              </div>
+              <div class="text-slate-200 text-xs sm:text-sm leading-relaxed">${m.theory_id}</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-teal-500/40 text-xs space-y-2">
+              <strong class="text-teal-300 block flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-check text-teal-400"></i>
+                Argumen Teoritis Solusi Terbaik:
+              </strong>
+              <p class="text-slate-300 leading-relaxed">${m.theoretical_defense}</p>
+            </div>
+          </div>
+        `;
+      } else {
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 font-mono font-black text-sm">SLIDE 4: JEBAKAN KOGNITIF & RUBRIK PENILAIAN</span>
+              <span class="text-xs text-slate-400 font-bold">P${m.session} • Evaluasi Refleksi</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-rose-950/40 border border-rose-500/40 text-xs space-y-2">
+              <strong class="text-rose-300 flex items-center gap-1.5">
+                <i class="fa-solid fa-triangle-exclamation text-rose-400"></i>
+                Jebakan Kognitif Mahasiswa (Cognitive Trap):
+              </strong>
+              <p class="text-slate-200 leading-relaxed">${m.cognitive_trap}</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-2">
+              <strong class="text-indigo-300 flex items-center gap-1.5">
+                <i class="fa-solid fa-spell-check text-indigo-400"></i>
+                Kata Kunci Wajib Refleksi (Keyword Matching):
+              </strong>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                ${m.required_keywords.map(kw => `<span class="px-2.5 py-1 rounded-lg bg-indigo-900/50 text-indigo-200 border border-indigo-700 font-mono text-[11px]">${kw}</span>`).join('')}
+              </div>
+              <p class="text-[11px] text-slate-400 pt-1">Jawaban mahasiswa diklasifikasikan: <strong>LULUS (>=3 keywords)</strong>, <strong>LULUS BERSYARAT (>=2 keywords)</strong>, atau <strong>TIDAK LULUS</strong>.</p>
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = slideHTML;
+    }
+
+    /* REKAP MAHASISWA & SEARCH ENGINE BERBASIS NIM */
+    function renderLecturerStudentsTable(filterList = null) {
+      const tbody = document.getElementById("lecStudentsTableBody");
+      const empty = document.getElementById("lecStudentsEmptyBox");
+      const classSelect = document.getElementById("lecStudentsClassFilter");
+      const allStudents = getRegisteredStudents();
+      const selectedClass = classSelect ? classSelect.value : "ALL";
+
+      if (classSelect) {
+        const curVal = classSelect.value;
+        const classes = [...new Set(allStudents.map(s => (s.kelas || "").trim()).filter(Boolean))].sort();
+        classSelect.innerHTML = `<option value="ALL">Semua Kelas</option>`;
+        classes.forEach(c => {
+          const opt = document.createElement("option");
+          opt.value = c; opt.innerText = c;
+          if (c === curVal) opt.selected = true;
+          classSelect.appendChild(opt);
+        });
+      }
+
+      let students = filterList !== null ? filterList : allStudents;
+      if (selectedClass !== "ALL" && filterList === null) {
+        students = students.filter(s => String(s.kelas).trim() === selectedClass);
+      }
+
+      const totalCount = allStudents.length;
+      let totalScoreSum = 0, totalCompSum = 0;
+      allStudents.forEach(s => {
+        totalScoreSum += calculateTotalScore(s);
+        totalCompSum += Object.keys(s.completedSessions || {}).length;
+      });
+
+      document.getElementById("lecStatTotalStudents").innerText = totalCount;
+      document.getElementById("lecStatAvgScore").innerText = `${totalCount > 0 ? Math.round(totalScoreSum / totalCount) : 0} Pts`;
+      document.getElementById("lecStatAvgCompleted").innerText = `${totalCount > 0 ? (totalCompSum / totalCount).toFixed(1) : 0} / 14`;
+
+      tbody.innerHTML = "";
+      if (students.length === 0) {
+        empty.classList.remove("hidden");
+        return;
+      }
+      empty.classList.add("hidden");
+
+      students.forEach(st => {
+        const completed = st.completedSessions || {};
+        let passed = 0, cond = 0, fail = 0;
+        Object.values(completed).forEach(item => {
+          if (item.statusGrade === "LULUS") passed++;
+          else if (item.statusGrade === "LULUS BERSYARAT") cond++;
+          else fail++;
+        });
+
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-slate-900/60 transition-colors";
+        tr.innerHTML = `
+          <td class="p-3 font-mono font-bold text-teal-400">${st.nim}</td>
+          <td class="p-3 font-bold text-white">${st.nama}</td>
+          <td class="p-3 text-slate-300">${st.kelas}</td>
+          <td class="p-3 text-center font-mono font-bold text-amber-300 bg-amber-950/20 rounded">${st.pin}</td>
+          <td class="p-3 text-center font-mono font-bold text-teal-300">${calculateTotalScore(st)} Pts</td>
+          <td class="p-3 text-center">${Object.keys(completed).length} / 14</td>
+          <td class="p-3 text-center text-[10px]">
+            <span class="text-emerald-400 font-bold">${passed} L</span> • 
+            <span class="text-amber-400 font-bold">${cond} B</span> • 
+            <span class="text-rose-400 font-bold">${fail} G</span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function handleLecturerLiveSearchNIM() {
+      const query = (document.getElementById("lecSearchNIMInput")?.value || "").trim().toLowerCase();
+      const resultCard = document.getElementById("lecNIMQuickSearchResultCard");
+      const allStudents = getRegisteredStudents();
+
+      if (!query) {
+        resultCard.classList.add("hidden");
+        renderLecturerStudentsTable();
+        return;
+      }
+
+      const matched = allStudents.filter(s => String(s.nim).toLowerCase().includes(query));
+      renderLecturerStudentsTable(matched);
+
+      const exact = allStudents.find(s => String(s.nim).trim().toLowerCase() === query);
+      if (exact) {
+        const completed = exact.completedSessions || {};
+        let passed = 0, cond = 0, fail = 0;
+        Object.values(completed).forEach(item => {
+          if (item.statusGrade === "LULUS") passed++;
+          else if (item.statusGrade === "LULUS BERSYARAT") cond++;
+          else fail++;
+        });
+
+        resultCard.classList.remove("hidden");
+        resultCard.innerHTML = `
+          <div class="flex items-start justify-between border-b border-slate-800 pb-2">
+            <div>
+              <span class="text-xs font-bold text-teal-400"><i class="fa-solid fa-user-graduate mr-1"></i>${exact.nama}</span>
+              <div class="text-[11px] text-slate-400 font-mono">NIM: <strong class="text-white">${exact.nim}</strong> | Kelas: <strong>${exact.kelas}</strong></div>
+            </div>
+            <div class="text-right">
+              <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/40">PIN: ${exact.pin}</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-center font-mono">
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">TOTAL SKOR</span>
+              <span class="text-sm font-bold text-teal-400">${calculateTotalScore(exact)} Pts</span>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">LAB SELESAI</span>
+              <span class="text-sm font-bold text-indigo-400">${Object.keys(completed).length} / 14</span>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">LULUS TEORI</span>
+              <span class="text-sm font-bold text-emerald-400">${passed} Sesi</span>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">BERSYARAT / GAGAL</span>
+              <span class="text-sm font-bold text-rose-400">${cond} / ${fail}</span>
+            </div>
+          </div>
+        `;
+      } else {
+        resultCard.classList.remove("hidden");
+        resultCard.innerHTML = `<span class="text-amber-400"><i class="fa-solid fa-circle-info mr-1"></i>Menampilkan ${matched.length} mahasiswa dengan kecocokan NIM "${query}".</span>`;
+      }
+    }
+
+    function exportClassGradesToCSV() {
+      const list = getRegisteredStudents();
+      if (list.length === 0) { showToast("Belum ada data mahasiswa", "warning"); return; }
+      let csv = "NIM,Nama,Kelas,PIN,Total Skor,Lab Selesai,Lulus,Lulus Bersyarat,Tidak Lulus\n";
+      list.forEach(s => {
+        const completed = s.completedSessions || {};
+        let passed = 0, cond = 0, fail = 0;
+        Object.values(completed).forEach(item => {
+          if (item.statusGrade === "LULUS") passed++;
+          else if (item.statusGrade === "LULUS BERSYARAT") cond++;
+          else fail++;
+        });
+        csv += `"${s.nim}","${s.nama}","${s.kelas}","${s.pin}",${calculateTotalScore(s)},${Object.keys(completed).length},${passed},${cond},${fail}\n`;
+      });
+      const link = document.createElement("a");
+      link.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
+      link.download = "Rekap_Asesmen_Behavecounting.csv";
+      link.click();
+    }
+
+    function toggleAudioChimes() {
+      isAudioMuted = !isAudioMuted;
+      safeStorage.setItem("behave_audio_muted", isAudioMuted);
+      showToast(isAudioMuted ? "Suara dinonaktifkan" : "Suara diaktifkan", "info");
+    }
+
+    Object.assign(window, {
+      navigateHome, navigateToStudentPortal, handleEnterPortalClick,
+      openAuthModal, closeAuthModal, switchAuthTab,
+      handleStudentLogin, handleStudentRegister, checkStudentAccountForPIN,
+      handleLecturerLogin, handleUserLogout,
+      openDeskripsiRPSModal, closeDeskripsiRPSModal,
+      openMeetingWorkspace, closeMeetingWorkspace, handleReflectionTextInput,
+      handleFinishMeetingSession,
+      openPortfolioModal, closePortfolioModal, printPortfolioSheet,
+      openLecturerConsole, closeLecturerConsole, switchLecturerTab,
+      toggleSessionAccess, bulkSetSessions, exportClassGradesToCSV,
+      toggleAudioChimes, renderLandingLeaderboard, closeConfirmModal,
+      loadLecturerSlideSession, navigateSlideStep, handleLecturerLiveSearchNIM,
+      renderLecturerStudentsTable
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderLandingLeaderboard();
+      updateLiveUserCount();
+    });
+  </script>
+</body>
+</html>
