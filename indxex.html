@@ -1,0 +1,2364 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Behavecounting - Platform Perkuliahan Akuntansi Keperilakuan</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              400: '#2dd4bf',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              900: '#134e4a',
+              950: '#042f2e'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #090d16; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    @media print {
+      body { background: white !important; color: black !important; }
+      header, footer, #viewLanding, #viewStudentPortal, #globalDoodleBackdrop, .no-print, #toastContainer, #modalCustomConfirm, #modalAuth, #modalDeskripsiRPS, #modalMeetingWorkspace, #modalLecturerConsole, #modalDiscussionSlides {
+        display: none !important;
+      }
+      #modalPortfolioPreview { display: block !important; position: static !important; background: transparent !important; padding: 0 !important; margin: 0 !important; }
+      #modalPortfolioPreview > div { max-width: 100% !important; border: none !important; box-shadow: none !important; background: transparent !important; }
+      #modalPortfolioPreview > div > div:first-child, #modalPortfolioPreview > div > div:last-child { display: none !important; }
+      #portfolioPaperSheet { box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-teal-500 selection:text-slate-950 relative overflow-x-hidden">
+
+  <!-- Ambient Backdrop -->
+  <div id="globalDoodleBackdrop" class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-[0.14]" aria-hidden="true">
+    <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1600 1200">
+      <defs>
+        <radialGradient id="doodleGlow1" cx="20%" cy="30%" r="50%">
+          <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.8" />
+          <stop offset="100%" stop-color="#14b8a6" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="doodleGlow2" cx="80%" cy="70%" r="60%">
+          <stop offset="0%" stop-color="#6366f1" stop-opacity="0.8" />
+          <stop offset="100%" stop-color="#6366f1" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="300" cy="350" r="350" fill="url(#doodleGlow1)" />
+      <circle cx="1300" cy="850" r="400" fill="url(#doodleGlow2)" />
+    </svg>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header class="relative z-30 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer group" onclick="navigateHome()">
+        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-teal-500 via-teal-400 to-indigo-600 flex items-center justify-center shadow-lg shadow-teal-500/20 group-hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-brain text-slate-950 text-lg sm:text-xl"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-base sm:text-lg font-black tracking-tight text-white group-hover:text-teal-400 transition-colors">Behavecounting</span>
+            <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 font-bold hidden sm:inline-block">RPS 14 Sesi</span>
+          </div>
+          <p id="headerSubtitle" class="text-[11px] text-slate-400 font-medium">Laboratorium Akuntansi Keperilakuan & Studi Kasus Integratif</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2.5 sm:space-x-4">
+        <div id="headerLiveUserCountBadge" class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/60 text-xs shadow-inner">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <i class="fa-solid fa-users text-teal-400 text-xs hidden sm:inline"></i>
+          <span id="txtLiveUserCount" class="font-mono font-bold text-slate-200 text-[11px] sm:text-xs">1 Pengguna Aktif</span>
+        </div>
+
+        <button onclick="toggleAudioChimes()" id="btnAudioToggle" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-teal-400 flex items-center justify-center transition-all text-xs" title="Suara Interaktif">
+          <i id="iconAudioState" class="fa-solid fa-volume-high"></i>
+        </button>
+
+        <div id="headerAuthArea">
+          <button onclick="openAuthModal('login')" id="btnHeaderAuth" class="px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs sm:text-sm flex items-center space-x-2 shadow-md shadow-teal-500/10 transition-all hover:scale-[1.02] active:scale-[0.98]">
+            <i class="fa-solid fa-arrow-right-to-bracket text-xs"></i>
+            <span id="txtBtnHeaderLogin">Masuk / Registrasi</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main id="appMainContainer" class="flex-1 relative z-10 flex flex-col">
+    <!-- VIEW 1: LANDING & LEADERBOARD -->
+    <section id="viewLanding" class="flex-1 flex flex-col justify-start py-8 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-12">
+      <div class="text-center max-w-4xl mx-auto space-y-5">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-bold tracking-wide">
+          <i class="fa-solid fa-certificate text-teal-400"></i>
+          <span>Kurikulum 14 Pertemuan RPS • Terbuka Sesi 1 & Proyek Sesi 14</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.15]">
+          Eksplorasi Perilaku Manusia di Balik <span class="bg-gradient-to-r from-teal-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">Angka & Keputusan Finansial</span>
+        </h1>
+
+        <p class="text-sm sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
+          Uji empiris rasionalitas terbatas, disonansi moral, agensi, senjangan anggaran, bias kognitif, hingga Project-Based Learning esai integratif.
+        </p>
+
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-5">
+          <button onclick="handleEnterPortalClick()" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-sm sm:text-base flex items-center justify-center space-x-3 shadow-xl shadow-teal-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+            <i class="fa-solid fa-graduation-cap text-base"></i>
+            <span>Masuk Portal Pembelajaran</span>
+          </button>
+          <button onclick="openDeskripsiRPSModal()" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700/80 font-bold text-sm sm:text-base flex items-center justify-center space-x-3 shadow-lg transition-all hover:scale-[1.02]">
+            <i class="fa-solid fa-map-location-dot text-teal-400 text-base"></i>
+            <span>Peta Pembelajaran Semester</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Leaderboard Section -->
+      <div class="pt-4 max-w-5xl mx-auto w-full space-y-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="space-y-0.5">
+            <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-trophy text-amber-400"></i>
+              Papan Peringkat Real-Time Mahasiswa
+            </h2>
+            <p class="text-xs text-slate-400">Rekapitulasi pencapaian laboratorium dan skor performa kompetensi psikometri.</p>
+          </div>
+          <div class="flex items-center space-x-2 w-full sm:w-auto">
+            <span class="text-xs text-slate-400 font-medium whitespace-nowrap"><i class="fa-solid fa-filter mr-1 text-teal-400"></i>Saring Kelas:</span>
+            <select id="leaderboardClassFilter" onchange="renderLandingLeaderboard()" class="w-full sm:w-48 bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-teal-500">
+              <option value="ALL">Semua Kelas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="bg-slate-900/70 border border-slate-800/80 rounded-2xl overflow-hidden backdrop-blur-md shadow-2xl">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-950/80 border-b border-slate-800 font-bold text-slate-300">
+                <tr>
+                  <th class="p-3.5 w-16 text-center">Posisi</th>
+                  <th class="p-3.5">Mahasiswa (NIM)</th>
+                  <th class="p-3.5 text-center w-32">Total Skor</th>
+                  <th class="p-3.5">Kelas Perkuliahan</th>
+                  <th class="p-3.5 text-center w-48">Status Asesmen</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardTableBody" class="divide-y divide-slate-800/60 font-medium text-slate-200"></tbody>
+            </table>
+          </div>
+          <div id="leaderboardEmptyState" class="hidden p-8 text-center space-y-2">
+            <i class="fa-solid fa-user-clock text-3xl text-slate-600"></i>
+            <p class="text-xs text-slate-400">Belum ada aktivitas mahasiswa terdaftar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: STUDENT LEARNING PORTAL VIEW -->
+    <section id="viewStudentPortal" class="hidden flex-1 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-8">
+      <div class="p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-900/90 to-teal-950/40 border border-slate-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div class="flex items-center space-x-4">
+          <div class="w-14 h-14 rounded-2xl bg-teal-500/20 border border-teal-500/40 text-teal-400 flex items-center justify-center text-2xl font-bold shadow-inner flex-shrink-0">
+            <i class="fa-solid fa-user-graduate"></i>
+          </div>
+          <div class="space-y-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 id="spStudentName" class="text-lg sm:text-xl font-black text-white">Nama Mahasiswa</h2>
+              <span id="spStudentClassBadge" class="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[11px] font-bold">Kelas</span>
+              <span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 text-[10px] font-mono">S1 Akuntansi</span>
+            </div>
+            <p class="text-xs text-slate-400 font-mono">NIM: <span id="spStudentNIM" class="text-slate-200 font-bold">20260000</span></p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+          <div class="text-right px-4 py-2 rounded-2xl bg-slate-950/70 border border-slate-800">
+            <span class="text-[10px] text-slate-400 uppercase font-bold block">Kemajuan Kurikulum</span>
+            <span id="spProgressCount" class="text-sm font-black text-teal-400 font-mono">0 / 14 Sesi</span>
+          </div>
+
+          <button onclick="openPortfolioModal()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-teal-300 hover:text-teal-200 border border-teal-500/40 font-bold text-xs flex items-center space-x-2 transition shadow-lg shadow-teal-500/10">
+            <i class="fa-solid fa-file-lines text-teal-400"></i>
+            <span>Lihat/Cetak Portofolio</span>
+          </button>
+
+          <button onclick="handleUserLogout()" class="px-4 py-2.5 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/40 font-bold text-xs flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Keluar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Radar Kompetensi -->
+      <div class="p-6 rounded-3xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-sm grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+        <div class="lg:col-span-1 space-y-3">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-300 text-xs font-bold border border-indigo-500/30">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Indeks Kompetensi Psikometri Akuntan</span>
+          </div>
+          <h3 class="text-base font-extrabold text-white">Profil Kompetensi Keperilakuan Akuntan Profesional</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Dimensi psikometri standar IES 4: Integritas & Keberanian Etis, Skeptisisme Profesional, Objektivitas & Resistensi Bias, serta Pertimbangan Keputusan Fidusia.
+          </p>
+          <div class="pt-2 text-[11px] text-slate-400 font-mono space-y-1.5">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1">
+              <span class="text-slate-300"><i class="fa-solid fa-shield-halved text-teal-400 mr-1.5"></i>Integritas & Keberanian Etis:</span>
+              <span id="metricValEthic" class="text-teal-400 font-bold">50 Pts</span>
+            </div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1">
+              <span class="text-slate-300"><i class="fa-solid fa-magnifying-glass-chart text-indigo-400 mr-1.5"></i>Skeptisisme Profesional:</span>
+              <span id="metricValSkeptic" class="text-indigo-400 font-bold">50 Pts</span>
+            </div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1">
+              <span class="text-slate-300"><i class="fa-solid fa-scale-balanced text-amber-400 mr-1.5"></i>Objektivitas & Resistensi Bias:</span>
+              <span id="metricValSlack" class="text-amber-400 font-bold">50 Pts</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-300"><i class="fa-solid fa-compass text-rose-400 mr-1.5"></i>Pertimbangan Keputusan Fidusia:</span>
+              <span id="metricValRisk" class="text-rose-400 font-bold">50 Pts</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 flex justify-center items-center h-64 sm:h-72 w-full">
+          <canvas id="psychometricRadarChart" class="max-w-full max-h-full"></canvas>
+        </div>
+      </div>
+
+      <!-- 14 Sessions Grid -->
+      <div class="space-y-4">
+        <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-white flex items-center gap-2">
+              <i class="fa-solid fa-book-open-reader text-teal-400"></i>
+              Daftar 14 Pertemuan Laboratorium RPS
+            </h3>
+            <p class="text-xs text-slate-400">Sesi 1 dan Sesi 14 (PjBL Esai) terbuka sejak awal. Hasil kelulusan Sesi 14 dipublikasikan setelah Sesi 13 tuntas.</p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 text-xs font-bold font-mono">
+            P1 & P14 Unlocked
+          </span>
+        </div>
+        <div id="studentSessionsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Attribution -->
+  <footer class="relative z-20 border-t border-slate-800/80 bg-slate-950 py-6 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-400 mt-auto">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center space-x-2">
+        <span class="font-extrabold text-slate-300">Behavecounting</span>
+        <span>•</span>
+        <span id="footerCopyright">Platform Laboratorium Akuntansi Keperilakuan</span>
+      </div>
+      <div>
+        <a href="https://scholar.google.com/citations?user=B2m6ZkIAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 font-bold hover:underline transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-user-tie"></i>
+          <span>Sukma Lesmana, Ph.D</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL BERSAMA: SLIDE PRESENTASI PEMBAHASAN MENDALAM -->
+  <div id="modalDiscussionSlides" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/90 backdrop-blur-md hidden">
+    <div class="w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+      <div class="px-6 py-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/40 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-person-chalkboard text-base"></i>
+          </div>
+          <div>
+            <h3 id="discussModalTitle" class="text-sm sm:text-base font-extrabold text-white">Slide Pembahasan Kasus & Rujukan Teori</h3>
+            <p id="discussModalSubtitle" class="text-xs text-teal-400 font-medium">Analisis Rinci Konsep Keperilakuan & Keputusan Manajerial</p>
+          </div>
+        </div>
+        <button onclick="closeDiscussionSlidesModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 flex-1 text-xs">
+        <div id="discussSlideViewerWrapper" class="rounded-3xl border border-slate-700 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 p-6 sm:p-8 shadow-2xl relative min-h-[420px] flex flex-col justify-between">
+          <div id="discussSlideContentBody"></div>
+
+          <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between">
+            <button onclick="navigateDiscussSlideStep(-1)" id="btnDiscussSlidePrev" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs flex items-center space-x-2 transition">
+              <i class="fa-solid fa-chevron-left text-[10px]"></i>
+              <span>Slide Sebelumnya</span>
+            </button>
+            
+            <span id="discussSlideIndicatorBadge" class="px-3.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono font-bold text-xs">
+              Slide 1 / 4
+            </span>
+
+            <button onclick="navigateDiscussSlideStep(1)" id="btnDiscussSlideNext" class="px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs flex items-center space-x-2 transition shadow-md shadow-teal-500/20">
+              <span>Slide Berikutnya</span>
+              <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 py-3.5 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-xs text-slate-400 flex-shrink-0">
+        <span>Otoritas Akademik: <strong class="text-slate-200">Sukma Lesmana, Ph.D</strong></span>
+        <button onclick="closeDiscussionSlidesModal()" class="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition">Tutup Pembahasan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: WORKSPACE SESI (MENDUKUNG ESAI PJBL MIN 250 KATA) -->
+  <div id="modalMeetingWorkspace" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/90 backdrop-blur-md hidden">
+    <div class="w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+      <div class="px-6 py-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span id="wsSessionBadge" class="px-3 py-1 rounded-xl bg-indigo-600 text-white text-xs font-black font-mono">P1</span>
+          <div>
+            <h3 id="wsSessionTitle" class="text-sm sm:text-base font-extrabold text-white">Judul Pertemuan</h3>
+            <span id="wsSessionPhase" class="text-[11px] text-teal-400 font-medium">Fase Perkuliahan</span>
+          </div>
+        </div>
+        <button onclick="closeMeetingWorkspace()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 text-xs text-slate-200 flex-1">
+        <!-- Theory Banner -->
+        <div class="p-4 rounded-2xl bg-indigo-950/30 border border-indigo-800/40 space-y-1.5">
+          <div class="flex items-center space-x-2 text-indigo-400 font-bold">
+            <i class="fa-solid fa-book-bookmark text-xs"></i>
+            <span id="wsTheoryLabelHeading">Landasan Teori & Konstruk Keperilakuan:</span>
+          </div>
+          <div id="wsTheoryDescription" class="text-slate-300 leading-relaxed text-[11px]"></div>
+          <div class="mt-2 pt-2 border-t border-indigo-900/40 text-[10px] text-indigo-300">
+            <i class="fa-solid fa-circle-info mr-1"></i>
+            <span>Konsep kunci wajib dalam refleksi/esai: </span>
+            <span id="wsKeyTheoryConcepts" class="font-bold text-amber-300"></span>
+          </div>
+        </div>
+
+        <!-- Case / Project Narrative -->
+        <div class="space-y-2">
+          <h4 id="wsCaseLabelHeading" class="text-xs font-black uppercase tracking-wider text-teal-400 flex items-center gap-2">
+            <i class="fa-solid fa-file-lines"></i> Skenario Kasus / Instruksi Proyek
+          </h4>
+          <div id="wsCaseNarrative" class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-slate-300 leading-relaxed text-xs"></div>
+        </div>
+
+        <!-- SECTION PILIHAN GANDA (DISEMBUNYIKAN KHUSUS UNTUK SESI 14 PJBL) -->
+        <div id="wsOptionsContainer" class="space-y-3">
+          <div class="flex justify-between items-center">
+            <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
+              <i class="fa-solid fa-code-branch"></i> Alternatif Keputusan Keperilakuan (Pilih 1 dari 4 Opsi)
+            </h4>
+            <span class="text-[10px] text-slate-400">Analisis implikasi setiap opsi secara teliti</span>
+          </div>
+          <div id="wsInteractiveControlArea" class="space-y-2.5"></div>
+          
+          <div id="wsConsequenceBox" class="hidden p-4 rounded-2xl bg-slate-950 border border-teal-500/40 text-teal-300 text-xs space-y-1.5">
+            <div class="font-bold flex items-center gap-1.5 text-teal-400">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Analisis Dampak Keputusan:</span>
+            </div>
+            <p id="wsConsequenceText" class="text-slate-300 leading-relaxed text-[11px]"></p>
+          </div>
+        </div>
+
+        <!-- SECTION LEMBAR REFLEKSI / ESAI PROYEK PJBL -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 id="wsReflectionLabelHeading" class="text-xs font-black uppercase tracking-wider text-indigo-400 flex items-center gap-2">
+              <i class="fa-solid fa-pen-fancy"></i> Lembar Analisis & Refleksi Mandiri Mahasiswa
+            </h4>
+            <span id="wsCharCountBadge" class="text-[10px] text-slate-400 font-mono">Min. 40 Karakter</span>
+          </div>
+          <textarea id="wsReflectionText" oninput="handleReflectionTextInput()" rows="7" placeholder="Tuliskan analisis Anda..." class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-3.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 leading-relaxed"></textarea>
+          
+          <div class="flex items-center justify-between pt-1 text-[11px] text-slate-400">
+            <span id="wsReviewHintText"><i class="fa-solid fa-shield-halved text-teal-400 mr-1"></i>Analisis dievaluasi AI presisi saat Anda mengunci keputusan.</span>
+            <span id="wsReviewStatusBadge" class="font-mono"></span>
+          </div>
+
+          <!-- KARTU EVALUASI AI JIKA JAWABAN TIDAK TEPAT / PERLU REVISI -->
+          <div id="wsAIFeedbackPrecisionBox" class="hidden p-4 rounded-2xl bg-slate-950 border border-rose-500/50 text-xs space-y-2.5 mt-2">
+            <div class="flex items-center justify-between text-rose-300 font-bold">
+              <span class="flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation text-rose-400"></i> Hasil Evaluasi AI Presisi</span>
+              <span id="wsAIGradeTag" class="px-2 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40 text-[10px]">TIDAK LULUS</span>
+            </div>
+            <p id="wsAIFeedbackMessage" class="text-slate-300 leading-relaxed"></p>
+            <div class="p-3 rounded-xl bg-slate-900 border border-teal-500/40 space-y-1">
+              <strong class="text-teal-300 block text-[11px]"><i class="fa-solid fa-key mr-1"></i>Kunci Pembahasan Rujukan Teori yang Valid:</strong>
+              <p id="wsAIGoldenAnswerText" class="text-slate-300 text-[11px] leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 py-4 border-t border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
+        <button onclick="closeMeetingWorkspace()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs transition">Batal</button>
+        <button id="wsBtnCompleteSession" onclick="handleFinishMeetingSession()" class="px-5 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs transition flex items-center space-x-2 shadow-lg shadow-teal-500/20">
+          <i class="fa-solid fa-circle-check"></i>
+          <span id="wsBtnFinishSessionText">Simpan & Kunci Keputusan Sesi Ini</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PORTOFOLIO PREVIEW & CETAK -->
+  <div id="modalPortfolioPreview" class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/90 backdrop-blur-md hidden">
+    <div class="w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[96vh]">
+      <div class="px-5 py-3.5 border-b border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-graduation-cap text-base"></i>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold text-white">Transkrip Portofolio Laboratorium Akuntansi Keperilakuan</h3>
+            <p class="text-xs text-slate-400">Rekapitulasi 14 Pertemuan RPS & Hasil Proyek Integratif</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="printPortfolioSheet()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-black text-xs flex items-center space-x-2 shadow-lg transition">
+            <i class="fa-solid fa-print"></i>
+            <span>Cetak / Simpan PDF</span>
+          </button>
+          <button onclick="closePortfolioModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+      </div>
+      <div class="p-4 sm:p-8 overflow-y-auto flex-1 bg-slate-950/60">
+        <div id="portfolioPaperSheet" class="max-w-[850px] mx-auto bg-white text-slate-900 p-6 sm:p-10 rounded-2xl shadow-2xl border border-slate-200"></div>
+      </div>
+      <div class="px-6 py-3 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-xs text-slate-400 flex-shrink-0">
+        <span>Pengampu: <strong class="text-slate-200">Sukma Lesmana, Ph.D</strong></span>
+        <button onclick="closePortfolioModal()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold transition">Tutup Pratinjau</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: RPS -->
+  <div id="modalDeskripsiRPS" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/85 backdrop-blur-md hidden">
+    <div class="w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="px-6 py-4 border-b border-slate-800 bg-slate-950/80 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-2xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-map-location-dot text-base"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-white">Peta Pembelajaran Semester (RPS)</h3>
+            <p class="text-xs text-teal-400 font-medium">14 Pertemuan Laboratorium Akuntansi Keperilakuan</p>
+          </div>
+        </div>
+        <button onclick="closeDeskripsiRPSModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+      <div id="rpsModalContentBody" class="p-6 overflow-y-auto space-y-4 flex-1"></div>
+      <div class="px-6 py-3.5 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs text-slate-400 flex-shrink-0">
+        <span>Pengembang Kurikulum: <strong class="text-slate-200">Sukma Lesmana, Ph.D</strong></span>
+        <button onclick="closeDeskripsiRPSModal()" class="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: AUTHENTICATION -->
+  <div id="modalAuth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden">
+    <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="p-6 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-lock text-sm"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-white">Autentikasi Pengguna</h3>
+            <p class="text-xs text-slate-400">Pilih jenis akses perkuliahan</p>
+          </div>
+        </div>
+        <button onclick="closeAuthModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-4 bg-slate-950 border-b border-slate-800 p-1 text-[11px] font-bold">
+        <button onclick="switchAuthTab('login')" id="tabBtnLogin" class="py-2 rounded-xl transition-all text-center bg-slate-800 text-white shadow-sm">Masuk</button>
+        <button onclick="switchAuthTab('register')" id="tabBtnRegister" class="py-2 rounded-xl transition-all text-center text-slate-400 hover:text-white">Registrasi</button>
+        <button onclick="switchAuthTab('forgot')" id="tabBtnForgot" class="py-2 rounded-xl transition-all text-center text-slate-400 hover:text-white">Lupa PIN</button>
+        <button onclick="switchAuthTab('lecturer')" id="tabBtnLecturer" class="py-2 rounded-xl transition-all text-center text-slate-400 hover:text-white">Pengampu</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 flex-1">
+        <form id="formStudentLogin" onsubmit="handleStudentLogin(event)" class="space-y-4">
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">Nomor Induk Mahasiswa (NIM)</label>
+            <input type="text" id="loginNIM" required placeholder="Contoh: 2108102001" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">PIN Mahasiswa (4-6 Digit)</label>
+            <input type="password" id="loginPIN" required maxlength="6" placeholder="••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 font-mono">
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs transition shadow-lg">
+            <span>Masuk ke Portal</span>
+          </button>
+        </form>
+
+        <form id="formStudentRegister" onsubmit="handleStudentRegister(event)" class="hidden space-y-3.5">
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">Nomor Induk Mahasiswa (NIM)</label>
+            <input type="text" id="regNIM" required placeholder="Contoh: 2108102001" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">Nama Lengkap Mahasiswa</label>
+            <input type="text" id="regName" required placeholder="Contoh: Siti Rahmawati" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">Kelas Perkuliahan</label>
+            <input type="text" id="regClass" required placeholder="Contoh: Akuntansi 5A" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">Buat PIN Akses (4-6 Digit Angka)</label>
+            <input type="password" id="regPIN" required maxlength="6" placeholder="Contoh: 1234" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 font-mono">
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-teal-500 to-indigo-600 hover:opacity-90 text-white font-black text-xs transition shadow-lg">
+            <span>Daftarkan Akun</span>
+          </button>
+        </form>
+
+        <div id="subTabForgotPIN" class="hidden space-y-4">
+          <div class="p-4 rounded-2xl bg-amber-950/40 border border-amber-500/40 text-amber-200 text-xs leading-relaxed">
+            PIN tersimpan aman di Konsol Dosen Pengampu (<strong>Sukma Lesmana, Ph.D</strong>). Masukkan NIM untuk memeriksa data akun Anda.
+          </div>
+          <div class="space-y-2">
+            <div class="flex space-x-2">
+              <input type="text" id="forgotCheckNIM" placeholder="Masukkan NIM Anda" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500">
+              <button onclick="checkStudentAccountForPIN()" type="button" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition">Cek</button>
+            </div>
+          </div>
+          <div id="forgotResultCard" class="hidden p-3.5 rounded-xl bg-slate-950 border border-slate-700 text-xs space-y-1.5"></div>
+        </div>
+
+        <form id="formLecturerLogin" onsubmit="handleLecturerLogin(event)" class="hidden space-y-4">
+          <div class="p-3.5 rounded-2xl bg-indigo-950/40 border border-indigo-500/40 text-indigo-200 text-xs flex items-center space-x-2.5">
+            <i class="fa-solid fa-shield-halved text-base text-indigo-400"></i>
+            <span>Otoritas Pengampu: Sukma Lesmana, Ph.D</span>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-300 block">PIN Otorisasi Pengampu</label>
+            <input type="password" id="lecturerPIN" required placeholder="Masukkan PIN Otorisasi" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono">
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs transition shadow-lg">
+            <span>Buka Konsol Pengampu</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: KONSOL PENGAMPU -->
+  <div id="modalLecturerConsole" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/90 backdrop-blur-md hidden">
+    <div class="w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+      <div class="px-6 py-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/40 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-chalkboard-user text-base"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-white">Konsol Dosen Pengampu</h3>
+            <p class="text-xs text-indigo-400 font-medium">Sukma Lesmana, Ph.D • Otoritas Akademik Semester</p>
+          </div>
+        </div>
+        <button onclick="closeLecturerConsole()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-3 bg-slate-950 border-b border-slate-800 p-1 text-xs font-bold flex-shrink-0">
+        <button onclick="switchLecturerTab('sessions')" id="tabLecSessions" class="py-2.5 rounded-xl bg-slate-800 text-white transition flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-sliders text-teal-400"></i>
+          <span>Kontrol 14 Sesi</span>
+        </button>
+        <button onclick="switchLecturerTab('slides')" id="tabLecSlides" class="py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-person-chalkboard text-indigo-400"></i>
+          <span>Slide Pembahasan RPS</span>
+        </button>
+        <button onclick="switchLecturerTab('students')" id="tabLecStudents" class="py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-users-gear text-amber-400"></i>
+          <span>Rekap & Cari Mahasiswa</span>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 flex-1 text-xs">
+        
+        <!-- TAB 1: KONTROL SESI -->
+        <div id="lecTabSessionsContent" class="space-y-4">
+          <div class="flex justify-between items-center p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <div>
+              <h4 class="font-extrabold text-white text-sm">Manajemen Buka/Tutup Sesi (14 Pertemuan)</h4>
+              <p class="text-slate-400 text-xs">Sesi 1 dan Sesi 14 berstatus terbuka sejak awal perkuliahan secara default.</p>
+            </div>
+            <div class="flex space-x-2">
+              <button onclick="bulkSetSessions(true)" class="px-3 py-1.5 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/40 font-bold text-xs">Buka Semua Sesi</button>
+              <button onclick="bulkSetSessions(false)" class="px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold text-xs">Kunci (Kecuali P1 & P14)</button>
+            </div>
+          </div>
+          <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950">
+            <table class="w-full text-left text-[11px]">
+              <thead class="bg-slate-900 font-bold text-slate-300 border-b border-slate-800">
+                <tr>
+                  <th class="p-3 w-14 text-center">Sesi</th>
+                  <th class="p-3">Materi Silabus</th>
+                  <th class="p-3 w-32 text-center">Status Akses</th>
+                  <th class="p-3 w-40 text-right">Tindakan</th>
+                </tr>
+              </thead>
+              <tbody id="lecSessionsTableBody" class="divide-y divide-slate-800"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: SLIDE PRESENTASI PEMBAHASAN -->
+        <div id="lecTabSlidesContent" class="hidden space-y-5">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <div>
+              <h4 class="font-extrabold text-white text-sm flex items-center gap-2">
+                <i class="fa-solid fa-person-chalkboard text-teal-400"></i>
+                Slide Presentasi Pembahasan Teoretis RPS
+              </h4>
+              <p class="text-slate-400 text-xs">Pilih sesi untuk menayangkan pembahasan rinci 4 slide dekomposisi kasus.</p>
+            </div>
+            <div class="flex items-center space-x-2 w-full sm:w-auto">
+              <span class="text-slate-400 font-bold whitespace-nowrap">Pilih Sesi:</span>
+              <select id="lecSlideSessionSelect" onchange="loadSlideSession(this.value)" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-teal-300 font-bold focus:outline-none focus:border-teal-500">
+              </select>
+            </div>
+          </div>
+
+          <div id="lecSlideViewerWrapper" class="rounded-3xl border border-slate-700 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 p-6 sm:p-8 shadow-2xl relative min-h-[420px] flex flex-col justify-between">
+            <div id="lecSlideContentBody"></div>
+
+            <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between">
+              <button onclick="navigateSlideStep(-1)" id="btnSlidePrev" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs flex items-center space-x-2 transition">
+                <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                <span>Slide Sebelumnya</span>
+              </button>
+              
+              <div class="flex items-center space-x-2">
+                <span id="slideIndicatorBadge" class="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono font-bold text-xs">
+                  Slide 1 / 4
+                </span>
+              </div>
+
+              <button onclick="navigateSlideStep(1)" id="btnSlideNext" class="px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs flex items-center space-x-2 transition shadow-md shadow-teal-500/20">
+                <span>Slide Berikutnya</span>
+                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: REKAPITULASI & PENCARIAN NIM -->
+        <div id="lecTabStudentsContent" class="hidden space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 font-bold uppercase block">Total Mahasiswa Terdaftar</span>
+              <span id="lecStatTotalStudents" class="text-xl font-black text-teal-400 font-mono">0</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 font-bold uppercase block">Rata-rata Total Skor</span>
+              <span id="lecStatAvgScore" class="text-xl font-black text-indigo-400 font-mono">0 Pts</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 font-bold uppercase block">Rata-rata Lab Selesai</span>
+              <span id="lecStatAvgCompleted" class="text-xl font-black text-amber-400 font-mono">0 / 14</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-indigo-500/40 space-y-3">
+            <div class="flex items-center space-x-2 text-indigo-300 font-bold text-xs">
+              <i class="fa-solid fa-magnifying-glass text-teal-400"></i>
+              <span>Mesin Pencari Data Mahasiswa Berbasis NIM</span>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <div class="relative flex-1">
+                <input type="text" id="lecSearchNIMInput" oninput="handleLecturerLiveSearchNIM()" placeholder="Ketikkan NIM Mahasiswa untuk mencari data seketika..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 font-mono">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+              </div>
+              <button onclick="handleLecturerLiveSearchNIM()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-filter"></i>
+                <span>Cari Cepat</span>
+              </button>
+            </div>
+            <div id="lecNIMQuickSearchResultCard" class="hidden p-4 rounded-xl bg-slate-900 border border-slate-700 text-xs space-y-2"></div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
+            <div class="flex items-center space-x-2 w-full sm:w-auto">
+              <span class="text-slate-400 font-bold">Saring Kelas:</span>
+              <select id="lecStudentsClassFilter" onchange="renderLecturerStudentsTable()" class="bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1 text-xs text-white">
+                <option value="ALL">Semua Kelas</option>
+              </select>
+            </div>
+            <button onclick="exportClassGradesToCSV()" class="px-3.5 py-1.5 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 border border-teal-500/40 font-bold text-xs flex items-center space-x-1.5">
+              <i class="fa-solid fa-file-excel"></i>
+              <span>Ekspor Rekap CSV</span>
+            </button>
+          </div>
+
+          <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950">
+            <table class="w-full text-left text-[11px]">
+              <thead class="bg-slate-900 font-bold text-slate-300 border-b border-slate-800">
+                <tr>
+                  <th class="p-3 w-28">NIM</th>
+                  <th class="p-3">Nama Mahasiswa</th>
+                  <th class="p-3">Kelas</th>
+                  <th class="p-3 text-center">PIN</th>
+                  <th class="p-3 text-center">Total Skor</th>
+                  <th class="p-3 text-center">Lab Tuntas</th>
+                  <th class="p-3 text-center">Status Kelulusan Teori</th>
+                </tr>
+              </thead>
+              <tbody id="lecStudentsTableBody" class="divide-y divide-slate-800"></tbody>
+            </table>
+            <div id="lecStudentsEmptyBox" class="hidden p-6 text-center text-slate-500 text-xs">Tidak ada data mahasiswa yang cocok dengan pencarian NIM.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="px-6 py-3.5 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-xs text-slate-400 flex-shrink-0">
+        <span>Pengembang Platform: <strong class="text-slate-200">Sukma Lesmana, Ph.D</strong></span>
+        <button onclick="closeLecturerConsole()" class="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition">Tutup Konsol</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalCustomConfirm" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="w-full max-w-sm bg-slate-900 border border-slate-700 rounded-3xl p-5 space-y-4 shadow-2xl text-center">
+      <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto text-xl">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <div class="space-y-1">
+        <h4 id="confirmDialogTitle" class="text-sm font-extrabold text-white">Konfirmasi Tindakan</h4>
+        <p id="confirmDialogMessage" class="text-xs text-slate-300 leading-relaxed">Apakah Anda yakin?</p>
+      </div>
+      <div class="flex items-center justify-center gap-2 pt-2">
+        <button onclick="closeConfirmModal(false)" class="w-1/2 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition">Batal</button>
+        <button onclick="closeConfirmModal(true)" class="w-1/2 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-black transition">Lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- APPLICATION ENGINE & FIREBASE SYNC SCRIPT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyArYN7_RsE4piEE4XxvTvfezUwOuXVIOJI",
+      authDomain: "behavecounting.firebaseapp.com",
+      databaseURL: "https://behavecounting-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "behavecounting",
+      storageBucket: "behavecounting.firebasestorage.app",
+      messagingSenderId: "349540407744",
+      appId: "1:349540407744:web:849a39621b8c4589721025"
+    };
+
+    let db = null;
+    let auth = null;
+    let isCloudOnline = false;
+
+    try {
+      const app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      signInAnonymously(auth).then(() => {
+        isCloudOnline = true;
+        initCloudSync();
+      }).catch(err => console.warn("Firebase Auth fallback local:", err));
+    } catch (e) { console.warn("Firebase fallback:", e); }
+
+    function initCloudSync() {
+      if (!db) return;
+      onSnapshot(collection(db, "behave_students"), (snapshot) => {
+        const cloudStudents = [];
+        snapshot.forEach(docSnap => cloudStudents.push(docSnap.data()));
+        if (cloudStudents.length > 0) {
+          saveRegisteredStudents(cloudStudents, false);
+          renderLandingLeaderboard();
+          if (appState.isLoggedIn && appState.userType === 'student') {
+            const cur = cloudStudents.find(s => String(s.nim).trim() === String(appState.activeStudent.nim).trim());
+            if (cur) { appState.activeStudent = cur; renderStudentPortal(); }
+          }
+        }
+      }, err => console.warn(err));
+
+      onSnapshot(collection(db, "behave_controls"), (snapshot) => {
+        const ctrls = {};
+        snapshot.forEach(docSnap => { ctrls[docSnap.id] = docSnap.data(); });
+        if (Object.keys(ctrls).length > 0) {
+          saveSessionControls(ctrls, false);
+          renderLecturerSessions();
+          if (appState.isLoggedIn && appState.userType === 'student') renderStudentPortal();
+        }
+      }, err => console.warn(err));
+    }
+
+    async function syncStudentToCloud(student) {
+      if (db && isCloudOnline && student?.nim) {
+        try { await setDoc(doc(db, "behave_students", String(student.nim).trim()), student, { merge: true }); }
+        catch (e) { console.warn("Sync student failed:", e); }
+      }
+    }
+    async function syncControlToCloud(sNum, ctrl) {
+      if (db && isCloudOnline) {
+        try { await setDoc(doc(db, "behave_controls", String(sNum)), ctrl, { merge: true }); }
+        catch (e) { console.warn("Sync control failed:", e); }
+      }
+    }
+
+    /* STORAGE & STATE */
+    const memoryStorage = {};
+    const safeStorage = {
+      getItem: (k) => { try { return localStorage.getItem(k); } catch (e) { return memoryStorage[k] || null; } },
+      setItem: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { memoryStorage[k] = String(v); } }
+    };
+
+    let isAudioMuted = safeStorage.getItem("behave_audio_muted") === "true";
+
+    function showToast(message, type = "info") {
+      const container = document.getElementById("toastContainer");
+      if (!container) return;
+      const toast = document.createElement("div");
+      toast.className = `p-3.5 rounded-2xl text-xs font-bold text-white shadow-2xl transition-all duration-300 transform translate-y-3 opacity-0 flex items-center space-x-2.5 pointer-events-auto border ${
+        type === 'success' ? 'bg-teal-950/90 border-teal-500 text-teal-200' :
+        type === 'error' ? 'bg-rose-950/90 border-rose-500 text-rose-200' :
+        type === 'warning' ? 'bg-amber-950/90 border-amber-500 text-amber-200' : 'bg-slate-900/90 border-slate-700 text-slate-200'
+      }`;
+      const icon = type === 'success' ? 'fa-circle-check text-teal-400' :
+                   type === 'error' ? 'fa-circle-xmark text-rose-400' :
+                   type === 'warning' ? 'fa-triangle-exclamation text-amber-400' : 'fa-circle-info text-indigo-400';
+      toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
+      container.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.remove("translate-y-3", "opacity-0"));
+      setTimeout(() => {
+        toast.classList.add("opacity-0", "translate-y-2");
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    let confirmCallback = null;
+    function openConfirmModal(title, message, callback) {
+      document.getElementById("confirmDialogTitle").innerText = title;
+      document.getElementById("confirmDialogMessage").innerText = message;
+      confirmCallback = callback;
+      document.getElementById("modalCustomConfirm").classList.remove("hidden");
+    }
+    function closeConfirmModal(accepted) {
+      document.getElementById("modalCustomConfirm").classList.add("hidden");
+      if (confirmCallback) { confirmCallback(accepted); confirmCallback = null; }
+    }
+
+    /* 14 SESI RPS LENGKAP - SESUAI SILABUS DAN SESI 14 SEBAGAI PROJECT BASED LEARNING ESAI */
+    const CURRICULUM_MEETINGS = [
+      {
+        session: 1,
+        title_id: "Pengantar & Rasionalitas Terbatas",
+        phase_id: "Fase Fondasi Teori",
+        is_pjbl: false,
+        theory_summary_id: "Bounded Rationality (Herbert Simon, 1957) & Heuristik Kognitif",
+        theory_id: "<p>Herbert Simon (1957) membantah asumsi rasionalitas ekonomi mutlak. Pengambil keputusan dibatasi komputasi kognitif dan tekanan waktu, menghasilkan tindakan <em>satisficing</em> yang rentan bias heuristik.</p>",
+        required_keywords: ["bounded rationality", "rasionalitas terbatas", "satisficing", "heuristik", "availability bias", "kognitif", "estimasi", "waktu"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi C (Eskalasi Formal Permintaan Waktu Rekonsiliasi)",
+        theoretical_defense: "Mencegah bias ketersediaan dan satisficing suboptimal melalui prosedur verifikasi data terstruktur.",
+        cognitive_trap: "Availability Heuristic Trap (menggunakan data instan masa lalu tanpa pengujian empiris).",
+        narrative_id: "Anda menjabat asisten manajer keuangan di PT Sentosa. Di bawah tekanan tenggat waktu audit yang tinggal 4 jam, Anda diminta menentukan estimasi penyusutan dan cadangan piutang ragu-ragu atas lini produksi baru.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Heuristik Cepat): Memakai angka persentase tahun lalu tanpa rekonsiliasi demi mengejar batas waktu.", consequence_id: "Laporan rampung cepat, namun audit menemukan distorsi depresiasi 18%. Mengindikasikan Availability Bias.", metrics: { ethic: -15, skeptic: -20, slack: -5, risk: -15 } },
+          { id: "opt_b", label_id: "Opsi B (Satisficing Parsial): Menguji sampel 10% acak tanpa memperhatikan stratifikasi materialitas saldo.", consequence_id: "Risiko salah saji material tetap terbuka akibat jalan pintas komputasi.", metrics: { ethic: -5, skeptic: -5, slack: 0, risk: -5 } },
+          { id: "opt_c", label_id: "Opsi C (Mitigasi Rasionalitas Terbatas): Mengajukan eskalasi resmi perpanjangan waktu 24 jam dengan kertas kerja rekonsiliasi.", consequence_id: "Keandalan laporan terjaga 100% dan terhindar dari bias estimasi kognitif.", metrics: { ethic: 15, skeptic: 20, slack: 5, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Delegasi Tanpa Supervisi): Melimpahkan estimasi kepada staf magang tanpa supervisi standar.", consequence_id: "Melanggar prinsip due care dan memperparah kekeliruan perhitungan aset.", metrics: { ethic: -20, skeptic: -15, slack: -10, risk: -20 } }
+        ]
+      },
+      {
+        session: 2,
+        title_id: "Disonansi Kognitif & Etika Keuangan",
+        phase_id: "Fase Sikap & Nilai",
+        is_pjbl: false,
+        theory_summary_id: "Cognitive Dissonance Theory (Festinger, 1957) & Moral Sensitivity (Rest, 1986)",
+        theory_id: "<p>Disonansi kognitif timbul ketika tekanan manajerial bertentangan dengan standar etika profesional. Kepatuhan buta pada figur otoritas melumpuhkan kepekaan moral akuntan.</p>",
+        required_keywords: ["disonansi", "cognitive dissonance", "nilai personal", "etika", "kapitalisasi", "psak", "kepatuhan", "sensitivitas moral"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi C (Advokasi Teknis Standar PSAK ke Komite Audit)",
+        theoretical_defense: "Mengatasi ketegangan disonansi moral melalui tindakan penegakan standar kepatuhan regulasi akuntansi.",
+        cognitive_trap: "Obedience to Authority Trap (merasionalisasi manipulasi kapitalisasi beban demi perintah atasan).",
+        narrative_id: "Direktur Keuangan menginstruksikan Anda mengkapitalisasi beban perbaikan rutin mesin sebesar Rp 800 Juta menjadi aset tetap agar laba kuartal berjalan tetap memenuhi target analis pasar modal.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Kepatuhan Pasif): Menyetujui kapitalisasi dan merasionalisasi bahwa tanggung jawab berada di tangan direktur.", consequence_id: "Memicu disonansi moral berat dan melanggar prinsip keandalan PSAK 16.", metrics: { ethic: -20, skeptic: -15, slack: -10, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Kompromi Parsial): Mengkapitalisasi 50% biaya dan mencatat sisanya sebagai beban operasional.", consequence_id: "Manipulasi tetap terjadi dan membuktikan kompromi integritas tanpa dasar akuntansi valid.", metrics: { ethic: -10, skeptic: -10, slack: -5, risk: -15 } },
+          { id: "opt_c", label_id: "Opsi C (Advokasi Standar Teknis): Menyusun memo kepatuhan resmi mengacu kriteria PSAK dan meminta telaah Komite Audit.", consequence_id: "Menyelamatkan laporan keuangan perusahaan dari potensi restatement dan menegakkan integritas fidusia.", metrics: { ethic: 20, skeptic: 20, slack: 10, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Menghindar): Mengajukan cuti mendadak agar staf lain yang menandatangani jurnal pemindahbukuan.", consequence_id: "Perilaku menghindar merusak akuntabilitas kepemimpinan profesional.", metrics: { ethic: -15, skeptic: -15, slack: -5, risk: -10 } }
+        ]
+      },
+      {
+        session: 3,
+        title_id: "Teori Penentuan Diri & Sistem Kompensasi",
+        phase_id: "Fase Motivasi Manajerial",
+        is_pjbl: false,
+        theory_summary_id: "Self-Determination Theory (Deci & Ryan, 2000) & Crowding-Out Effect",
+        theory_id: "<p>Insentif ekstrinsik moneter yang dirancang terlalu agresif dapat mengikis motivasi intrinsik (<em>crowding-out effect</em>), memicu perilaku manipulasi metrik laba jangka pendek.</p>",
+        required_keywords: ["self-determination", "penentuan diri", "intrinsik", "ekstrinsik", "crowding-out", "kompensasi", "balanced scorecard", "motivasi"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi C (Desain Skema Multi-Indikator Balanced Scorecard)",
+        theoretical_defense: "Mendorong motivasi intrinsik berkelanjutan dan menghindarkan manajer dari godaan mengorbankan kualitas demi bonus kas.",
+        cognitive_trap: "Extrinsic Myopia (fokus berlebihan pada reward moneter jangka pendek yang merusak integritas sistem).",
+        narrative_id: "Manajemen menerapkan sistem bonus kas agresif berbasis laba bulanan. Rekan manajer memangkas program pelatihan staf dan keselamatan kerja demi bonus pribadi.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Ikut Memotong Biaya): Menunda anggaran keselamatan kerja demi bonus divisi maksimal.", consequence_id: "Bonus bulanan tercapai namun risiko kecelakaan kerja meningkat tajam.", metrics: { ethic: -20, skeptic: -10, slack: -20, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Menunggu Audit): Membiarkan praktik rekan kerja tanpa memberikan masukan alternatif.", consequence_id: "Budaya organisasi memburuk akibat erosi motivasi intrinsik keselamatan kerja.", metrics: { ethic: -10, skeptic: -5, slack: -10, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Skema Insentif Berimbang): Mengusulkan metrik Balanced Scorecard mencakup keselamatan kerja dan loyalitas staf.", consequence_id: "Menciptakan keselarasan motivasi intrinsik dan kinerja jangka panjang.", metrics: { ethic: 20, skeptic: 15, slack: 15, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Memindahkan Pos Beban): Membebankan biaya keselamatan kerja ke divisi lain secara sepihak.", consequence_id: "Pelanggaran alokasi akuntansi biaya dan merusak hubungan antardepartemen.", metrics: { ethic: -25, skeptic: -20, slack: -15, risk: -25 } }
+        ]
+      },
+      {
+        session: 4,
+        title_id: "Asimetri Informasi & Agency Theory",
+        phase_id: "Fase Tata Hubungan Agensi",
+        is_pjbl: false,
+        theory_summary_id: "Agency Theory (Jensen & Meckling, 1976) & Goal Congruence",
+        theory_id: "<p>Prinsipal dan agen memiliki utilitas yang berbeda. Manajer operasional memanfaatkan keunggulan informasi lokal untuk memaksimalkan kepentingan sendiri (<em>moral hazard</em>).</p>",
+        required_keywords: ["asimetri informasi", "agency theory", "teori agensi", "prinsipal", "agen", "moral hazard", "goal congruence", "transparansi"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi C (Penyelarasan Kontrak Informasi & Audit Operasional Independen)",
+        theoretical_defense: "Mengurangi agency costs dan asimetri informasi melalui mekanisme pengawasan transparan dan kontrak insentif selaras.",
+        cognitive_trap: "Moral Hazard Opportunism (memanfaatkan celah ketiadaan monitoring prinsipal).",
+        narrative_id: "Sebagai manajer cabang, Anda memiliki data bahwa kapasitas produksi sesungguhnya 20% lebih tinggi daripada yang dilaporkan ke kantor pusat. Anda tergoda menyembunyikan kapasitas ini.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Sembunyikan Kapasitas): Menyimpan cadangan kapasitas tanpa melapor untuk mencapai target santai.", consequence_id: "Terjadi moral hazard akut dan kerugian potensi pendapatan bagi prinsipal.", metrics: { ethic: -25, skeptic: -15, slack: -25, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Lapor Bertahap): Melaporkan kenaikan kapasitas 5% saja tiap semester.", consequence_id: "Asimetri informasi tetap dieksploitasi untuk kepentingan pribadi agen.", metrics: { ethic: -10, skeptic: -5, slack: -15, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Transparansi Penuh & Keselarasan Tujuan): Melaporkan kapasitas riil disertai usulan kontrak bonus efisiensi terukur.", consequence_id: "Mewujudkan goal congruence dan menekan agency costs perusahaan.", metrics: { ethic: 20, skeptic: 15, slack: 20, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Menjual Kapasitas Ilegal): Menggunakan kelebihan kapasitas untuk pesanan pihak luar secara rahasia.", consequence_id: "Tindak pidana penggelapan aset perusahaan dan pemecatan langsung.", metrics: { ethic: -30, skeptic: -25, slack: -25, risk: -30 } }
+        ]
+      },
+      {
+        session: 5,
+        title_id: "Penganggaran & Budgetary Slack",
+        phase_id: "Fase Perilaku Penganggaran",
+        is_pjbl: false,
+        theory_summary_id: "Budgetary Slack Theory (Dunk, 1993; Onsi, 1973) & Padding Bias",
+        theory_id: "<p>Tingginya penekanan anggaran (<em>budget emphasis</em>) mendorong manajer menciptakan bantalan biaya (<em>padding</em>) demi rasa aman personal dan jaminan pencapaian target.</p>",
+        required_keywords: ["budgetary slack", "senjangan anggaran", "padding", "penganggaran", "asimetri", "efisiensi", "fidusia", "target"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi C (Pengajuan Anggaran Riil & Cadangan Kontinjensi Transparan 5%)",
+        theoretical_defense: "Meniadakan budgetary slack tersembunyi dengan tetap mengakomodasi risiko operasional secara terbuka dan akuntabel.",
+        cognitive_trap: "Budget Cushion Trap (menggelembungkan biaya secara sistematis demi zona nyaman).",
+        narrative_id: "Estimasi biaya riil divisi Anda adalah Rp 500 Juta. Direksi tidak memiliki rincian teknis vendor lokal dan memberikan Anda wewenang penuh menetapkan angka pagu.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Padding Ekstrem): Mengajukan pagu Rp 750 Juta (Slack 50%) agar pencapaian target sangat mudah.", consequence_id: "Menimbulkan pemborosan alokasi modal pemegang saham dan inefisiensi berat.", metrics: { ethic: -25, skeptic: -15, slack: -30, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Slack Moderat): Mengajukan Rp 625 Juta (Slack 25%) sebagai bantalan aman pribadi.", consequence_id: "Bantalan tersembunyi merugikan likuiditas divisi lain yang membutuhkan modal.", metrics: { ethic: -10, skeptic: -5, slack: -15, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Anggaran Riil + Kontinjensi Terbuka): Mengajukan Rp 500 Juta dengan cadangan risiko transparan 5% berbasis persetujuan.", consequence_id: "Menjaga kejujuran anggaran dan integritas alokasi sumber daya perusahaan.", metrics: { ethic: 20, skeptic: 15, slack: 20, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Underbudgeting Palsu): Mengajukan Rp 450 Juta di bawah estimasi wajar demi pujian direksi.", consequence_id: "Menyebabkan kemacetan operasional di tengah tahun karena anggaran tidak realistis.", metrics: { ethic: 5, skeptic: -15, slack: -10, risk: -20 } }
+        ]
+      },
+      {
+        session: 6,
+        title_id: "Penilaian Kinerja & Motivasi",
+        phase_id: "Fase Evaluasi Strategis",
+        is_pjbl: false,
+        theory_summary_id: "Controllability Principle & Common Measures Bias (Lipe & Salterio, 2000)",
+        theory_id: "<p>Evaluasi kinerja sering kali terjebak pada metrik keuangan bersama (<em>common measures bias</em>) dan menghukum manajer atas faktor eksternal tak terkendali (<em>outcome bias</em>).</p>",
+        required_keywords: ["penilaian kinerja", "motivasi", "controllability", "common measures", "outcome bias", "balanced scorecard", "evaluasi"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Dekomposisi Kinerja Terkendali & Apresiasi Metrik Strategis)",
+        theoretical_defense: "Menerapkan controllability principle agar evaluasi memotivasi manajer berkinerja unggul tanpa terdemotivasi oleh guncangan makro.",
+        cognitive_trap: "Outcome Bias (menilai kualitas manajer hanya dari angka laba akhir tanpa menganalisis faktor proses kerja).",
+        narrative_id: "Divisi A gagal memenuhi target laba bersih akibat lonjakan inflasi dan kurs valas global, namun kepuasan pelanggan dan efisiensi energi mencapai rekor 98%.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Hukum Finansial Mutlak): Memberikan predikat kinerja buruk semata karena laba finansial merah.", consequence_id: "Terjebak outcome bias; talenta terbaik demotivasi dan mengundurkan diri.", metrics: { ethic: -15, skeptic: -15, slack: -5, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Manipulasi Nilai): Mengubah bobot indikator secara diam-diam agar divisi tetap tampak hijau.", consequence_id: "Melanggar objektivitas audit pengukuran kinerja.", metrics: { ethic: -15, skeptic: -10, slack: -5, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Abaikan Metrik Finansial): Menghilangkan perspektif keuangan dari evaluasi tahunan.", consequence_id: "Menghilangkan akuntabilitas terhadap pengembalian investasi pemegang saham.", metrics: { ethic: 0, skeptic: -10, slack: 5, risk: -10 } },
+          { id: "opt_d", label_id: "Opsi D (Dekomposisi Kinerja Terkendali): Mengisolasi dampak kurs tak terkendali dan mengapresiasi pencapaian efisiensi non-keuangan.", consequence_id: "Menegakkan prinsip keterkendalian (controllability principle) dan mempertahankan loyalitas staf.", metrics: { ethic: 20, skeptic: 20, slack: 15, risk: 15 } }
+        ]
+      },
+      {
+        session: 7,
+        title_id: "Bias Kognitif & Heuristik",
+        phase_id: "Fase Keputusan Keuangan",
+        is_pjbl: false,
+        theory_summary_id: "Prospect Theory (Kahneman & Tversky, 1979) & Anchoring Heuristic",
+        theory_id: "<p>Pengambil keputusan bersikap *risk-averse* pada bingkai keuntungan (*gain frame*), namun bersikap *risk-seeking* spekulatif pada bingkai kerugian (*loss frame*) akibat *loss aversion*.</p>",
+        required_keywords: ["bias kognitif", "heuristik", "prospect theory", "framing", "loss aversion", "anchoring", "risk seeking", "risk averse"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Normalisasi Nilai Harapan / Expected Value Matematis)",
+        theoretical_defense: "Mendekonstruksi pembingkaian linguistik proposal menjadi matriks probabilitas objektif bebas bias psikologis.",
+        cognitive_trap: "Loss Aversion Trap (mengambil judi spekulatif berisiko tinggi hanya demi menghindari pencatatan rugi pasti).",
+        narrative_id: "Proyek pabrik bernilai Rp 50 Miliar macet. Konsultan menyajikan dua proposal yang dibingkai sebagai 'Penyelamatan Modal Pasti' versus 'Peluang Menghindari Kerugian Total'.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Judi Spekulatif Loss Frame): Memilih opsi judi 50/50 demi menghindari pencatatan rugi buku.", consequence_id: "Terjebak loss aversion; perusahaan berisiko pailit total jika judi gagal.", metrics: { ethic: -15, skeptic: -20, slack: -10, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Anchoring Angka Konsultan): Langsung menyetujui rekomendasi angka pertama konsultan.", consequence_id: "Menunjukkan kegagalan penyesuaian kognitif terhadap estimasi independen.", metrics: { ethic: -5, skeptic: -15, slack: 0, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Tunda Keputusan): Membiarkan proyek mengambang tanpa restrukturisasi.", consequence_id: "Biaya hangus membengkak setiap bulan tanpa penyelesaian.", metrics: { ethic: -10, skeptic: -10, slack: -5, risk: -15 } },
+          { id: "opt_d", label_id: "Opsi D (Normalisasi Expected Value): Menghitung nilai harapan matematis independen bebas dari bias framing konsultan.", consequence_id: "Mengambil keputusan modal rasional berdasarkan nilai bersih terbobot risiko.", metrics: { ethic: 20, skeptic: 20, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 8,
+        title_id: "Pertimbangan Audit",
+        phase_id: "Fase Skeptisisme & Bukti",
+        is_pjbl: false,
+        theory_summary_id: "Professional Skepticism (Hurtt, 2010) & Audit Quality Reduction",
+        theory_id: "<p>Tekanan anggaran waktu audit (<em>time budget pressure</em>) memicu perilaku disfungsional penghentian prosedur audit secara prematur (<em>premature sign-off</em>).</p>",
+        required_keywords: ["pertimbangan audit", "audit judgment", "skeptisisme", "premature sign-off", "tekanan waktu", "bukti audit", "kertas kerja", "independensi"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Eskalasi Transparan Kendala Waktu & Stratifikasi Audit Berbasis Risiko)",
+        theoretical_defense: "Mempertahankan skeptisisme profesional tanpa kompromi integritas pengujian bukti fisik.",
+        cognitive_trap: "Premature Sign-Off (menandatangani kertas kerja pemeriksaan tanpa memeriksa bukti fisik riil).",
+        narrative_id: "Sisa waktu audit hanya 2 jam, namun 300 sampel faktur piutang bernilai tinggi belum diverifikasi dokumen fisiknya. Senior auditor menuntut pekerjaan selesai malam ini.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Premature Sign-Off): Menandatangani kertas kerja sampel tanpa mencocokkan faktur fisik.", consequence_id: "Pelanggaran fatal SPAP/ISA; faktur fiktif lolos dan kantor akuntan terancam tuntutan hukum.", metrics: { ethic: -25, skeptic: -25, slack: -5, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Palsukan Tanggal): Mengubah tanggal kertas kerja seolah-olah diverifikasi minggu depan.", consequence_id: "Tindakan manipulasi administratif yang melanggar kode etik integritas.", metrics: { ethic: -20, skeptic: -15, slack: -5, risk: -15 } },
+          { id: "opt_c", label_id: "Opsi C (Periksa 5 Sampel Acak): Hanya memeriksa 5 sampel dan menganggap sisanya benar.", consequence_id: "Ukuran sampel tidak memadai untuk mendeteksi risiko salah saji material.", metrics: { ethic: -10, skeptic: -15, slack: 0, risk: -15 } },
+          { id: "opt_d", label_id: "Opsi D (Eskalasi Risiko & Tambahan Jam Audit): Melaporkan kendala ke partner audit untuk menambah jam uji substantif.", consequence_id: "Menjaga skeptisisme profesional dan keandalan opini audit independen.", metrics: { ethic: 20, skeptic: 25, slack: 10, risk: 20 } }
+        ]
+      },
+      {
+        session: 9,
+        title_id: "Keputusan Investasi & Valuasi",
+        phase_id: "Fase Eskalasi & Sunk Cost",
+        is_pjbl: false,
+        theory_summary_id: "Escalation of Commitment & Sunk Cost Fallacy (Barry Staw, 1976)",
+        theory_id: "<p>Manajer cenderung mengucurkan dana tambahan pada proyek gagal demi mempertahankan reputasi masa lalu (*self-justification*) alih-alih mengabaikan biaya tertanam (*sunk cost*).</p>",
+        required_keywords: ["keputusan investasi", "valuasi", "sunk cost", "eskalasi komitmen", "self-justification", "cut loss", "npv", "arus kas"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Audit Independen & Penghentian Proyek / Cut-Loss Berbasis NPV Prospektif)",
+        theoretical_defense: "Memisahkan biaya historis hangus dari analisis arus kas masa depan demi menjaga solvabilitas korporasi.",
+        cognitive_trap: "Sunk Cost Trap (terjebak pembenaran diri untuk menyelamatkan modal masa lalu yang tak dapat dipulihkan).",
+        narrative_id: "Proyek software digital yang Anda inisiasi telah menghabiskan Rp 10 Miliar namun terbukti gagal secara arsitektur sistem. Tim meminta suntikan Rp 4 Miliar lagi.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Suntik Dana Tambahan): Mengucurkan Rp 4 Miliar lagi demi menyelamatkan gengsi keputusan awal Anda.", consequence_id: "Terjebak eskalasi komitmen; modal baru kembali hangus tanpa perbaikan performa.", metrics: { ethic: -15, skeptic: -20, slack: -15, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Sembunyikan Kegagalan): Menutupi laporan kendala software agar tidak ditegur dewan komisaris.", consequence_id: "Informasi menyesatkan pemegang saham dan menumpuk liabilitas tersembunyi.", metrics: { ethic: -25, skeptic: -20, slack: -10, risk: -25 } },
+          { id: "opt_c", label_id: "Opsi C (Pindahkan Proyek): Mengalihkan proyek ke divisi lain tanpa menyelesaikan akar masalah.", consequence_id: "Memindahkan beban inefisiensi kepada kolega manajer lain.", metrics: { ethic: -10, skeptic: -10, slack: -5, risk: -15 } },
+          { id: "opt_d", label_id: "Opsi D (Hentikan Proyek & Cut-Loss): Menghentikan pendanaan secara rasional berdasarkan analisis NPV prospektif negatif.", consequence_id: "Menyelamatkan sisa likuiditas korporasi dari jebakan biaya tertanam.", metrics: { ethic: 20, skeptic: 20, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 10,
+        title_id: "Kecurangan Laporan Keuangan",
+        phase_id: "Fase Fraud & Rasionalisasi",
+        is_pjbl: false,
+        theory_summary_id: "Fraud Triangle (Cressey, 1953) & Moral Disengagement (Bandura, 1999)",
+        theory_id: "<p>Kecurangan finansial memerlukan konvergensi tekanan, peluang, dan rasionalisasi moral. Pelaku menonaktifkan kontrol moral dengan eufemisme 'hanya pinjaman sementara'.</p>",
+        required_keywords: ["kecurangan", "fraud", "fraud triangle", "rasionalisasi", "moral disengagement", "pengendalian intern", "tekanan", "peluang"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Tegakkan Opname Kas & Bantuan Dana Kesejahteraan Formal)",
+        theoretical_defense: "Menghilangkan peluang dan rasionalisasi moral melalui kepatuhan SOP kontrol intern tanpa mengabaikan saluran legal.",
+        cognitive_trap: "Moral Rationalization Trap (membenarkan pelanggaran kas kecil atas dasar empati emosional personal).",
+        narrative_id: "Kasir senior tertangkap tangan meminjam uang kas kecil Rp 15 Juta tanpa pencatatan untuk biaya operasi keluarga, berniat mengembalikannya saat gajian bulan depan.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Tutup Mata Karena Empati): Membiarkan selisih kas tanpa dicatat karena kasir berjanji menggantinya.", consequence_id: "Melegalkan rasionalisasi fraud; selisih kas merembet ke departemen lain.", metrics: { ethic: -25, skeptic: -20, slack: -15, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Catat Beban Fiktif): Membuat faktur pengeluaran fiktif untuk menyeimbangkan saldo kas.", consequence_id: "Tindak pidana pemalsuan dokumen akuntansi yang menyeret Anda ke sanksi hukum.", metrics: { ethic: -30, skeptic: -25, slack: -20, risk: -30 } },
+          { id: "opt_c", label_id: "Opsi C (Sanksi Sepihak Tanpa Lapor): Meminta kasir mengembalikan uang dengan bunga pribadi.", consequence_id: "Penyalahgunaan wewenang manajerial dan pemerasan rekan kerja.", metrics: { ethic: -25, skeptic: -15, slack: -10, risk: -20 } },
+          { id: "opt_d", label_id: "Opsi D (Tegakkan Kontrol Kas & Solusi Formal): Menegakkan berita acara selisih kas dan memfasilitasi pinjaman darurat resmi koperasi.", consequence_id: "Menjaga integritas sistem pengendalian intern tanpa mengorbankan empati legal.", metrics: { ethic: 25, skeptic: 20, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 11,
+        title_id: "Whistleblowing & Etika Organisasi",
+        phase_id: "Fase Keberanian Moral",
+        is_pjbl: false,
+        theory_summary_id: "Theory of Planned Behavior (Ajzen, 1991) & Bystander Apathy",
+        theory_id: "<p>Niat melaporkan kecurangan ditentukan sikap moral dan kontrol perilaku. Ketakutan akan retaliasi dan difusi tanggung jawab (*bystander effect*) sering melumpuhkan akuntan.</p>",
+        required_keywords: ["whistleblowing", "etika organisasi", "bystander", "retaliasi", "keberanian moral", "planned behavior", "saluran pelaporan", "transparansi"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Pelaporan Terenkripsi Melalui Saluran Independen Eksternal)",
+        theoretical_defense: "Mewujudkan keberanian moral fidusia dengan proteksi bukti hukum resmi guna memitigasi retaliasi korporat.",
+        cognitive_trap: "Bystander Apathy (berdiam diri karena menganggap rekan kerja lain yang berwenang melapor).",
+        narrative_id: "Anda menemukan bukti transfer fiktif direksi sebesar Rp 20 Miliar ke rekening pribadi. Rekan kerja mengingatkan risiko pemecatan jika Anda melaporkan temuan tersebut.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Hapus Kertas Kerja): Memusnahkan bukti demi mengamankan jenjang karier dan pekerjaan Anda.", consequence_id: "Gagal menjalankan etika fidusia; Anda ikut terseret sebagai pihak yang bersekongkol.", metrics: { ethic: -30, skeptic: -25, slack: -15, risk: -30 } },
+          { id: "opt_b", label_id: "Opsi B (Bocorkan Anonim ke Media Sosial): Mengunggah dokumen rahasia ke media sosial tanpa verifikasi hukum.", consequence_id: "Melanggar kerahasiaan data dan terancam sanksi pencemaran nama baik.", metrics: { ethic: -15, skeptic: -15, slack: -5, risk: -25 } },
+          { id: "opt_c", label_id: "Opsi C (Gunakan Bukti untuk Negosiasi): Memakai bukti untuk meminta kenaikan jabatan ke direksi.", consequence_id: "Tindak pidana pemerasan yang menghancurkan masa depan profesional Anda.", metrics: { ethic: -35, skeptic: -20, slack: -20, risk: -35 } },
+          { id: "opt_d", label_id: "Opsi D (Whistleblowing Independen Resmi): Mengirim laporan ke saluran whistleblowing terenkripsi Komite Audit dan regulator.", consequence_id: "Menjunjung tinggi standar etika tertinggi profesi dan memicu perbaikan tata kelola.", metrics: { ethic: 30, skeptic: 25, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 12,
+        title_id: "AI, Otomasi & Dimensi Keperilakuan",
+        phase_id: "Fase Teknologi & Kognisi",
+        is_pjbl: false,
+        theory_summary_id: "Automation Bias vs Human-in-the-Loop Paradigm (Parasuraman, 2010)",
+        theory_id: "<p>Ketergantungan pasif pada komputasi algoritma otomatis (*automation bias*) menurunkan kewaspadaan kritis. Akuntan wajib menerapkan pendekatan *Human-in-the-Loop*.</p>",
+        required_keywords: ["ai", "otomasi", "automation bias", "human in the loop", "algoritma", "skeptisisme", "pertimbangan manusia", "validasi"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Pendekatan Human-in-the-Loop & Cross-Validasi Lapangan)",
+        theoretical_defense: "Menggabungkan kecepatan komputasi prediktif AI dengan skeptisisme kualitatif pertimbangan manusia.",
+        cognitive_trap: "Automation Bias (menyetujui rekomendasi mesin secara buta tanpa pembuktian independen).",
+        narrative_id: "Sistem AI audit merekomendasikan penghapusan piutang pelanggan B sebesar Rp 2 Miliar karena prediktor kredit merah. Anda mengetahui pelanggan B baru saja memenangkan proyek APBN besar.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Setujui Buta AI): Langsung menyetujui write-off piutang karena mempercayai AI 100%.", consequence_id: "Terkena Automation Bias; perusahaan kehilangan piutang bernilai tinggi yang sanggup bayar.", metrics: { ethic: -15, skeptic: -25, slack: -5, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Matikan Total AI): Menolak penggunaan teknologi otomatis dan kembali ke audit manual lambat.", consequence_id: "Menolak efisiensi teknologi dan menurunkan daya saing audit firma.", metrics: { ethic: -5, skeptic: -10, slack: 0, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Ubah Parameter Diam-diam): Memanipulasi parameter algoritma AI agar hasilnya sesuai kehendak Anda.", consequence_id: "Merusak tata kelola model AI dan mengaburkan jejak audit sistem.", metrics: { ethic: -15, skeptic: -15, slack: -5, risk: -15 } },
+          { id: "opt_d", label_id: "Opsi D (Human-in-the-Loop Cross-Validation): Menggunakan output AI sebagai peringatan awal namun menagih piutang berbasis bukti kontrak baru.", consequence_id: "Piutang tertagih penuh; membuktikan sinergi ideal kecerdasan buatan dan pertimbangan manusia.", metrics: { ethic: 20, skeptic: 25, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 13,
+        title_id: "Tata Kelola & Pengendalian Internal",
+        phase_id: "Fase Pengendalian & Budaya",
+        is_pjbl: false,
+        theory_summary_id: "Tone at the Top & COSO Internal Control Behavioral Dimensions",
+        theory_id: "<p>Pengendalian internal tidak sekadar prosedur teknis, melainkan atmosfer integritas kepemimpinan (*tone at the top*) yang membentuk kepatuhan perilaku di seluruh lini entitas.</p>",
+        required_keywords: ["tata kelola", "pengendalian internal", "tone at the top", "coso", "budaya organisasi", "integritas", "lingkungan pengendalian", "kepatuhan"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Restrukturisasi Lingkungan Pengendalian & Evaluasi Berbasis COSO)",
+        theoretical_defense: "Membangun tone at the top yang kredibel dan lingkungan pengendalian yang memperkuat perilaku etis kolektif.",
+        cognitive_trap: "Form-over-Substance Trap (menganggap sistem kontrol internal sudah berjalan hanya karena memiliki dokumen SOP di atas kertas).",
+        narrative_id: "Perusahaan memiliki buku SOP pengendalian internal lengkap, namun direktur operasional sering melanggar prosedur otorisasi pengadaan barang dengan dalih 'kondisi darurat bisnis'.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Normalisasi Pelanggaran): Mengizinkan pengecualian otorisasi berkelanjutan demi fleksibilitas direktur.", consequence_id: "Merusak tone at the top; staf lain mulai mengabaikan SOP pengadaan barang.", metrics: { ethic: -20, skeptic: -20, slack: -15, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Formalitas Kertas Kerja): Menandatangani persetujuan mundur seolah-olah otorisasi dilakukan tepat waktu.", consequence_id: "Memalsukan dokumen kepatuhan internal dan mengaburkan defisiensi kontrol.", metrics: { ethic: -25, skeptic: -20, slack: -10, risk: -20 } },
+          { id: "opt_c", label_id: "Opsi C (Teguran Tertutup Tanpa Sistem): Menegur direktur secara lisan tanpa mencatat defisiensi pengendalian.", consequence_id: "Tidak ada perbaikan sistemik; risiko kebocoran kas terus berulang.", metrics: { ethic: -5, skeptic: -10, slack: -5, risk: -10 } },
+          { id: "opt_d", label_id: "Opsi D (Restrukturisasi Lingkungan Pengendalian): Mencatat temuan material ke Komite Audit dan merevisi matriks wewenang darurat yang transparan.", consequence_id: "Menegakkan tone at the top yang kokoh dan menyelaraskan budaya kepatuhan organisasi.", metrics: { ethic: 25, skeptic: 20, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 14,
+        title_id: "Studi Kasus & Integrasi",
+        phase_id: "Project Based Learning (PjBL)",
+        is_pjbl: true, // FORMAT ESAI MINIMAL 250 KATA DENGAN DUKUNGAN TEORI
+        theory_summary_id: "Integrative Behavioral Governance, Agency Theory, Fraud Triangle & COSO Framework",
+        theory_id: "<p><strong>Project Based Learning (PjBL) Capstone:</strong> Mahasiswa menyusun esai analitis komprehensif (minimal 250 kata) berlandaskan referensi teori akuntansi keperilakuan guna merancang arsitektur tata kelola, memutus senjangan anggaran oportunistik, menghentikan eskalasi komitmen, serta membangun sistem pengendalian internal beretika.</p>",
+        required_keywords: ["bounded rationality", "agency theory", "teori agensi", "budgetary slack", "fraud triangle", "sunk cost", "coso", "tata kelola", "whistleblowing", "integritas", "fidusia", "balanced scorecard"],
+        min_keywords_needed: 4,
+        golden_option: "Blueprint Tata Kelola Keperilakuan Terpadu & Kerangka Kerja Holistik",
+        theoretical_defense: "Solusi PjBL yang valid mensyaratkan: (1) Penyelarasan Agency Theory melalui desain kompensasi Balanced Scorecard, (2) Mitigasi Budgetary Slack melalui partisipasi anggaran transparan, (3) Eliminasi rasionalisasi Fraud Triangle melalui lingkungan pengendalian COSO dan whistleblowing independen, serta (4) Protokol cut-loss independen berbasis NPV prospektif untuk memutus Sunk Cost Fallacy.",
+        cognitive_trap: "Analisis teknis dangkal (< 250 kata) tanpa rujukan teori akuntansi keperilakuan atau mengabaikan dimensi perilaku manusia dalam tata kelola.",
+        narrative_id: "TUGAS PROYEK INTEGRATIF (PjBL) - ESAI ANALITIS (MINIMAL 250 KATA):<br><br>PT Bahtera Nusantara mengalami krisis multidimensi: manipulasi laba oleh direksi (tekanan pasar modal), manajer divisi menciptakan senjangan anggaran (slack 40%), pembengkakan biaya sunk cost software ERP yang gagal (eskalasi komitmen), dan ketakutan staf untuk melapor (bystander effect).<br><br><strong>Instruksi PjBL:</strong> Tuliskan esai solusi komprehensif Anda (minimal 250 kata). Uraikan diagnosis masalah dan rancang blueprint tata kelola terpadu dengan mengintegrasikan minimal 4 teori akuntansi keperilakuan yang relevan (seperti Agency Theory, Fraud Triangle, COSO Framework, Bounded Rationality, atau Sunk Cost Theory).",
+        options: [] // Tidak menggunakan pilihan ganda
+      }
+    ];
+
+    let appState = {
+      isLoggedIn: false,
+      userType: null,
+      activeStudent: null,
+      activeSessionNum: 1,
+      currentWorkspaceMeeting: null,
+      tempChoices: {},
+      radarChartInstance: null,
+      activeDiscussSession: 1,
+      activeDiscussStep: 0
+    };
+
+    function getSessionControls() {
+      const stored = safeStorage.getItem("behave_ctrls_v8");
+      if (stored) { try { return JSON.parse(stored); } catch (e) {} }
+      const init = {};
+      CURRICULUM_MEETINGS.forEach(m => {
+        init[m.session] = {
+          session: m.session,
+          isOpen: (m.session === 1 || m.session === 14)
+        };
+      });
+      return init;
+    }
+    function saveSessionControls(ctrls, sync = true) {
+      safeStorage.setItem("behave_ctrls_v8", JSON.stringify(ctrls));
+      if (sync) Object.keys(ctrls).forEach(k => syncControlToCloud(k, ctrls[k]));
+    }
+    function getSessionControl(s) {
+      return getSessionControls()[s] || { session: s, isOpen: (s === 1 || s === 14) };
+    }
+
+    function getRegisteredStudents() {
+      const stored = safeStorage.getItem("behave_students_v8");
+      if (stored) { try { return JSON.parse(stored); } catch (e) {} }
+      return [];
+    }
+    function saveRegisteredStudents(students, sync = true) {
+      safeStorage.setItem("behave_students_v8", JSON.stringify(students));
+      renderLandingLeaderboard();
+      updateLiveUserCount();
+    }
+    function getStudentByNIM(nim) {
+      return getRegisteredStudents().find(s => String(s.nim).trim() === String(nim).trim()) || null;
+    }
+    function updateStudentInRegistry(st) {
+      const list = getRegisteredStudents();
+      const idx = list.findIndex(s => String(s.nim).trim() === String(st.nim).trim());
+      if (idx !== -1) list[idx] = st; else list.push(st);
+      saveRegisteredStudents(list);
+      syncStudentToCloud(st);
+    }
+
+    // Perhitungan Total Skor (Sesi 14 hanya diperhitungkan jika Sesi 13 sudah tuntas)
+    function calculateTotalScore(st) {
+      if (!st) return 0;
+      const completed = st.completedSessions || {};
+      const isSession13Done = !!completed[13];
+      let passedCount = 0;
+
+      Object.keys(completed).forEach(sNum => {
+        const item = completed[sNum];
+        // Aturan: Sesi 14 ditunda publikasi kelulusan & skornya hingga Sesi 13 tuntas
+        if (parseInt(sNum) === 14 && !isSession13Done) {
+          return;
+        }
+        if (item.statusGrade === "LULUS") passedCount += 1;
+        else if (item.statusGrade === "LULUS BERSYARAT") passedCount += 0.5;
+      });
+
+      const progress = Math.round((passedCount / 14) * 600);
+      const m = st.metrics || { ethic: 50, skeptic: 50, slack: 50, risk: 50 };
+      const avg = (m.ethic + m.skeptic + m.slack + m.risk) / 4;
+      return progress + Math.round(avg * 4);
+    }
+
+    function renderLandingLeaderboard() {
+      const tbody = document.getElementById("leaderboardTableBody");
+      const empty = document.getElementById("leaderboardEmptyState");
+      const filter = document.getElementById("leaderboardClassFilter");
+      if (!tbody) return;
+
+      const list = getRegisteredStudents();
+      const curFilter = filter ? filter.value : "ALL";
+
+      if (filter) {
+        const classes = [...new Set(list.map(s => (s.kelas || "").trim()).filter(Boolean))].sort();
+        filter.innerHTML = `<option value="ALL">Semua Kelas</option>`;
+        classes.forEach(c => {
+          const opt = document.createElement("option");
+          opt.value = c; opt.innerText = c;
+          if (c === curFilter) opt.selected = true;
+          filter.appendChild(opt);
+        });
+      }
+
+      let filtered = list.map(s => {
+        const completed = s.completedSessions || {};
+        const is13Done = !!completed[13];
+        let passed = 0, conditionallyPassed = 0, failed = 0;
+
+        Object.keys(completed).forEach(sNum => {
+          const item = completed[sNum];
+          if (parseInt(sNum) === 14 && !is13Done) return; // Pending
+          if (item.statusGrade === "LULUS") passed++;
+          else if (item.statusGrade === "LULUS BERSYARAT") conditionallyPassed++;
+          else failed++;
+        });
+
+        return {
+          ...s,
+          totalScore: calculateTotalScore(s),
+          totalCompleted: Object.keys(completed).length,
+          passed, conditionallyPassed, failed
+        };
+      });
+
+      if (curFilter !== "ALL") filtered = filtered.filter(s => String(s.kelas).trim() === curFilter);
+      filtered.sort((a, b) => b.totalScore - a.totalScore);
+
+      tbody.innerHTML = "";
+      if (filtered.length === 0) {
+        if (empty) empty.classList.remove("hidden");
+        return;
+      }
+      if (empty) empty.classList.add("hidden");
+
+      filtered.forEach((st, idx) => {
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-slate-800/40 transition-colors";
+        tr.innerHTML = `
+          <td class="p-3.5 text-center font-bold text-slate-400">#${idx + 1}</td>
+          <td class="p-3.5"><strong class="text-white">${st.nama}</strong><span class="block text-[10px] text-teal-400 font-mono">NIM: ${st.nim}</span></td>
+          <td class="p-3.5 text-center font-bold text-teal-300 font-mono">${st.totalScore} Pts</td>
+          <td class="p-3.5"><span class="px-2 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[11px]">${st.kelas || 'Akuntansi'}</span></td>
+          <td class="p-3.5 text-center font-bold">
+            <span class="text-teal-400">${st.passed} Lulus</span> • 
+            <span class="text-amber-400">${st.conditionallyPassed} Bersyarat</span> • 
+            <span class="text-rose-400">${st.failed} Gagal</span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateLiveUserCount() {
+      const badge = document.getElementById("txtLiveUserCount");
+      if (!badge) return;
+      badge.innerText = `${Math.max(1, getRegisteredStudents().length)} Pengguna Aktif`;
+    }
+
+    function openDeskripsiRPSModal() {
+      const body = document.getElementById("rpsModalContentBody");
+      body.innerHTML = "";
+      CURRICULUM_MEETINGS.forEach(m => {
+        const card = document.createElement("div");
+        card.className = "p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2";
+        card.innerHTML = `
+          <div class="flex justify-between items-center">
+            <span class="px-2.5 py-0.5 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/40 font-mono font-bold text-xs">P${m.session}</span>
+            <span class="text-[10px] text-indigo-400 font-bold">${m.phase_id}</span>
+          </div>
+          <h4 class="font-extrabold text-white text-xs">${m.title_id}</h4>
+          <p class="text-slate-400 text-[11px]">${m.theory_summary_id}</p>
+          <div class="text-[10px] text-slate-500 font-mono">${m.is_pjbl ? 'Format: Esai PjBL (Min. 250 Kata) • Teori Wajib: ' : 'Konsep Wajib: '}${m.required_keywords.join(', ')}</div>
+        `;
+        body.appendChild(card);
+      });
+      document.getElementById("modalDeskripsiRPS").classList.remove("hidden");
+    }
+    function closeDeskripsiRPSModal() { document.getElementById("modalDeskripsiRPS").classList.add("hidden"); }
+
+    function openAuthModal(tab = 'login') {
+      document.getElementById("modalAuth").classList.remove("hidden");
+      switchAuthTab(tab);
+    }
+    function closeAuthModal() { document.getElementById("modalAuth").classList.add("hidden"); }
+
+    function switchAuthTab(tab) {
+      ['login', 'register', 'forgot', 'lecturer'].forEach(t => {
+        const btn = document.getElementById("tabBtn" + t.charAt(0).toUpperCase() + t.slice(1));
+        if (btn) btn.className = t === tab ? "py-2 rounded-xl transition-all text-center bg-slate-800 text-white shadow-sm font-bold" : "py-2 rounded-xl transition-all text-center text-slate-400 hover:text-white";
+      });
+      document.getElementById("formStudentLogin").classList.toggle("hidden", tab !== 'login');
+      document.getElementById("formStudentRegister").classList.toggle("hidden", tab !== 'register');
+      document.getElementById("subTabForgotPIN").classList.toggle("hidden", tab !== 'forgot');
+      document.getElementById("formLecturerLogin").classList.toggle("hidden", tab !== 'lecturer');
+    }
+
+    function handleStudentLogin(e) {
+      e.preventDefault();
+      const nim = document.getElementById("loginNIM").value.trim();
+      const pin = document.getElementById("loginPIN").value.trim();
+      const st = getStudentByNIM(nim);
+      if (!st) { showToast("NIM belum terdaftar, silakan registrasi.", "warning"); switchAuthTab('register'); return; }
+      if (String(st.pin).trim() !== pin) { showToast("PIN salah!", "error"); return; }
+      appState.isLoggedIn = true;
+      appState.userType = 'student';
+      appState.activeStudent = st;
+      closeAuthModal();
+      showToast(`Selamat datang, ${st.nama}!`, "success");
+      renderStudentPortal();
+      navigateToStudentPortal();
+    }
+
+    function handleStudentRegister(e) {
+      e.preventDefault();
+      const nim = document.getElementById("regNIM").value.trim();
+      const name = document.getElementById("regName").value.trim();
+      const kelas = document.getElementById("regClass").value.trim();
+      const pin = document.getElementById("regPIN").value.trim();
+
+      if (getStudentByNIM(nim)) {
+        showToast("NIM sudah terdaftar. Silakan login.", "warning");
+        switchAuthTab('login');
+        return;
+      }
+      const newSt = {
+        nim, nama: name, prodi: "S1 Akuntansi", kelas, pin,
+        registeredAt: new Date().toISOString(),
+        metrics: { ethic: 50, skeptic: 50, slack: 50, risk: 50 },
+        completedSessions: {}
+      };
+      updateStudentInRegistry(newSt);
+      appState.isLoggedIn = true;
+      appState.userType = 'student';
+      appState.activeStudent = newSt;
+      closeAuthModal();
+      showToast("Pendaftaran berhasil!", "success");
+      renderStudentPortal();
+      navigateToStudentPortal();
+    }
+
+    function checkStudentAccountForPIN() {
+      const nim = document.getElementById("forgotCheckNIM").value.trim();
+      const card = document.getElementById("forgotResultCard");
+      const st = getStudentByNIM(nim);
+      card.classList.remove("hidden");
+      if (st) {
+        card.innerHTML = `<span class="text-teal-400 font-bold">Akun Terdaftar: ${st.nama} (${st.kelas})</span><p class="text-slate-300 text-[11px]">Silakan hubungi Dosen Pengampu (Sukma Lesmana, Ph.D) untuk melihat PIN Anda.</p>`;
+      } else {
+        card.innerHTML = `<span class="text-rose-400 font-bold">NIM tidak ditemukan.</span>`;
+      }
+    }
+
+    function handleLecturerLogin(e) {
+      e.preventDefault();
+      if (document.getElementById("lecturerPIN").value.trim() === "140299") {
+        closeAuthModal();
+        openLecturerConsole();
+        showToast("Akses Pengampu Diotorisasi", "success");
+      } else {
+        showToast("PIN Pengampu Salah!", "error");
+      }
+    }
+
+    function handleUserLogout() {
+      openConfirmModal("Konfirmasi Keluar", "Apakah Anda yakin ingin keluar?", (yes) => {
+        if (yes) {
+          appState.isLoggedIn = false;
+          appState.activeStudent = null;
+          navigateHome();
+          showToast("Anda telah keluar.", "info");
+        }
+      });
+    }
+
+    function navigateHome() {
+      document.getElementById("viewLanding").classList.remove("hidden");
+      document.getElementById("viewStudentPortal").classList.add("hidden");
+      renderLandingLeaderboard();
+    }
+    function navigateToStudentPortal() {
+      document.getElementById("viewLanding").classList.add("hidden");
+      document.getElementById("viewStudentPortal").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function handleEnterPortalClick() {
+      if (appState.isLoggedIn && appState.userType === 'student') navigateToStudentPortal();
+      else openAuthModal('login');
+    }
+
+    /* RENDER PORTAL MAHASISWA & PENUNDAAN STATUS PUBLIKASI SESI 14 PJBL */
+    function renderStudentPortal() {
+      if (!appState.activeStudent) return;
+      const s = appState.activeStudent;
+      document.getElementById("spStudentName").innerText = s.nama;
+      document.getElementById("spStudentClassBadge").innerText = s.kelas || "Akuntansi";
+      document.getElementById("spStudentNIM").innerText = s.nim;
+
+      const completed = s.completedSessions || {};
+      const isSession13Done = !!completed[13];
+      const count = Object.keys(completed).length;
+      document.getElementById("spProgressCount").innerText = `${count} / 14 Sesi Selesai`;
+
+      const m = s.metrics || { ethic: 50, skeptic: 50, slack: 50, risk: 50 };
+      document.getElementById("metricValEthic").innerText = `${m.ethic} Pts`;
+      document.getElementById("metricValSkeptic").innerText = `${m.skeptic} Pts`;
+      document.getElementById("metricValSlack").innerText = `${m.slack} Pts`;
+      document.getElementById("metricValRisk").innerText = `${m.risk} Pts`;
+
+      renderPsychometricRadarChart(m);
+
+      const grid = document.getElementById("studentSessionsGrid");
+      grid.innerHTML = "";
+      CURRICULUM_MEETINGS.forEach((meet) => {
+        const item = completed[meet.session];
+        const isDone = !!item;
+        const ctrl = getSessionControl(meet.session);
+        const isOpen = ctrl.isOpen;
+
+        let badgeStatus = '<span class="text-[10px] font-bold text-slate-400">Tersedia</span>';
+
+        if (isDone) {
+          // LOGIKA KHUSUS SESI 14 PJBL: Status kelulusan hanya dipublish jika Sesi 13 tuntas
+          if (meet.session === 14 && !isSession13Done) {
+            badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold"><i class="fa-solid fa-clock mr-1"></i>TERKIRIM (MENUNGGU PENYELESAIAN SESI 13)</span>';
+          } else if (item.statusGrade === "LULUS") {
+            badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">LULUS</span>';
+          } else if (item.statusGrade === "LULUS BERSYARAT") {
+            badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">LULUS BERSYARAT</span>';
+          } else {
+            badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px] font-bold">TIDAK LULUS</span>';
+          }
+        } else if (!isOpen) {
+          badgeStatus = '<span class="text-[10px] font-bold text-rose-400">Ditutup Pengampu</span>';
+        } else if (meet.session === 14) {
+          badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold">PROYEK ESAI TERBUKA</span>';
+        }
+
+        const card = document.createElement("div");
+        card.className = `p-5 rounded-3xl border flex flex-col justify-between ${
+          isDone ? 'bg-slate-900/80 border-slate-700' :
+          !isOpen ? 'bg-slate-950/60 border-slate-800 opacity-60' :
+          meet.session === 14 ? 'bg-slate-900 border-indigo-500/50 shadow-lg shadow-indigo-500/10' :
+          'bg-slate-900 border-teal-500/30'
+        }`;
+        
+        let actionButtonHTML = "";
+        if (isDone) {
+          actionButtonHTML = `
+            <div class="flex items-center space-x-2">
+              <span class="text-[11px] font-bold text-slate-400"><i class="fa-solid fa-lock text-slate-500 mr-1"></i>Tuntas</span>
+              <button onclick="openDiscussionSlidesModal(${meet.session})" class="px-3 py-1.5 rounded-xl bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white border border-indigo-500/40 font-bold text-xs flex items-center space-x-1 transition shadow-sm">
+                <i class="fa-solid fa-person-chalkboard text-teal-400"></i>
+                <span>Buka Slide Pembahasan</span>
+              </button>
+            </div>
+          `;
+        } else if (!isOpen) {
+          actionButtonHTML = `<button disabled class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-slate-800 text-slate-500 cursor-not-allowed">Terkunci</button>`;
+        } else {
+          actionButtonHTML = `
+            <button onclick="openMeetingWorkspace(${meet.session})" class="px-3.5 py-1.5 rounded-xl font-bold text-xs ${meet.session === 14 ? 'bg-indigo-600 hover:bg-indigo-500 text-white' : 'bg-teal-500 hover:bg-teal-400 text-slate-950'} transition shadow-md">
+              ${meet.session === 14 ? 'Mulai Esai PjBL' : 'Mulai Lab'}
+            </button>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="px-2 py-0.5 rounded-lg text-xs font-mono font-bold ${isDone ? 'bg-slate-800 text-slate-300' : meet.session === 14 ? 'bg-indigo-500 text-white' : 'bg-teal-500 text-slate-950'}">P${meet.session}</span>
+              ${badgeStatus}
+            </div>
+            <h4 class="font-extrabold text-sm text-white">${meet.title_id}</h4>
+            <p class="text-xs text-slate-400 line-clamp-2">${meet.theory_summary_id}</p>
+          </div>
+          <div class="pt-4 border-t border-slate-800 mt-4 flex justify-between items-center">
+            <span class="text-[10px] text-slate-500">${meet.session === 14 ? 'Project Based Learning (Esai Min 250 Kata)' : 'Asesmen Kasus'}</span>
+            ${actionButtonHTML}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderPsychometricRadarChart(m) {
+      const ctx = document.getElementById("psychometricRadarChart");
+      if (!ctx) return;
+      if (appState.radarChartInstance) appState.radarChartInstance.destroy();
+      appState.radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['Integritas & Etika', 'Skeptisisme', 'Objektivitas / Slack', 'Pertimbangan Fidusia'],
+          datasets: [{
+            label: 'Kompetensi',
+            data: [m.ethic, m.skeptic, m.slack, m.risk],
+            backgroundColor: 'rgba(20, 184, 166, 0.25)',
+            borderColor: '#14b8a6',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { r: { min: 0, max: 100, ticks: { display: false } } },
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    function countWords(str) {
+      return str.trim().split(/\s+/).filter(Boolean).length;
+    }
+
+    // REVIEW AI PRESISI DENGAN VALIDASI KATA & REFERENSI TEORI
+    function evaluateStudentTheoryAlignment(text, meeting) {
+      const lower = text.toLowerCase();
+      const matched = meeting.required_keywords.filter(kw => lower.includes(kw.toLowerCase()));
+      const matchCount = matched.length;
+      const wordCount = countWords(text);
+
+      let grade = "TIDAK LULUS";
+      let feedback = "";
+      let isValid = false;
+
+      // VALIDASI KHUSUS SESI 14 (PjBL ESAI MINIMAL 250 KATA)
+      if (meeting.is_pjbl) {
+        if (wordCount < 250) {
+          grade = "TIDAK LULUS";
+          feedback = `Panjang esai Anda saat ini baru ${wordCount} kata. Skenario Project Based Learning Sesi 14 mewajibkan esai analitis minimal 250 kata yang mengelaborasi arsitektur tata kelola dan pencegahan bias.`;
+          isValid = false;
+        } else if (matchCount >= meeting.min_keywords_needed) {
+          grade = "LULUS";
+          feedback = `Analisis Esai PjBL Sangat Presisi! Anda berhasil mengelaborasi ${wordCount} kata dengan menyintesis rujukan teori kunci (${matched.join(', ')}).`;
+          isValid = true;
+        } else if (matchCount >= 2) {
+          grade = "LULUS BERSYARAT";
+          feedback = `Esai Anda telah memenuhi panjang ${wordCount} kata, namun baru mengaitkan sedikit teori (${matched.join(', ')}). Diperlukan integrasi teori agensi dan pengendalian internal yang lebih komprehensif.`;
+          isValid = true;
+        } else {
+          grade = "TIDAK LULUS";
+          feedback = `Meskipun telah mencapai ${wordCount} kata, esai Anda belum mengaitkan referensi teori akuntansi keperilakuan yang dipelajari (misal: Agency Theory, Fraud Triangle, COSO Framework, Bounded Rationality).`;
+          isValid = false;
+        }
+      } else {
+        // SESI 1-13 (KASUS HARIAN)
+        if (matchCount >= meeting.min_keywords_needed + 1 && text.length >= 60) {
+          grade = "LULUS";
+          feedback = `Analisis Sangat Baik & Presisi! Anda mengintegrasikan teori (${matched.join(', ')}) ke dalam penyelesaian studi kasus.`;
+          isValid = true;
+        } else if (matchCount >= meeting.min_keywords_needed && text.length >= 40) {
+          grade = "LULUS BERSYARAT";
+          feedback = `Analisis Cukup Baik. Teori (${matched.join(', ')}) teridentifikasi, namun elaborasi argumentasi mitigasi risiko perlu diperdalam lagi.`;
+          isValid = true;
+        } else {
+          grade = "TIDAK LULUS";
+          feedback = `Argumentasi Belum Sesuai Teori Akuntansi Keperilakuan. Jawaban belum menguraikan konsep wajib (misal: ${meeting.required_keywords.slice(0, 3).join(', ')}).`;
+          isValid = false;
+        }
+      }
+
+      return { grade, feedback, matched, matchCount, wordCount, isValid };
+    }
+
+    function openMeetingWorkspace(sNum) {
+      const meet = CURRICULUM_MEETINGS.find(m => m.session === sNum);
+      if (!meet) return;
+
+      if (appState.activeStudent?.completedSessions?.[sNum]) {
+        showToast("Sesi ini sudah Anda selesaikan. Silakan tinjau Slide Pembahasan di portal.", "warning");
+        return;
+      }
+
+      const ctrl = getSessionControl(sNum);
+      if (!ctrl.isOpen) {
+        showToast("Sesi ini sedang ditutup oleh dosen pengampu.", "warning");
+        return;
+      }
+
+      appState.activeSessionNum = sNum;
+      appState.currentWorkspaceMeeting = meet;
+      appState.tempChoices[sNum] = null;
+
+      document.getElementById("wsSessionBadge").innerText = `P${meet.session}`;
+      document.getElementById("wsSessionTitle").innerText = meet.title_id;
+      document.getElementById("wsSessionPhase").innerText = meet.phase_id;
+      document.getElementById("wsTheoryDescription").innerHTML = meet.theory_id;
+      document.getElementById("wsKeyTheoryConcepts").innerText = meet.required_keywords.join(" • ");
+      document.getElementById("wsCaseNarrative").innerHTML = `<p>${meet.narrative_id}</p>`;
+
+      const optContainer = document.getElementById("wsOptionsContainer");
+      const ctrlArea = document.getElementById("wsInteractiveControlArea");
+      const conseqBox = document.getElementById("wsConsequenceBox");
+      const refHeading = document.getElementById("wsReflectionLabelHeading");
+      const refInput = document.getElementById("wsReflectionText");
+      const charBadge = document.getElementById("wsCharCountBadge");
+      const aiFeedbackBox = document.getElementById("wsAIFeedbackPrecisionBox");
+
+      aiFeedbackBox.classList.add("hidden");
+      conseqBox.classList.add("hidden");
+
+      // JIKA SESI 14 (PjBL ESAI): Sembunyikan opsi pilihan ganda
+      if (meet.is_pjbl) {
+        optContainer.classList.add("hidden");
+        refHeading.innerHTML = `<i class="fa-solid fa-file-pen mr-1"></i> Lembar Esai Blueprint Proyek Terpadu (Wajib Min. 250 Kata)`;
+        refInput.placeholder = "Tuliskan esai solusi proyek Anda di sini (minimal 250 kata). Uraikan diagnosis masalah dan blueprint mitigasi tata kelola dengan mengintegrasikan referensi teori akuntansi keperilakuan yang relevan (seperti Agency Theory, Fraud Triangle, COSO, Bounded Rationality, dll)...";
+        refInput.rows = 11;
+        charBadge.innerText = "0 / 250 Kata (Wajib)";
+      } else {
+        optContainer.classList.remove("hidden");
+        ctrlArea.innerHTML = "";
+        refHeading.innerHTML = `<i class="fa-solid fa-pen-fancy mr-1"></i> Lembar Analisis & Refleksi Mandiri Mahasiswa`;
+        refInput.placeholder = "Uraikan dasar pertimbangan Anda: kaitkan keputusan di atas dengan teori akuntansi keperilakuan yang relevan, identifikasi bias kognitif yang timbul, dan rumuskan mitigasinya...";
+        refInput.rows = 4;
+        charBadge.innerText = "Min. 40 Karakter & Relevan Teori";
+
+        meet.options.forEach((opt, idx) => {
+          const card = document.createElement("div");
+          card.id = `optCard_${idx}`;
+          card.className = "p-3.5 rounded-xl border border-slate-700 bg-slate-950 hover:border-teal-500 cursor-pointer transition space-y-1";
+          card.onclick = () => selectWorkspaceOption(meet.session, opt, idx);
+          card.innerHTML = `
+            <div class="flex items-start space-x-2.5">
+              <span class="w-6 h-6 rounded-lg bg-slate-800 text-teal-300 flex items-center justify-center font-bold text-xs flex-shrink-0">${String.fromCharCode(65 + idx)}</span>
+              <span class="font-bold text-white text-xs leading-snug">${opt.label_id}</span>
+            </div>
+          `;
+          ctrlArea.appendChild(card);
+        });
+      }
+
+      refInput.value = "";
+      document.getElementById("wsReviewStatusBadge").innerText = "";
+      document.getElementById("modalMeetingWorkspace").classList.remove("hidden");
+    }
+
+    function selectWorkspaceOption(sNum, opt, activeIdx) {
+      appState.tempChoices[sNum] = opt;
+      const m = appState.currentWorkspaceMeeting;
+      m.options.forEach((_, idx) => {
+        const el = document.getElementById(`optCard_${idx}`);
+        if (el) {
+          if (idx === activeIdx) {
+            el.className = "p-3.5 rounded-xl border-2 border-teal-400 bg-teal-950/60 cursor-pointer transition space-y-1 shadow-lg ring-1 ring-teal-400/40";
+          } else {
+            el.className = "p-3.5 rounded-xl border border-slate-800 bg-slate-950/80 hover:border-slate-600 cursor-pointer transition space-y-1 opacity-70";
+          }
+        }
+      });
+      document.getElementById("wsConsequenceBox").classList.remove("hidden");
+      document.getElementById("wsConsequenceText").innerText = opt.consequence_id;
+    }
+
+    function closeMeetingWorkspace() { document.getElementById("modalMeetingWorkspace").classList.add("hidden"); }
+
+    function handleReflectionTextInput() {
+      const text = document.getElementById("wsReflectionText").value;
+      const m = appState.currentWorkspaceMeeting;
+      const charBadge = document.getElementById("wsCharCountBadge");
+      if (!m) return;
+
+      if (m.is_pjbl) {
+        const words = countWords(text);
+        charBadge.innerText = `${words} / 250 Kata`;
+        charBadge.className = words >= 250 ? "text-[10px] text-teal-400 font-bold font-mono" : "text-[10px] text-amber-400 font-mono";
+      } else {
+        const len = text.trim().length;
+        charBadge.innerText = `${len} Karakter`;
+        charBadge.className = len >= 40 ? "text-[10px] text-teal-400 font-bold font-mono" : "text-[10px] text-slate-400 font-mono";
+      }
+    }
+
+    // SUBMIT SESI DENGAN VALIDASI AI & PENUNDAAN STATUS PUBLIKASI SESI 14
+    function handleFinishMeetingSession() {
+      const m = appState.currentWorkspaceMeeting;
+      const text = document.getElementById("wsReflectionText").value.trim();
+      const aiFeedbackBox = document.getElementById("wsAIFeedbackPrecisionBox");
+      const aiMsg = document.getElementById("wsAIFeedbackMessage");
+      const aiGold = document.getElementById("wsAIGoldenAnswerText");
+      const aiGrade = document.getElementById("wsAIGradeTag");
+
+      // Validasi Khusus Sesi 1-13: Wajib pilih opsi
+      if (!m.is_pjbl) {
+        const choice = appState.tempChoices[m.session];
+        if (!choice) { showToast("Pilih salah satu alternatif keputusan terlebih dahulu!", "error"); return; }
+        if (text.length < 40) { showToast("Uraikan refleksi minimal 40 karakter!", "warning"); return; }
+      } else {
+        // Validasi Sesi 14 PjBL: Wajib esai min 250 kata
+        const words = countWords(text);
+        if (words < 250) {
+          showToast(`Panjang esai baru ${words} kata. Minimal 250 kata untuk Proyek PjBL Sesi 14!`, "error");
+          evalAIAndShowFeedback(text, m);
+          return;
+        }
+      }
+
+      const evalResult = evaluateStudentTheoryAlignment(text, m);
+
+      // JIKA JAWABAN TIDAK VALID / TIDAK MEMENUHI TEORI
+      if (!evalResult.isValid) {
+        evalAIAndShowFeedback(text, m);
+        showToast("Jawaban Anda belum memenuhi standar teori akuntansi keperilakuan! Periksa telaah AI di bawah.", "error");
+        return;
+      }
+
+      // CEK STATUS SESI 13 UNTUK PENUNDAAN PUBLIKASI SESI 14
+      const is13Done = !!appState.activeStudent?.completedSessions?.[13];
+      const willBePending = (m.session === 14 && !is13Done);
+
+      let confirmMsg = `Hasil Review Teori Akuntansi Keperilakuan: "${evalResult.grade}"\n\nCatatan Evaluasi: ${evalResult.feedback}\n\n`;
+      if (willBePending) {
+        confirmMsg += `PEMBERITAHUAN PENTING: Karena Anda belum menyelesaikan Soal Kasus Pertemuan 13, status kelulusan dan nilai PjBL Sesi 14 akan DITUNDA dan baru otomatis dipublikasikan setelah Anda menyelesaikan Pertemuan 13.\n\nLanjutkan penyimpanan?`;
+      } else {
+        confirmMsg += `Perhatian: Sesi ini akan TERKUNCI PERMANEN dan tidak dapat diubah kembali. Lanjutkan penyimpanan?`;
+      }
+
+      openConfirmModal(
+        "Kunci Keputusan & Hasil Evaluasi Teori",
+        confirmMsg,
+        (accepted) => {
+          if (!accepted) return;
+
+          if (!appState.activeStudent.completedSessions) appState.activeStudent.completedSessions = {};
+          
+          const defaultMetrics = m.is_pjbl ? { ethic: 30, skeptic: 30, slack: 25, risk: 25 } : appState.tempChoices[m.session]?.metrics;
+          const selectedLabel = m.is_pjbl ? "Solusi Proyek Blueprint PjBL Esai Terpadu" : appState.tempChoices[m.session]?.label_id;
+
+          appState.activeStudent.completedSessions[m.session] = {
+            session: m.session,
+            completedAt: new Date().toISOString(),
+            selectedOption: selectedLabel,
+            reflectionText: text,
+            statusGrade: evalResult.grade,
+            theoryMatchCount: evalResult.matchCount,
+            wordCount: evalResult.wordCount,
+            metrics: defaultMetrics
+          };
+
+          // Update psikometri
+          if (!willBePending && defaultMetrics) {
+            Object.keys(defaultMetrics).forEach(k => {
+              const delta = evalResult.grade === "LULUS" ? defaultMetrics[k] : Math.round(defaultMetrics[k] * 0.5);
+              appState.activeStudent.metrics[k] = Math.max(10, Math.min(100, appState.activeStudent.metrics[k] + delta));
+            });
+          }
+
+          // OTOMATIS AKTIFKAN PUBLIKASI SESI 14 JIKA INI ADALAH PENYELESAIAN SESI 13
+          if (m.session === 13 && appState.activeStudent.completedSessions[14]) {
+            const p14 = appState.activeStudent.completedSessions[14];
+            if (p14.metrics) {
+              Object.keys(p14.metrics).forEach(k => {
+                const delta = p14.statusGrade === "LULUS" ? p14.metrics[k] : Math.round(p14.metrics[k] * 0.5);
+                appState.activeStudent.metrics[k] = Math.max(10, Math.min(100, appState.activeStudent.metrics[k] + delta));
+              });
+            }
+            showToast("Selamat! Karena Sesi 13 telah tuntas, status kelulusan PjBL Pertemuan 14 kini resmi dipublikasikan!", "success");
+          }
+
+          updateStudentInRegistry(appState.activeStudent);
+          showToast(`Sesi P${m.session} berhasil disimpan!`, "success");
+          closeMeetingWorkspace();
+          renderStudentPortal();
+          renderLandingLeaderboard();
+
+          setTimeout(() => {
+            openDiscussionSlidesModal(m.session);
+          }, 400);
+        }
+      );
+    }
+
+    function evalAIAndShowFeedback(text, m) {
+      const evalResult = evaluateStudentTheoryAlignment(text, m);
+      const aiFeedbackBox = document.getElementById("wsAIFeedbackPrecisionBox");
+      const aiMsg = document.getElementById("wsAIFeedbackMessage");
+      const aiGold = document.getElementById("wsAIGoldenAnswerText");
+      const aiGrade = document.getElementById("wsAIGradeTag");
+
+      aiFeedbackBox.classList.remove("hidden");
+      aiGrade.innerText = evalResult.grade;
+      aiMsg.innerText = evalResult.feedback;
+      aiGold.innerText = m.theoretical_defense;
+      aiFeedbackBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* SLIDE PRESENTASI PEMBAHASAN DETAIL */
+    function openDiscussionSlidesModal(sessionNum) {
+      appState.activeDiscussSession = parseInt(sessionNum);
+      appState.activeDiscussStep = 0;
+      renderDetailedSlideView("discussSlideContentBody", "discussSlideIndicatorBadge", "btnDiscussSlidePrev", "btnDiscussSlideNext", appState.activeDiscussSession, appState.activeDiscussStep);
+      
+      const m = CURRICULUM_MEETINGS.find(item => item.session === appState.activeDiscussSession);
+      if (m) {
+        document.getElementById("discussModalTitle").innerText = `P${m.session}: ${m.title_id}`;
+        document.getElementById("discussModalSubtitle").innerText = `Slide Pembahasan Teoretis • ${m.phase_id}`;
+      }
+      document.getElementById("modalDiscussionSlides").classList.remove("hidden");
+    }
+
+    function closeDiscussionSlidesModal() {
+      document.getElementById("modalDiscussionSlides").classList.add("hidden");
+    }
+
+    function navigateDiscussSlideStep(delta) {
+      const totalSteps = 4;
+      appState.activeDiscussStep = Math.max(0, Math.min(totalSteps - 1, appState.activeDiscussStep + delta));
+      renderDetailedSlideView("discussSlideContentBody", "discussSlideIndicatorBadge", "btnDiscussSlidePrev", "btnDiscussSlideNext", appState.activeDiscussSession, appState.activeDiscussStep);
+    }
+
+    function loadSlideSession(sessionNum) {
+      appState.activeDiscussSession = parseInt(sessionNum);
+      appState.activeDiscussStep = 0;
+      renderDetailedSlideView("lecSlideContentBody", "slideIndicatorBadge", "btnSlidePrev", "btnSlideNext", appState.activeDiscussSession, appState.activeDiscussStep);
+    }
+
+    function navigateSlideStep(delta) {
+      const totalSteps = 4;
+      appState.activeDiscussStep = Math.max(0, Math.min(totalSteps - 1, appState.activeDiscussStep + delta));
+      renderDetailedSlideView("lecSlideContentBody", "slideIndicatorBadge", "btnSlidePrev", "btnSlideNext", appState.activeDiscussSession, appState.activeDiscussStep);
+    }
+
+    function renderDetailedSlideView(containerId, indicatorId, prevBtnId, nextBtnId, sessionNum, step) {
+      const m = CURRICULUM_MEETINGS.find(item => item.session === sessionNum);
+      const container = document.getElementById(containerId);
+      const indicator = document.getElementById(indicatorId);
+      const btnPrev = document.getElementById(prevBtnId);
+      const btnNext = document.getElementById(nextBtnId);
+      if (!container || !m) return;
+
+      if (indicator) indicator.innerText = `Slide ${step + 1} / 4`;
+      if (btnPrev) {
+        btnPrev.disabled = step === 0;
+        btnPrev.className = step === 0 ? "px-4 py-2 rounded-xl bg-slate-900 text-slate-600 font-bold text-xs cursor-not-allowed" : "px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs flex items-center space-x-2 transition";
+      }
+      if (btnNext) {
+        btnNext.disabled = step === 3;
+        btnNext.className = step === 3 ? "px-4 py-2 rounded-xl bg-slate-900 text-slate-600 font-bold text-xs cursor-not-allowed" : "px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs flex items-center space-x-2 transition shadow-md shadow-teal-500/20";
+      }
+
+      let slideHTML = "";
+
+      if (step === 0) {
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-teal-500/20 text-teal-300 font-mono font-black text-xs sm:text-sm">SLIDE 1: INTISARI KASUS & DINAMIKA KEPUTUSAN</span>
+              <span class="text-xs text-indigo-400 font-bold">P${m.session} • ${m.phase_id}</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white leading-tight">${m.title_id}</h2>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-slate-300 text-xs sm:text-sm leading-relaxed space-y-2.5">
+              <div class="text-teal-400 font-bold flex items-center gap-2">
+                <i class="fa-solid fa-file-contract"></i>
+                <span>${m.is_pjbl ? 'Instruksi Terpadu Project Based Learning (PjBL Esai Min. 250 Kata):' : 'Skenario Dilema Keputusan Manajerial:'}</span>
+              </div>
+              <p class="leading-relaxed">${m.narrative_id}</p>
+            </div>
+            <div class="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/40 text-xs text-indigo-200 leading-relaxed space-y-1">
+              <strong class="text-amber-300 block flex items-center gap-1.5"><i class="fa-solid fa-compass"></i> Tujuan Kompetensi & Sensitivitas Keperilakuan:</strong>
+              <p>Membekali akuntan mengenali tekanan kognitif, asimetri informasi, dan dorongan rasionalisasi dalam keputusan keuangan nyata.</p>
+            </div>
+          </div>
+        `;
+      } else if (step === 1) {
+        let optionsCards = "";
+        if (m.is_pjbl) {
+          optionsCards = `
+            <div class="p-4 rounded-2xl border border-teal-500/60 bg-teal-950/30 col-span-2 space-y-2">
+              <strong class="text-teal-300 text-sm font-bold block flex items-center gap-1.5"><i class="fa-solid fa-award"></i> Format PjBL: Esai Blueprint Solutif (Min. 250 Kata)</strong>
+              <p class="text-slate-300 text-xs leading-relaxed">Berbeda dengan sesi harian berbentuk kasus pilihan berganda, Sesi 14 menuntut penulisan esai terpadu yang mendiagnosis kegagalan tata kelola serta merancang sistem mitigasi menyeluruh menggunakan multi-teori keperilakuan.</p>
+            </div>
+          `;
+        } else {
+          m.options.forEach((opt, idx) => {
+            const isGold = opt.label_id.includes("Opsi C") && (m.session <= 5) || opt.label_id.includes("Opsi D");
+            optionsCards += `
+              <div class="p-3.5 rounded-2xl border ${isGold ? 'border-teal-500/70 bg-teal-950/40' : 'border-slate-800 bg-slate-950/70'} space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <strong class="text-xs ${isGold ? 'text-teal-300 font-black' : 'text-slate-300'}">${String.fromCharCode(65 + idx)}. ${opt.label_id.split(':')[0]}</strong>
+                  ${isGold ? '<span class="px-2.5 py-0.5 rounded-full bg-teal-400 text-slate-950 text-[10px] font-black">SOLUSI REKOMENDASI</span>' : '<span class="text-[10px] text-rose-400 font-bold">JEBAKAN BIAS / DISTRAKTOR</span>'}
+                </div>
+                <p class="text-[11px] text-slate-300 leading-relaxed">${opt.label_id}</p>
+                <div class="text-[10px] ${isGold ? 'text-teal-400 font-bold' : 'text-slate-500'} pt-1 border-t border-slate-800/80">
+                  <i class="fa-solid fa-circle-info mr-1"></i>Dampak: ${opt.consequence_id}
+                </div>
+              </div>
+            `;
+          });
+        }
+
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-teal-500/20 text-teal-300 font-mono font-black text-xs sm:text-sm">SLIDE 2: ${m.is_pjbl ? 'STRUKTUR INSTRUKSI PROYEK ESAI' : 'DEKOMPOSISI & KOMPARASI KEPUTUSAN'}</span>
+              <span class="text-xs text-indigo-400 font-bold">P${m.session} • Dekomposisi Solusi</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              ${optionsCards}
+            </div>
+          </div>
+        `;
+      } else if (step === 2) {
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-indigo-500/20 text-indigo-300 font-mono font-black text-xs sm:text-sm">SLIDE 3: LANDASAN TEORI KEPERILAKUAN & ARGUMEN ILMIAH</span>
+              <span class="text-xs text-teal-400 font-bold">P${m.session} • Sintesis Ilmiah</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-indigo-950/50 border border-indigo-500/50 space-y-2.5">
+              <div class="text-amber-400 font-black text-sm flex items-center gap-2">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>${m.theory_summary_id}</span>
+              </div>
+              <div class="text-slate-200 text-xs sm:text-sm leading-relaxed">${m.theory_id}</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-teal-500/40 text-xs space-y-2">
+              <strong class="text-teal-300 block flex items-center gap-1.5 text-xs sm:text-sm font-bold">
+                <i class="fa-solid fa-circle-check text-teal-400"></i>
+                Argumen Teoritis Solusi Terbaik:
+              </strong>
+              <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">${m.theoretical_defense}</p>
+            </div>
+          </div>
+        `;
+      } else {
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 font-mono font-black text-xs sm:text-sm">SLIDE 4: JEBAKAN KOGNITIF & RUBRIK PENILAIAN</span>
+              <span class="text-xs text-slate-400 font-bold">P${m.session} • Evaluasi Presisi</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-rose-950/40 border border-rose-500/40 text-xs space-y-2">
+              <strong class="text-rose-300 flex items-center gap-1.5 text-xs sm:text-sm font-bold">
+                <i class="fa-solid fa-triangle-exclamation text-rose-400"></i>
+                Jebakan Kognitif Mahasiswa (Cognitive Trap):
+              </strong>
+              <p class="text-slate-200 leading-relaxed text-xs sm:text-sm">${m.cognitive_trap}</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-2.5">
+              <strong class="text-indigo-300 flex items-center gap-1.5 font-bold">
+                <i class="fa-solid fa-spell-check text-indigo-400"></i>
+                Konstruk Kata Kunci Wajib Telaah:
+              </strong>
+              <div class="flex flex-wrap gap-2 pt-1">
+                ${m.required_keywords.map(kw => `<span class="px-3 py-1 rounded-xl bg-indigo-900/50 text-indigo-200 border border-indigo-700 font-mono text-xs font-bold">${kw}</span>`).join('')}
+              </div>
+              <p class="text-[11px] text-slate-400 pt-1 leading-relaxed">
+                ${m.is_pjbl ? 'Kriteria Kelulusan PjBL: Esai minimal 250 kata dan mengintegrasikan minimal 4 teori keperilakuan di atas.' : `Kriteria: Mengaitkan minimal ${m.min_keywords_needed + 1} konstruk teori dengan argumentasi mitigasi risiko yang logis.`}
+              </p>
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = slideHTML;
+    }
+
+    function openPortfolioModal() {
+      const s = appState.activeStudent;
+      if (!s) return;
+      const paper = document.getElementById("portfolioPaperSheet");
+      const completed = s.completedSessions || {};
+      const is13Done = !!completed[13];
+      let rows = "";
+
+      CURRICULUM_MEETINGS.forEach(m => {
+        const item = completed[m.session];
+        let statusBadge = '<span style="color:#94a3b8; font-weight:bold;">BELUM DIAMBIL</span>';
+        if (item) {
+          if (m.session === 14 && !is13Done) {
+            statusBadge = '<span style="color:#d97706; font-weight:bold; background:#fffbeb; padding:2px 6px; border-radius:4px; border:1px solid #fef3c7;">TERKIRIM (MENUNGGU SESI 13)</span>';
+          } else if (item.statusGrade === "LULUS") {
+            statusBadge = '<span style="color:#047857; font-weight:bold; background:#ecfdf5; padding:2px 6px; border-radius:4px; border:1px solid #a7f3d0;">LULUS</span>';
+          } else if (item.statusGrade === "LULUS BERSYARAT") {
+            statusBadge = '<span style="color:#b45309; font-weight:bold; background:#fffbeb; padding:2px 6px; border-radius:4px; border:1px solid #fef3c7;">LULUS BERSYARAT</span>';
+          } else {
+            statusBadge = '<span style="color:#be123c; font-weight:bold; background:#fff1f2; padding:2px 6px; border-radius:4px; border:1px solid #fecdd3;">TIDAK LULUS</span>';
+          }
+        }
+        rows += `
+          <tr style="border-bottom:1px solid #e2e8f0; font-size:11px;">
+            <td style="padding:6px; text-align:center; font-weight:bold;">P${m.session}</td>
+            <td style="padding:6px;"><strong>${m.title_id}</strong><div style="font-size:10px; color:#64748b;">${m.theory_summary_id}</div></td>
+            <td style="padding:6px; text-align:center;">${statusBadge}</td>
+            <td style="padding:6px; font-size:10px; color:#334155;">${item ? `"${item.reflectionText.slice(0, 100)}..."` : '-'}</td>
+          </tr>
+        `;
+      });
+
+      paper.innerHTML = `
+        <div style="font-family:sans-serif; color:#0f172a; line-height:1.4;">
+          <div style="border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:flex-end;">
+            <div>
+              <h2 style="margin:0; font-size:16px; font-weight:900;">PORTOFOLIO AKADEMIK AKUNTANSI KEPERILAKUAN</h2>
+              <p style="margin:2px 0 0 0; font-size:11px; color:#64748b;">Standar Penjaminan Kompetensi IES 4 • Sukma Lesmana, Ph.D</p>
+            </div>
+            <div style="font-size:10px; font-weight:bold; color:#0d9488;">HASIL ASESMEN TUNGGAL RESMI</div>
+          </div>
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px; font-size:11px; margin-bottom:12px;">
+            <strong>Nama Mahasiswa:</strong> ${s.nama} | <strong>NIM:</strong> ${s.nim} | <strong>Kelas:</strong> ${s.kelas} | <strong>Total Skor:</strong> ${calculateTotalScore(s)} Pts
+          </div>
+          <table style="width:100%; border-collapse:collapse; margin-top:10px;">
+            <thead><tr style="background:#f1f5f9; font-size:11px;"><th style="padding:6px; width:40px;">Sesi</th><th style="padding:6px; text-align:left;">Materi RPS & Konstruk Teori</th><th style="padding:6px; width:130px; text-align:center;">Status Kelulusan</th><th style="padding:6px; text-align:left;">Refleksi / Hasil Esai PjBL</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <div style="margin-top:24px; display:flex; justify-content:space-between; font-size:11px;">
+            <div>Mahasiswa,<br><br><br><strong>${s.nama}</strong><br>NIM. ${s.nim}</div>
+            <div style="text-align:right;">Dosen Pengampu,<br><br><br><strong>Sukma Lesmana, Ph.D</strong><br>Otoritas Akademik</div>
+          </div>
+        </div>
+      `;
+      document.getElementById("modalPortfolioPreview").classList.remove("hidden");
+    }
+
+    function closePortfolioModal() { document.getElementById("modalPortfolioPreview").classList.add("hidden"); }
+
+    function printPortfolioSheet() {
+      const content = document.getElementById("portfolioPaperSheet")?.innerHTML;
+      if (!content) return;
+      const printWin = window.open('', '_blank', 'width=850,height=700');
+      if (printWin) {
+        printWin.document.open();
+        printWin.document.write(`<html><head><title>Portofolio - Behavecounting</title></head><body style="padding:20px;">${content}</body></html>`);
+        printWin.document.close();
+        printWin.focus();
+        setTimeout(() => { printWin.print(); printWin.close(); }, 350);
+      } else { window.print(); }
+    }
+
+    function openLecturerConsole() {
+      populateLecturerSlideSessionDropdown();
+      document.getElementById("modalLecturerConsole").classList.remove("hidden");
+      switchLecturerTab('sessions');
+    }
+    function closeLecturerConsole() { document.getElementById("modalLecturerConsole").classList.add("hidden"); }
+
+    function switchLecturerTab(tab) {
+      document.getElementById("lecTabSessionsContent").classList.toggle("hidden", tab !== 'sessions');
+      document.getElementById("lecTabSlidesContent").classList.toggle("hidden", tab !== 'slides');
+      document.getElementById("lecTabStudentsContent").classList.toggle("hidden", tab !== 'students');
+      
+      ['sessions', 'slides', 'students'].forEach(t => {
+        const btn = document.getElementById("tabLec" + t.charAt(0).toUpperCase() + t.slice(1));
+        if (btn) btn.className = t === tab ? "py-2.5 rounded-xl bg-slate-800 text-white transition flex items-center justify-center space-x-2 font-bold shadow-sm" : "py-2.5 rounded-xl text-slate-400 hover:text-white transition flex items-center justify-center space-x-2";
+      });
+
+      if (tab === 'sessions') renderLecturerSessions();
+      else if (tab === 'slides') renderDetailedSlideView("lecSlideContentBody", "slideIndicatorBadge", "btnSlidePrev", "btnSlideNext", appState.activeDiscussSession, appState.activeDiscussStep);
+      else if (tab === 'students') renderLecturerStudentsTable();
+    }
+
+    function renderLecturerSessions() {
+      const tbody = document.getElementById("lecSessionsTableBody");
+      tbody.innerHTML = "";
+      const ctrls = getSessionControls();
+      CURRICULUM_MEETINGS.forEach(m => {
+        const ctrl = ctrls[m.session] || { session: m.session, isOpen: (m.session === 1 || m.session === 14) };
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="p-3 text-center font-bold">P${m.session}</td>
+          <td class="p-3 font-bold">${m.title_id}</td>
+          <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${ctrl.isOpen ? 'bg-teal-500/20 text-teal-300' : 'bg-rose-500/20 text-rose-300'}">${ctrl.isOpen ? 'Buka' : 'Kunci'}</span></td>
+          <td class="p-3 text-right">
+            <button onclick="toggleSessionAccess(${m.session})" class="px-2 py-1 rounded bg-slate-800 text-xs font-bold text-slate-300">${ctrl.isOpen ? 'Tutup' : 'Buka'}</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function toggleSessionAccess(sNum) {
+      const ctrls = getSessionControls();
+      if (!ctrls[sNum]) ctrls[sNum] = { session: sNum, isOpen: false };
+      ctrls[sNum].isOpen = !ctrls[sNum].isOpen;
+      saveSessionControls(ctrls);
+      renderLecturerSessions();
+      showToast(`Sesi P${sNum} diperbarui`, "info");
+    }
+
+    function bulkSetSessions(isOpen) {
+      const ctrls = getSessionControls();
+      CURRICULUM_MEETINGS.forEach(m => {
+        if (!isOpen) {
+          ctrls[m.session] = { session: m.session, isOpen: (m.session === 1 || m.session === 14) };
+        } else {
+          ctrls[m.session] = { session: m.session, isOpen: true };
+        }
+      });
+      saveSessionControls(ctrls);
+      renderLecturerSessions();
+      showToast(isOpen ? "Semua 14 sesi perkuliahan dibuka!" : "Sesi dikunci (P1 dan P14 tetap terbuka)", "info");
+    }
+
+    function populateLecturerSlideSessionDropdown() {
+      const select = document.getElementById("lecSlideSessionSelect");
+      if (!select) return;
+      select.innerHTML = "";
+      CURRICULUM_MEETINGS.forEach(m => {
+        const opt = document.createElement("option");
+        opt.value = m.session;
+        opt.innerText = `P${m.session}: ${m.title_id}`;
+        select.appendChild(opt);
+      });
+      select.value = appState.activeDiscussSession;
+    }
+
+    function renderLecturerStudentsTable(filterList = null) {
+      const tbody = document.getElementById("lecStudentsTableBody");
+      const empty = document.getElementById("lecStudentsEmptyBox");
+      const classSelect = document.getElementById("lecStudentsClassFilter");
+      const allStudents = getRegisteredStudents();
+      const selectedClass = classSelect ? classSelect.value : "ALL";
+
+      if (classSelect) {
+        const curVal = classSelect.value;
+        const classes = [...new Set(allStudents.map(s => (s.kelas || "").trim()).filter(Boolean))].sort();
+        classSelect.innerHTML = `<option value="ALL">Semua Kelas</option>`;
+        classes.forEach(c => {
+          const opt = document.createElement("option");
+          opt.value = c; opt.innerText = c;
+          if (c === curVal) opt.selected = true;
+          classSelect.appendChild(opt);
+        });
+      }
+
+      let students = filterList !== null ? filterList : allStudents;
+      if (selectedClass !== "ALL" && filterList === null) {
+        students = students.filter(s => String(s.kelas).trim() === selectedClass);
+      }
+
+      const totalCount = allStudents.length;
+      let totalScoreSum = 0, totalCompSum = 0;
+      allStudents.forEach(s => {
+        totalScoreSum += calculateTotalScore(s);
+        totalCompSum += Object.keys(s.completedSessions || {}).length;
+      });
+
+      document.getElementById("lecStatTotalStudents").innerText = totalCount;
+      document.getElementById("lecStatAvgScore").innerText = `${totalCount > 0 ? Math.round(totalScoreSum / totalCount) : 0} Pts`;
+      document.getElementById("lecStatAvgCompleted").innerText = `${totalCount > 0 ? (totalCompSum / totalCount).toFixed(1) : 0} / 14`;
+
+      tbody.innerHTML = "";
+      if (students.length === 0) {
+        empty.classList.remove("hidden");
+        return;
+      }
+      empty.classList.add("hidden");
+
+      students.forEach(st => {
+        const completed = st.completedSessions || {};
+        const is13Done = !!completed[13];
+        let passed = 0, cond = 0, fail = 0;
+
+        Object.keys(completed).forEach(sNum => {
+          const item = completed[sNum];
+          if (parseInt(sNum) === 14 && !is13Done) return; // Pending
+          if (item.statusGrade === "LULUS") passed++;
+          else if (item.statusGrade === "LULUS BERSYARAT") cond++;
+          else fail++;
+        });
+
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-slate-900/60 transition-colors";
+        tr.innerHTML = `
+          <td class="p-3 font-mono font-bold text-teal-400">${st.nim}</td>
+          <td class="p-3 font-bold text-white">${st.nama}</td>
+          <td class="p-3 text-slate-300">${st.kelas}</td>
+          <td class="p-3 text-center font-mono font-bold text-amber-300 bg-amber-950/20 rounded">${st.pin}</td>
+          <td class="p-3 text-center font-mono font-bold text-teal-300">${calculateTotalScore(st)} Pts</td>
+          <td class="p-3 text-center">${Object.keys(completed).length} / 14</td>
+          <td class="p-3 text-center text-[10px]">
+            <span class="text-emerald-400 font-bold">${passed} L</span> • 
+            <span class="text-amber-400 font-bold">${cond} B</span> • 
+            <span class="text-rose-400 font-bold">${fail} G</span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function handleLecturerLiveSearchNIM() {
+      const query = (document.getElementById("lecSearchNIMInput")?.value || "").trim().toLowerCase();
+      const resultCard = document.getElementById("lecNIMQuickSearchResultCard");
+      const allStudents = getRegisteredStudents();
+
+      if (!query) {
+        resultCard.classList.add("hidden");
+        renderLecturerStudentsTable();
+        return;
+      }
+
+      const matched = allStudents.filter(s => String(s.nim).toLowerCase().includes(query));
+      renderLecturerStudentsTable(matched);
+
+      const exact = allStudents.find(s => String(s.nim).trim().toLowerCase() === query);
+      if (exact) {
+        const completed = exact.completedSessions || {};
+        const is13Done = !!completed[13];
+        let passed = 0, cond = 0, fail = 0;
+
+        Object.keys(completed).forEach(sNum => {
+          const item = completed[sNum];
+          if (parseInt(sNum) === 14 && !is13Done) return;
+          if (item.statusGrade === "LULUS") passed++;
+          else if (item.statusGrade === "LULUS BERSYARAT") cond++;
+          else fail++;
+        });
+
+        resultCard.classList.remove("hidden");
+        resultCard.innerHTML = `
+          <div class="flex items-start justify-between border-b border-slate-800 pb-2">
+            <div>
+              <span class="text-xs font-bold text-teal-400"><i class="fa-solid fa-user-graduate mr-1"></i>${exact.nama}</span>
+              <div class="text-[11px] text-slate-400 font-mono">NIM: <strong class="text-white">${exact.nim}</strong> | Kelas: <strong>${exact.kelas}</strong></div>
+            </div>
+            <div class="text-right">
+              <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/40">PIN: ${exact.pin}</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-center font-mono">
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">TOTAL SKOR</span>
+              <span class="text-sm font-bold text-teal-400">${calculateTotalScore(exact)} Pts</span>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">LAB SELESAI</span>
+              <span class="text-sm font-bold text-indigo-400">${Object.keys(completed).length} / 14</span>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">LULUS TEORI</span>
+              <span class="text-sm font-bold text-emerald-400">${passed} Sesi</span>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">BERSYARAT / GAGAL</span>
+              <span class="text-sm font-bold text-rose-400">${cond} / ${fail}</span>
+            </div>
+          </div>
+        `;
+      } else {
+        resultCard.classList.remove("hidden");
+        resultCard.innerHTML = `<span class="text-amber-400"><i class="fa-solid fa-circle-info mr-1"></i>Menampilkan ${matched.length} mahasiswa dengan kecocokan NIM "${query}".</span>`;
+      }
+    }
+
+    function exportClassGradesToCSV() {
+      const list = getRegisteredStudents();
+      if (list.length === 0) { showToast("Belum ada data mahasiswa", "warning"); return; }
+      let csv = "NIM,Nama,Kelas,PIN,Total Skor,Lab Selesai,Lulus,Lulus Bersyarat,Tidak Lulus\n";
+      list.forEach(s => {
+        const completed = s.completedSessions || {};
+        const is13Done = !!completed[13];
+        let passed = 0, cond = 0, fail = 0;
+        Object.keys(completed).forEach(sNum => {
+          const item = completed[sNum];
+          if (parseInt(sNum) === 14 && !is13Done) return;
+          if (item.statusGrade === "LULUS") passed++;
+          else if (item.statusGrade === "LULUS BERSYARAT") cond++;
+          else fail++;
+        });
+        csv += `"${s.nim}","${s.nama}","${s.kelas}","${s.pin}",${calculateTotalScore(s)},${Object.keys(completed).length},${passed},${cond},${fail}\n`;
+      });
+      const link = document.createElement("a");
+      link.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
+      link.download = "Rekap_Asesmen_Behavecounting.csv";
+      link.click();
+    }
+
+    function toggleAudioChimes() {
+      isAudioMuted = !isAudioMuted;
+      safeStorage.setItem("behave_audio_muted", isAudioMuted);
+      showToast(isAudioMuted ? "Suara dinonaktifkan" : "Suara diaktifkan", "info");
+    }
+
+    Object.assign(window, {
+      navigateHome, navigateToStudentPortal, handleEnterPortalClick,
+      openAuthModal, closeAuthModal, switchAuthTab,
+      handleStudentLogin, handleStudentRegister, checkStudentAccountForPIN,
+      handleLecturerLogin, handleUserLogout,
+      openDeskripsiRPSModal, closeDeskripsiRPSModal,
+      openMeetingWorkspace, closeMeetingWorkspace, handleReflectionTextInput,
+      handleFinishMeetingSession,
+      openPortfolioModal, closePortfolioModal, printPortfolioSheet,
+      openLecturerConsole, closeLecturerConsole, switchLecturerTab,
+      toggleSessionAccess, bulkSetSessions, exportClassGradesToCSV,
+      toggleAudioChimes, renderLandingLeaderboard, closeConfirmModal,
+      loadSlideSession, navigateSlideStep, handleLecturerLiveSearchNIM,
+      renderLecturerStudentsTable,
+      openDiscussionSlidesModal, closeDiscussionSlidesModal, navigateDiscussSlideStep
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderLandingLeaderboard();
+      updateLiveUserCount();
+    });
+  </script>
+</body>
+</html>
