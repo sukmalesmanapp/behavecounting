@@ -45,7 +45,7 @@
     ::-webkit-scrollbar-thumb:hover { background: #334155; }
     @media print {
       body { background: white !important; color: black !important; }
-      header, footer, #viewLanding, #viewStudentPortal, #globalDoodleBackdrop, .no-print, #toastContainer, #modalCustomConfirm, #modalAuth, #modalDeskripsiRPS, #modalMeetingWorkspace, #modalLecturerConsole {
+      header, footer, #viewLanding, #viewStudentPortal, #globalDoodleBackdrop, .no-print, #toastContainer, #modalCustomConfirm, #modalAuth, #modalDeskripsiRPS, #modalMeetingWorkspace, #modalLecturerConsole, #modalDiscussionSlides {
         display: none !important;
       }
       #modalPortfolioPreview { display: block !important; position: static !important; background: transparent !important; padding: 0 !important; margin: 0 !important; }
@@ -87,7 +87,7 @@
             <span class="text-base sm:text-lg font-black tracking-tight text-white group-hover:text-teal-400 transition-colors">Behavecounting</span>
             <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 font-bold hidden sm:inline-block">RPS 14 Sesi</span>
           </div>
-          <p id="headerSubtitle" class="text-[11px] text-slate-400 font-medium">Laboratorium Akuntansi Keperilakuan Berbasis Evaluasi Presisi</p>
+          <p id="headerSubtitle" class="text-[11px] text-slate-400 font-medium">Laboratorium Akuntansi Keperilakuan & Studi Kasus Integratif</p>
         </div>
       </div>
 
@@ -122,7 +122,7 @@
       <div class="text-center max-w-4xl mx-auto space-y-5">
         <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-bold tracking-wide">
           <i class="fa-solid fa-certificate text-teal-400"></i>
-          <span>Kurikulum Lengkap 14 Pertemuan RPS • Evaluasi Otomatis Tanpa Uji Ulang</span>
+          <span>Kurikulum 14 Pertemuan RPS • Terbuka Sesi 1 & Proyek Sesi 14</span>
         </div>
 
         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.15]">
@@ -130,7 +130,7 @@
         </h1>
 
         <p class="text-sm sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
-          Uji bias kognitif, senjangan anggaran, skeptisisme audit, dan dilema etika manajerial. Status evaluasi teori akuntansi keperilakuan diuji secara objektif saat Anda mengunci keputusan.
+          Uji empiris rasionalitas terbatas, disonansi moral, agensi, senjangan anggaran, bias kognitif, hingga Project-Based Learning esai integratif.
         </p>
 
         <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-5">
@@ -230,7 +230,7 @@
           </div>
           <h3 class="text-base font-extrabold text-white">Profil Kompetensi Keperilakuan Akuntan Profesional</h3>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Dimensi psikometri diadaptasi dari standar IES 4 (IFAC): Integritas & Keberanian Etis, Skeptisisme Profesional, Objektivitas & Resistensi Bias, serta Pertimbangan Keputusan Fidusia.
+            Dimensi psikometri standar IES 4: Integritas & Keberanian Etis, Skeptisisme Profesional, Objektivitas & Resistensi Bias, serta Pertimbangan Keputusan Fidusia.
           </p>
           <div class="pt-2 text-[11px] text-slate-400 font-mono space-y-1.5">
             <div class="flex items-center justify-between border-b border-slate-800 pb-1">
@@ -259,19 +259,88 @@
 
       <!-- 14 Sessions Grid -->
       <div class="space-y-4">
-        <div class="border-b border-slate-800 pb-3">
-          <h3 class="text-base sm:text-lg font-black text-white flex items-center gap-2">
-            <i class="fa-solid fa-book-open-reader text-teal-400"></i>
-            Daftar 14 Pertemuan Laboratorium RPS
-          </h3>
-          <p class="text-xs text-slate-400">Pilih pertemuan untuk memulai simulasi. Setiap sesi dikerjakan sekali tanpa fitur uji ulang.</p>
+        <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-white flex items-center gap-2">
+              <i class="fa-solid fa-book-open-reader text-teal-400"></i>
+              Daftar 14 Pertemuan Laboratorium RPS
+            </h3>
+            <p class="text-xs text-slate-400">Sesi 1 dan Sesi 14 (PjBL Esai) terbuka sejak awal. Hasil kelulusan Sesi 14 dipublikasikan setelah Sesi 13 tuntas.</p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 text-xs font-bold font-mono">
+            P1 & P14 Unlocked
+          </span>
         </div>
         <div id="studentSessionsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
       </div>
     </section>
   </main>
 
-  <!-- MODAL: WORKSPACE SESI -->
+  <!-- Footer Attribution -->
+  <footer class="relative z-20 border-t border-slate-800/80 bg-slate-950 py-6 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-400 mt-auto">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center space-x-2">
+        <span class="font-extrabold text-slate-300">Behavecounting</span>
+        <span>•</span>
+        <span id="footerCopyright">Platform Laboratorium Akuntansi Keperilakuan</span>
+      </div>
+      <div>
+        <a href="https://scholar.google.com/citations?user=B2m6ZkIAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 font-bold hover:underline transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-user-tie"></i>
+          <span>Sukma Lesmana, Ph.D</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL BERSAMA: SLIDE PRESENTASI PEMBAHASAN MENDALAM -->
+  <div id="modalDiscussionSlides" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/90 backdrop-blur-md hidden">
+    <div class="w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+      <div class="px-6 py-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/40 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-person-chalkboard text-base"></i>
+          </div>
+          <div>
+            <h3 id="discussModalTitle" class="text-sm sm:text-base font-extrabold text-white">Slide Pembahasan Kasus & Rujukan Teori</h3>
+            <p id="discussModalSubtitle" class="text-xs text-teal-400 font-medium">Analisis Rinci Konsep Keperilakuan & Keputusan Manajerial</p>
+          </div>
+        </div>
+        <button onclick="closeDiscussionSlidesModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 flex-1 text-xs">
+        <div id="discussSlideViewerWrapper" class="rounded-3xl border border-slate-700 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 p-6 sm:p-8 shadow-2xl relative min-h-[420px] flex flex-col justify-between">
+          <div id="discussSlideContentBody"></div>
+
+          <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between">
+            <button onclick="navigateDiscussSlideStep(-1)" id="btnDiscussSlidePrev" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs flex items-center space-x-2 transition">
+              <i class="fa-solid fa-chevron-left text-[10px]"></i>
+              <span>Slide Sebelumnya</span>
+            </button>
+            
+            <span id="discussSlideIndicatorBadge" class="px-3.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono font-bold text-xs">
+              Slide 1 / 4
+            </span>
+
+            <button onclick="navigateDiscussSlideStep(1)" id="btnDiscussSlideNext" class="px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs flex items-center space-x-2 transition shadow-md shadow-teal-500/20">
+              <span>Slide Berikutnya</span>
+              <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 py-3.5 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-xs text-slate-400 flex-shrink-0">
+        <span>Otoritas Akademik: <strong class="text-slate-200">Sukma Lesmana, Ph.D</strong></span>
+        <button onclick="closeDiscussionSlidesModal()" class="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition">Tutup Pembahasan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: WORKSPACE SESI (MENDUKUNG ESAI PJBL MIN 250 KATA) -->
   <div id="modalMeetingWorkspace" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/90 backdrop-blur-md hidden">
     <div class="w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
       <div class="px-6 py-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
@@ -288,27 +357,30 @@
       </div>
 
       <div class="p-6 overflow-y-auto space-y-6 text-xs text-slate-200 flex-1">
+        <!-- Theory Banner -->
         <div class="p-4 rounded-2xl bg-indigo-950/30 border border-indigo-800/40 space-y-1.5">
           <div class="flex items-center space-x-2 text-indigo-400 font-bold">
             <i class="fa-solid fa-book-bookmark text-xs"></i>
-            <span>Landasan Teori & Konstruk Keperilakuan:</span>
+            <span id="wsTheoryLabelHeading">Landasan Teori & Konstruk Keperilakuan:</span>
           </div>
           <div id="wsTheoryDescription" class="text-slate-300 leading-relaxed text-[11px]"></div>
           <div class="mt-2 pt-2 border-t border-indigo-900/40 text-[10px] text-indigo-300">
             <i class="fa-solid fa-circle-info mr-1"></i>
-            <span>Konsep kunci wajib dalam refleksi: </span>
+            <span>Konsep kunci wajib dalam refleksi/esai: </span>
             <span id="wsKeyTheoryConcepts" class="font-bold text-amber-300"></span>
           </div>
         </div>
 
+        <!-- Case / Project Narrative -->
         <div class="space-y-2">
-          <h4 class="text-xs font-black uppercase tracking-wider text-teal-400 flex items-center gap-2">
-            <i class="fa-solid fa-file-lines"></i> Skenario Kasus Laboratorium
+          <h4 id="wsCaseLabelHeading" class="text-xs font-black uppercase tracking-wider text-teal-400 flex items-center gap-2">
+            <i class="fa-solid fa-file-lines"></i> Skenario Kasus / Instruksi Proyek
           </h4>
           <div id="wsCaseNarrative" class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-slate-300 leading-relaxed text-xs"></div>
         </div>
 
-        <div class="space-y-3">
+        <!-- SECTION PILIHAN GANDA (DISEMBUNYIKAN KHUSUS UNTUK SESI 14 PJBL) -->
+        <div id="wsOptionsContainer" class="space-y-3">
           <div class="flex justify-between items-center">
             <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
               <i class="fa-solid fa-code-branch"></i> Alternatif Keputusan Keperilakuan (Pilih 1 dari 4 Opsi)
@@ -326,17 +398,32 @@
           </div>
         </div>
 
+        <!-- SECTION LEMBAR REFLEKSI / ESAI PROYEK PJBL -->
         <div class="space-y-2">
           <div class="flex items-center justify-between">
-            <h4 class="text-xs font-black uppercase tracking-wider text-indigo-400 flex items-center gap-2">
-              <i class="fa-solid fa-pen-fancy"></i> Lembar Kerja & Refleksi Mandiri Mahasiswa
+            <h4 id="wsReflectionLabelHeading" class="text-xs font-black uppercase tracking-wider text-indigo-400 flex items-center gap-2">
+              <i class="fa-solid fa-pen-fancy"></i> Lembar Analisis & Refleksi Mandiri Mahasiswa
             </h4>
-            <span id="wsCharCountBadge" class="text-[10px] text-slate-400">Min. 40 Karakter & Relevan Teori</span>
+            <span id="wsCharCountBadge" class="text-[10px] text-slate-400 font-mono">Min. 40 Karakter</span>
           </div>
-          <textarea id="wsReflectionText" oninput="handleReflectionTextInput()" rows="4" placeholder="Uraikan dasar pertimbangan Anda: kaitkan keputusan di atas dengan teori akuntansi keperilakuan yang relevan, identifikasi bias kognitif yang timbul, dan rumuskan mitigasinya..." class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-3.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 leading-relaxed"></textarea>
+          <textarea id="wsReflectionText" oninput="handleReflectionTextInput()" rows="7" placeholder="Tuliskan analisis Anda..." class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-3.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 leading-relaxed"></textarea>
+          
           <div class="flex items-center justify-between pt-1 text-[11px] text-slate-400">
-            <span><i class="fa-solid fa-shield-halved text-teal-400 mr-1"></i>Analisis teori akan dievaluasi sistem saat Anda mengunci keputusan.</span>
+            <span id="wsReviewHintText"><i class="fa-solid fa-shield-halved text-teal-400 mr-1"></i>Analisis dievaluasi AI presisi saat Anda mengunci keputusan.</span>
             <span id="wsReviewStatusBadge" class="font-mono"></span>
+          </div>
+
+          <!-- KARTU EVALUASI AI JIKA JAWABAN TIDAK TEPAT / PERLU REVISI -->
+          <div id="wsAIFeedbackPrecisionBox" class="hidden p-4 rounded-2xl bg-slate-950 border border-rose-500/50 text-xs space-y-2.5 mt-2">
+            <div class="flex items-center justify-between text-rose-300 font-bold">
+              <span class="flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation text-rose-400"></i> Hasil Evaluasi AI Presisi</span>
+              <span id="wsAIGradeTag" class="px-2 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40 text-[10px]">TIDAK LULUS</span>
+            </div>
+            <p id="wsAIFeedbackMessage" class="text-slate-300 leading-relaxed"></p>
+            <div class="p-3 rounded-xl bg-slate-900 border border-teal-500/40 space-y-1">
+              <strong class="text-teal-300 block text-[11px]"><i class="fa-solid fa-key mr-1"></i>Kunci Pembahasan Rujukan Teori yang Valid:</strong>
+              <p id="wsAIGoldenAnswerText" class="text-slate-300 text-[11px] leading-relaxed"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -345,7 +432,7 @@
         <button onclick="closeMeetingWorkspace()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs transition">Batal</button>
         <button id="wsBtnCompleteSession" onclick="handleFinishMeetingSession()" class="px-5 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs transition flex items-center space-x-2 shadow-lg shadow-teal-500/20">
           <i class="fa-solid fa-circle-check"></i>
-          <span>Simpan & Kunci Keputusan Sesi Ini</span>
+          <span id="wsBtnFinishSessionText">Simpan & Kunci Keputusan Sesi Ini</span>
         </button>
       </div>
     </div>
@@ -361,7 +448,7 @@
           </div>
           <div>
             <h3 class="text-sm sm:text-base font-extrabold text-white">Transkrip Portofolio Laboratorium Akuntansi Keperilakuan</h3>
-            <p class="text-xs text-slate-400">Rekapitulasi Asesmen Tunggal & Status Kelulusan Teoretis</p>
+            <p class="text-xs text-slate-400">Rekapitulasi 14 Pertemuan RPS & Hasil Proyek Integratif</p>
           </div>
         </div>
         <div class="flex items-center space-x-2">
@@ -501,7 +588,7 @@
     </div>
   </div>
 
-  <!-- MODAL: KONSOL PENGAMPU DENGAN SLIDE PRESENTASI & PENCARIAN MAHASISWA -->
+  <!-- MODAL: KONSOL PENGAMPU -->
   <div id="modalLecturerConsole" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/90 backdrop-blur-md hidden">
     <div class="w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
       <div class="px-6 py-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
@@ -519,7 +606,6 @@
         </button>
       </div>
 
-      <!-- Navigation Tabs (3 Tabs) -->
       <div class="grid grid-cols-3 bg-slate-950 border-b border-slate-800 p-1 text-xs font-bold flex-shrink-0">
         <button onclick="switchLecturerTab('sessions')" id="tabLecSessions" class="py-2.5 rounded-xl bg-slate-800 text-white transition flex items-center justify-center space-x-2">
           <i class="fa-solid fa-sliders text-teal-400"></i>
@@ -542,11 +628,11 @@
           <div class="flex justify-between items-center p-4 rounded-2xl bg-slate-950 border border-slate-800">
             <div>
               <h4 class="font-extrabold text-white text-sm">Manajemen Buka/Tutup Sesi (14 Pertemuan)</h4>
-              <p class="text-slate-400 text-xs">Buka atau tutup akses laboratorium sesuai jadwal perkuliahan.</p>
+              <p class="text-slate-400 text-xs">Sesi 1 dan Sesi 14 berstatus terbuka sejak awal perkuliahan secara default.</p>
             </div>
             <div class="flex space-x-2">
               <button onclick="bulkSetSessions(true)" class="px-3 py-1.5 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/40 font-bold text-xs">Buka Semua Sesi</button>
-              <button onclick="bulkSetSessions(false)" class="px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold text-xs">Kunci Semua (Kecuali P1)</button>
+              <button onclick="bulkSetSessions(false)" class="px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold text-xs">Kunci (Kecuali P1 & P14)</button>
             </div>
           </div>
           <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950">
@@ -554,7 +640,7 @@
               <thead class="bg-slate-900 font-bold text-slate-300 border-b border-slate-800">
                 <tr>
                   <th class="p-3 w-14 text-center">Sesi</th>
-                  <th class="p-3">Materi Perkuliahan</th>
+                  <th class="p-3">Materi Silabus</th>
                   <th class="p-3 w-32 text-center">Status Akses</th>
                   <th class="p-3 w-40 text-right">Tindakan</th>
                 </tr>
@@ -564,7 +650,7 @@
           </div>
         </div>
 
-        <!-- TAB 2: SLIDE PRESENTASI PEMBAHASAN TEORETIS -->
+        <!-- TAB 2: SLIDE PRESENTASI PEMBAHASAN -->
         <div id="lecTabSlidesContent" class="hidden space-y-5">
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-2xl bg-slate-950 border border-slate-800">
             <div>
@@ -572,23 +658,18 @@
                 <i class="fa-solid fa-person-chalkboard text-teal-400"></i>
                 Slide Presentasi Pembahasan Teoretis RPS
               </h4>
-              <p class="text-slate-400 text-xs">Modul tayang kuliah berisi argumen ilmiah, telaah opsi A-D, dan konstruk teori akuntansi keperilakuan.</p>
+              <p class="text-slate-400 text-xs">Pilih sesi untuk menayangkan pembahasan rinci 4 slide dekomposisi kasus.</p>
             </div>
             <div class="flex items-center space-x-2 w-full sm:w-auto">
               <span class="text-slate-400 font-bold whitespace-nowrap">Pilih Sesi:</span>
-              <select id="lecSlideSessionSelect" onchange="loadLecturerSlideSession(this.value)" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-teal-300 font-bold focus:outline-none focus:border-teal-500">
-                <!-- Diisi via JS (Sesi 1 s.d. 14) -->
+              <select id="lecSlideSessionSelect" onchange="loadSlideSession(this.value)" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-teal-300 font-bold focus:outline-none focus:border-teal-500">
               </select>
             </div>
           </div>
 
-          <!-- SLIDE VIEWER CONTAINER -->
           <div id="lecSlideViewerWrapper" class="rounded-3xl border border-slate-700 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 p-6 sm:p-8 shadow-2xl relative min-h-[420px] flex flex-col justify-between">
-            <div id="lecSlideContentBody">
-              <!-- Render slide content dynamically -->
-            </div>
+            <div id="lecSlideContentBody"></div>
 
-            <!-- Slide Bottom Controls -->
             <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between">
               <button onclick="navigateSlideStep(-1)" id="btnSlidePrev" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs flex items-center space-x-2 transition">
                 <i class="fa-solid fa-chevron-left text-[10px]"></i>
@@ -609,7 +690,7 @@
           </div>
         </div>
 
-        <!-- TAB 3: REKAPITULASI & MESIN PENCARI MAHASISWA BERBASIS NIM -->
+        <!-- TAB 3: REKAPITULASI & PENCARIAN NIM -->
         <div id="lecTabStudentsContent" class="hidden space-y-5">
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
@@ -626,7 +707,6 @@
             </div>
           </div>
 
-          <!-- MESIN SEARCHING BERBASIS NIM -->
           <div class="p-4 rounded-2xl bg-slate-950 border border-indigo-500/40 space-y-3">
             <div class="flex items-center space-x-2 text-indigo-300 font-bold text-xs">
               <i class="fa-solid fa-magnifying-glass text-teal-400"></i>
@@ -642,12 +722,9 @@
                 <span>Cari Cepat</span>
               </button>
             </div>
-
-            <!-- Kartu Hasil Pencarian Spesifik -->
             <div id="lecNIMQuickSearchResultCard" class="hidden p-4 rounded-xl bg-slate-900 border border-slate-700 text-xs space-y-2"></div>
           </div>
 
-          <!-- Ekspor CSV & Filter Kelas -->
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
             <div class="flex items-center space-x-2 w-full sm:w-auto">
               <span class="text-slate-400 font-bold">Saring Kelas:</span>
@@ -661,7 +738,6 @@
             </button>
           </div>
 
-          <!-- Tabel Data Mahasiswa -->
           <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950">
             <table class="w-full text-left text-[11px]">
               <thead class="bg-slate-900 font-bold text-slate-300 border-b border-slate-800">
@@ -819,117 +895,284 @@
       if (confirmCallback) { confirmCallback(accepted); confirmCallback = null; }
     }
 
-    /* 14 SESI RPS - DENGAN ARGUMEN TEORITIS LENGKAP UNTUK SLIDE PRESENTASI & EVALUASI */
+    /* 14 SESI RPS LENGKAP - SESUAI SILABUS DAN SESI 14 SEBAGAI PROJECT BASED LEARNING ESAI */
     const CURRICULUM_MEETINGS = [
       {
-        session: 1, phase_id: "Fase I: Fondasi & Pengantar",
-        title_id: "Pengantar Akuntansi Keperilakuan & Aspek Kognitif",
-        theory_summary_id: "Bounded Rationality (Herbert Simon, 1957) & Heuristik Kognitif (Kahneman & Tversky, 1974)",
-        theory_id: "<p>Keterbatasan kapasitas pemrosesan informasi (<em>computational constraints</em>) dan tekanan batas waktu mendorong akuntan menggunakan jalan pintas mental (<em>heuristics</em>). Keputusan cenderung memuaskan secara heuristik (<em>satisficing</em>) alih-alih optimal, memicu bias ketersediaan (<em>availability bias</em>).</p>",
+        session: 1,
+        title_id: "Pengantar & Rasionalitas Terbatas",
+        phase_id: "Fase Fondasi Teori",
+        is_pjbl: false,
+        theory_summary_id: "Bounded Rationality (Herbert Simon, 1957) & Heuristik Kognitif",
+        theory_id: "<p>Herbert Simon (1957) membantah asumsi rasionalitas ekonomi mutlak. Pengambil keputusan dibatasi komputasi kognitif dan tekanan waktu, menghasilkan tindakan <em>satisficing</em> yang rentan bias heuristik.</p>",
         required_keywords: ["bounded rationality", "rasionalitas terbatas", "satisficing", "heuristik", "availability bias", "kognitif", "estimasi", "waktu"],
         min_keywords_needed: 2,
-        golden_option: "Opsi C (Mitigasi Bounded Rationality: Eskalasi Waktu Resmi 24 Jam)",
-        theoretical_defense: "Herbert Simon (1957) membuktikan bahwa batasan kognitif di bawah time pressure memicu distorsi sistematis. Mengajukan perpanjangan waktu terstruktur adalah tindakan fidusia rasional guna memutus heuristik availability bias dan menjamin reliabilitas laporan.",
-        cognitive_trap: "Availability Bias & Rule-of-Thumb Shortcut (mengasumsikan estimasi kasar tahun lalu sudah memadai tanpa rekonsiliasi faktual).",
-        narrative_id: "Anda menjabat asisten manajer keuangan di PT Sentosa. Di bawah tekanan tenggat waktu audit yang tinggal 4 jam, Anda diminta menentukan estimasi penyusutan dan cadangan piutang ragu-ragu atas aset lini produksi baru.",
+        golden_option: "Opsi C (Eskalasi Formal Permintaan Waktu Rekonsiliasi)",
+        theoretical_defense: "Mencegah bias ketersediaan dan satisficing suboptimal melalui prosedur verifikasi data terstruktur.",
+        cognitive_trap: "Availability Heuristic Trap (menggunakan data instan masa lalu tanpa pengujian empiris).",
+        narrative_id: "Anda menjabat asisten manajer keuangan di PT Sentosa. Di bawah tekanan tenggat waktu audit yang tinggal 4 jam, Anda diminta menentukan estimasi penyusutan dan cadangan piutang ragu-ragu atas lini produksi baru.",
         options: [
-          { id: "opt_a", label_id: "Opsi A (Jalan Pintas Heuristik Murni): Menggunakan estimasi persentase tahun lalu secara langsung tanpa verifikasi ulang demi memenuhi deadline audit tepat waktu.", consequence_id: "Laporan audit selesai kilat, namun audit mendeteksi distorsi estimasi sebesar 18%. Mengindikasikan Availability Bias yang parah.", metrics: { ethic: -15, skeptic: -20, slack: -5, risk: -15 } },
-          { id: "opt_b", label_id: "Opsi B (Satisficing Parsial): Menguji sampel 10% transaksi secara acak lalu mengekstrapolasikan sisanya tanpa rekonsiliasi rinci.", consequence_id: "Memitigasi sedikit deviasi, namun masih menyisakan risiko salah saji material karena sampel tidak terstratifikasi.", metrics: { ethic: -5, skeptic: -5, slack: 0, risk: -5 } },
-          { id: "opt_c", label_id: "Opsi C (Mitigasi Bounded Rationality): Mengajukan eskalasi resmi penambahan waktu 24 jam dengan melampirkan kertas kerja rekonsiliasi komprehensif.", consequence_id: "Sedikit terjadi keterlambatan administratif, namun keandalan laporan terjamin 100% dan bebas dari bias kognitif.", metrics: { ethic: 15, skeptic: 20, slack: 5, risk: 15 } },
-          { id: "opt_d", label_id: "Opsi D (Delegasi Tanpa Supervisi): Melimpahkan estimasi kepada staf magang tanpa panduan teknis agar tanggung jawab waktu terbagi.", consequence_id: "Melanggar asas due care dan memperbesar bias ketidaktahuan staf dalam kalkulasi aset.", metrics: { ethic: -20, skeptic: -15, slack: -10, risk: -20 } }
+          { id: "opt_a", label_id: "Opsi A (Heuristik Cepat): Memakai angka persentase tahun lalu tanpa rekonsiliasi demi mengejar batas waktu.", consequence_id: "Laporan rampung cepat, namun audit menemukan distorsi depresiasi 18%. Mengindikasikan Availability Bias.", metrics: { ethic: -15, skeptic: -20, slack: -5, risk: -15 } },
+          { id: "opt_b", label_id: "Opsi B (Satisficing Parsial): Menguji sampel 10% acak tanpa memperhatikan stratifikasi materialitas saldo.", consequence_id: "Risiko salah saji material tetap terbuka akibat jalan pintas komputasi.", metrics: { ethic: -5, skeptic: -5, slack: 0, risk: -5 } },
+          { id: "opt_c", label_id: "Opsi C (Mitigasi Rasionalitas Terbatas): Mengajukan eskalasi resmi perpanjangan waktu 24 jam dengan kertas kerja rekonsiliasi.", consequence_id: "Keandalan laporan terjaga 100% dan terhindar dari bias estimasi kognitif.", metrics: { ethic: 15, skeptic: 20, slack: 5, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Delegasi Tanpa Supervisi): Melimpahkan estimasi kepada staf magang tanpa supervisi standar.", consequence_id: "Melanggar prinsip due care dan memperparah kekeliruan perhitungan aset.", metrics: { ethic: -20, skeptic: -15, slack: -10, risk: -20 } }
         ]
       },
       {
-        session: 2, phase_id: "Fase I: Fondasi & Pengantar",
-        title_id: "Sikap, Persepsi, dan Nilai Personal Akuntan",
-        theory_summary_id: "Cognitive Dissonance Theory (Festinger, 1957) & Model Etika Rest (1986)",
-        theory_id: "<p>Disonansi kognitif muncul saat tuntutan kepatuhan hierarki berbenturan dengan nilai etika profesional. Sikap pasif akibat <em>obedience to authority</em> melumpuhkan sensitivitas moral akuntan.</p>",
+        session: 2,
+        title_id: "Disonansi Kognitif & Etika Keuangan",
+        phase_id: "Fase Sikap & Nilai",
+        is_pjbl: false,
+        theory_summary_id: "Cognitive Dissonance Theory (Festinger, 1957) & Moral Sensitivity (Rest, 1986)",
+        theory_id: "<p>Disonansi kognitif timbul ketika tekanan manajerial bertentangan dengan standar etika profesional. Kepatuhan buta pada figur otoritas melumpuhkan kepekaan moral akuntan.</p>",
         required_keywords: ["disonansi", "cognitive dissonance", "nilai personal", "etika", "kapitalisasi", "psak", "kepatuhan", "sensitivitas moral"],
         min_keywords_needed: 2,
-        golden_option: "Opsi C (Advokasi Standar Teknis PSAK & Eskalasi ke Komite Audit)",
-        theoretical_defense: "Leon Festinger (1957) menekankan bahwa disonansi batin harus diselesaikan melalui tindakan nyata yang konsisten dengan nilai etika, bukan melalui rasionalisasi pasif atas perintah atasan.",
-        cognitive_trap: "Obedience to Authority Trap (merasionalisasi manipulasi kapitalisasi biaya dengan anggapan tanggung jawab moral berada pada direksi).",
+        golden_option: "Opsi C (Advokasi Teknis Standar PSAK ke Komite Audit)",
+        theoretical_defense: "Mengatasi ketegangan disonansi moral melalui tindakan penegakan standar kepatuhan regulasi akuntansi.",
+        cognitive_trap: "Obedience to Authority Trap (merasionalisasi manipulasi kapitalisasi beban demi perintah atasan).",
         narrative_id: "Direktur Keuangan menginstruksikan Anda mengkapitalisasi beban perbaikan rutin mesin sebesar Rp 800 Juta menjadi aset tetap agar laba kuartal berjalan tetap memenuhi target analis pasar modal.",
         options: [
-          { id: "opt_a", label_id: "Opsi A (Kepatuhan Pasif): Menyetujui kapitalisasi dan merasionalisasi bahwa keputusan tersebut adalah wewenang mutlak atasan.", consequence_id: "Menimbulkan disonansi moral berat. Terjadi pelanggaran prinsip objektivitas dan standar PSAK 16.", metrics: { ethic: -20, skeptic: -15, slack: -10, risk: -20 } },
-          { id: "opt_b", label_id: "Opsi B (Kompromi Parsial): Mengkapitalisasi 50% beban dan mencatat sisanya sebagai biaya operasional untuk meredam konflik.", consequence_id: "Manipulasi tetap terjadi dan menunjukkan kompromi integritas tanpa dasar akuntansi yang valid.", metrics: { ethic: -10, skeptic: -10, slack: -5, risk: -15 } },
-          { id: "opt_c", label_id: "Opsi C (Advokasi Standar Teknis): Menyusun memo kepatuhan resmi mengacu kriteria PSAK dan meminta pertemuan tinjauan dengan Komite Audit.", consequence_id: "Menyelamatkan laporan keuangan perusahaan dari potensi restatement dan menegakkan integritas fidusia.", metrics: { ethic: 20, skeptic: 20, slack: 10, risk: 15 } },
-          { id: "opt_d", label_id: "Opsi D (Menghindar / Lepas Tangan): Mengajukan cuti mendadak agar rekan kerja lain yang menandatangani jurnal pemindahbukuan.", consequence_id: "Perilaku menghindar tidak menyelesaikan masalah etika dan merusak akuntabilitas kepemimpinan.", metrics: { ethic: -15, skeptic: -15, slack: -5, risk: -10 } }
+          { id: "opt_a", label_id: "Opsi A (Kepatuhan Pasif): Menyetujui kapitalisasi dan merasionalisasi bahwa tanggung jawab berada di tangan direktur.", consequence_id: "Memicu disonansi moral berat dan melanggar prinsip keandalan PSAK 16.", metrics: { ethic: -20, skeptic: -15, slack: -10, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Kompromi Parsial): Mengkapitalisasi 50% biaya dan mencatat sisanya sebagai beban operasional.", consequence_id: "Manipulasi tetap terjadi dan membuktikan kompromi integritas tanpa dasar akuntansi valid.", metrics: { ethic: -10, skeptic: -10, slack: -5, risk: -15 } },
+          { id: "opt_c", label_id: "Opsi C (Advokasi Standar Teknis): Menyusun memo kepatuhan resmi mengacu kriteria PSAK dan meminta telaah Komite Audit.", consequence_id: "Menyelamatkan laporan keuangan perusahaan dari potensi restatement dan menegakkan integritas fidusia.", metrics: { ethic: 20, skeptic: 20, slack: 10, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Menghindar): Mengajukan cuti mendadak agar staf lain yang menandatangani jurnal pemindahbukuan.", consequence_id: "Perilaku menghindar merusak akuntabilitas kepemimpinan profesional.", metrics: { ethic: -15, skeptic: -15, slack: -5, risk: -10 } }
         ]
       },
       {
-        session: 3, phase_id: "Fase I: Fondasi & Pengantar",
-        title_id: "Motivasi, Kebutuhan, & Desain Kompensasi Manajerial",
-        theory_summary_id: "Agency Theory (Jensen & Meckling, 1976) & Managerial Myopia",
-        theory_id: "<p>Kompensasi bonus jangka pendek berbasis angka laba memicu rabun manajerial (<em>managerial myopia</em>): agen memotong biaya pemeliharaan produktif demi bonus pribadi dengan merugikan nilai masa depan prinsipal.</p>",
-        required_keywords: ["agency theory", "teori agensi", "myopia", "rabun", "insentif", "bonus", "pemeliharaan", "balanced scorecard", "prinsipal"],
+        session: 3,
+        title_id: "Teori Penentuan Diri & Sistem Kompensasi",
+        phase_id: "Fase Motivasi Manajerial",
+        is_pjbl: false,
+        theory_summary_id: "Self-Determination Theory (Deci & Ryan, 2000) & Crowding-Out Effect",
+        theory_id: "<p>Insentif ekstrinsik moneter yang dirancang terlalu agresif dapat mengikis motivasi intrinsik (<em>crowding-out effect</em>), memicu perilaku manipulasi metrik laba jangka pendek.</p>",
+        required_keywords: ["self-determination", "penentuan diri", "intrinsik", "ekstrinsik", "crowding-out", "kompensasi", "balanced scorecard", "motivasi"],
         min_keywords_needed: 2,
-        golden_option: "Opsi C (Restrukturisasi Insentif Berimbang / Balanced Scorecard)",
-        theoretical_defense: "Agency Theory (Jensen & Meckling, 1976) membuktikan perlunya multi-matriks insentif guna memitigasi asimetri kepentingan dan menjaga kelangsungan modal prinsipal.",
-        cognitive_trap: "Myopic Behavior Trap (mengorbankan kesehatan aset jangka panjang demi pemenuhan bonus moneter kuartalan).",
-        narrative_id: "Perusahaan menerapkan sistem bonus agresif berdasarkan laba bersih tahunan divisi. Anda mengetahui pemangkasan biaya pemeliharaan armada logistik akan mendongkrak laba saat ini namun merusak aset tahun depan.",
+        golden_option: "Opsi C (Desain Skema Multi-Indikator Balanced Scorecard)",
+        theoretical_defense: "Mendorong motivasi intrinsik berkelanjutan dan menghindarkan manajer dari godaan mengorbankan kualitas demi bonus kas.",
+        cognitive_trap: "Extrinsic Myopia (fokus berlebihan pada reward moneter jangka pendek yang merusak integritas sistem).",
+        narrative_id: "Manajemen menerapkan sistem bonus kas agresif berbasis laba bulanan. Rekan manajer memangkas program pelatihan staf dan keselamatan kerja demi bonus pribadi.",
         options: [
-          { id: "opt_a", label_id: "Opsi A (Perilaku Miopik Ekstrem): Membatalkan seluruh jadwal perawatan preventif armada untuk mengamankan bonus 100%.", consequence_id: "Bonus cair maksimal, namun 40% armada mogok fatal di tahun berikutnya menimbulkan kerugian tiga kali lipat.", metrics: { ethic: -20, skeptic: -10, slack: -20, risk: -25 } },
-          { id: "opt_b", label_id: "Opsi B (Penundaan Sebagian): Hanya merawat armada yang mengalami gejala kerusakan kritis.", consequence_id: "Menunda kerusakan sementara namun tetap mempercepat depresiasi aset modal perusahaan.", metrics: { ethic: -5, skeptic: -5, slack: -10, risk: -10 } },
-          { id: "opt_c", label_id: "Opsi C (Restrukturisasi Insentif Berimbang): Merekomendasikan indikator kinerja berimbang (Balanced Scorecard) mencakup uptime armada.", consequence_id: "Menciptakan keselarasan tujuan (goal congruence) antara manajer dan pemilik modal jangka panjang.", metrics: { ethic: 20, skeptic: 15, slack: 15, risk: 15 } },
-          { id: "opt_d", label_id: "Opsi D (Membebankan Biaya ke Divisi Lain): Memindahkan alokasi biaya pemeliharaan ke pos biaya operasional divisi tetangga.", consequence_id: "Pelanggaran serius transfer pricing internal dan mendistorsi evaluasi kinerja antardivisi.", metrics: { ethic: -25, skeptic: -20, slack: -15, risk: -25 } }
+          { id: "opt_a", label_id: "Opsi A (Ikut Memotong Biaya): Menunda anggaran keselamatan kerja demi bonus divisi maksimal.", consequence_id: "Bonus bulanan tercapai namun risiko kecelakaan kerja meningkat tajam.", metrics: { ethic: -20, skeptic: -10, slack: -20, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Menunggu Audit): Membiarkan praktik rekan kerja tanpa memberikan masukan alternatif.", consequence_id: "Budaya organisasi memburuk akibat erosi motivasi intrinsik keselamatan kerja.", metrics: { ethic: -10, skeptic: -5, slack: -10, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Skema Insentif Berimbang): Mengusulkan metrik Balanced Scorecard mencakup keselamatan kerja dan loyalitas staf.", consequence_id: "Menciptakan keselarasan motivasi intrinsik dan kinerja jangka panjang.", metrics: { ethic: 20, skeptic: 15, slack: 15, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Memindahkan Pos Beban): Membebankan biaya keselamatan kerja ke divisi lain secara sepihak.", consequence_id: "Pelanggaran alokasi akuntansi biaya dan merusak hubungan antardepartemen.", metrics: { ethic: -25, skeptic: -20, slack: -15, risk: -25 } }
         ]
       },
       {
-        session: 4, phase_id: "Fase II: Penganggaran & Slack",
-        title_id: "Senjangan Anggaran (Budgetary Slack) & Asimetri Informasi",
-        theory_summary_id: "Budgetary Slack Theory (Dunk, 1993; Onsi, 1973) & Information Asymmetry",
-        theory_id: "<p>Manajer memanfaatkan keunggulan informasi operasional lokal (asimetri informasi) untuk menggelembungkan estimasi biaya demi mempermudah pencapaian target dan mengamankan insentif.</p>",
-        required_keywords: ["budgetary slack", "senjangan anggaran", "asimetri informasi", "padding", "efisiensi", "fidusia", "target"],
+        session: 4,
+        title_id: "Asimetri Informasi & Agency Theory",
+        phase_id: "Fase Tata Hubungan Agensi",
+        is_pjbl: false,
+        theory_summary_id: "Agency Theory (Jensen & Meckling, 1976) & Goal Congruence",
+        theory_id: "<p>Prinsipal dan agen memiliki utilitas yang berbeda. Manajer operasional memanfaatkan keunggulan informasi lokal untuk memaksimalkan kepentingan sendiri (<em>moral hazard</em>).</p>",
+        required_keywords: ["asimetri informasi", "agency theory", "teori agensi", "prinsipal", "agen", "moral hazard", "goal congruence", "transparansi"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi C (Penyelarasan Kontrak Informasi & Audit Operasional Independen)",
+        theoretical_defense: "Mengurangi agency costs dan asimetri informasi melalui mekanisme pengawasan transparan dan kontrak insentif selaras.",
+        cognitive_trap: "Moral Hazard Opportunism (memanfaatkan celah ketiadaan monitoring prinsipal).",
+        narrative_id: "Sebagai manajer cabang, Anda memiliki data bahwa kapasitas produksi sesungguhnya 20% lebih tinggi daripada yang dilaporkan ke kantor pusat. Anda tergoda menyembunyikan kapasitas ini.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Sembunyikan Kapasitas): Menyimpan cadangan kapasitas tanpa melapor untuk mencapai target santai.", consequence_id: "Terjadi moral hazard akut dan kerugian potensi pendapatan bagi prinsipal.", metrics: { ethic: -25, skeptic: -15, slack: -25, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Lapor Bertahap): Melaporkan kenaikan kapasitas 5% saja tiap semester.", consequence_id: "Asimetri informasi tetap dieksploitasi untuk kepentingan pribadi agen.", metrics: { ethic: -10, skeptic: -5, slack: -15, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Transparansi Penuh & Keselarasan Tujuan): Melaporkan kapasitas riil disertai usulan kontrak bonus efisiensi terukur.", consequence_id: "Mewujudkan goal congruence dan menekan agency costs perusahaan.", metrics: { ethic: 20, skeptic: 15, slack: 20, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Menjual Kapasitas Ilegal): Menggunakan kelebihan kapasitas untuk pesanan pihak luar secara rahasia.", consequence_id: "Tindak pidana penggelapan aset perusahaan dan pemecatan langsung.", metrics: { ethic: -30, skeptic: -25, slack: -25, risk: -30 } }
+        ]
+      },
+      {
+        session: 5,
+        title_id: "Penganggaran & Budgetary Slack",
+        phase_id: "Fase Perilaku Penganggaran",
+        is_pjbl: false,
+        theory_summary_id: "Budgetary Slack Theory (Dunk, 1993; Onsi, 1973) & Padding Bias",
+        theory_id: "<p>Tingginya penekanan anggaran (<em>budget emphasis</em>) mendorong manajer menciptakan bantalan biaya (<em>padding</em>) demi rasa aman personal dan jaminan pencapaian target.</p>",
+        required_keywords: ["budgetary slack", "senjangan anggaran", "padding", "penganggaran", "asimetri", "efisiensi", "fidusia", "target"],
         min_keywords_needed: 2,
         golden_option: "Opsi C (Pengajuan Anggaran Riil & Cadangan Kontinjensi Transparan 5%)",
-        theoretical_defense: "Dunk (1993) mengidentifikasi bahwa budgetary slack terjadi karena kombinasi budgetary participation, information asymmetry, dan budget emphasis. Mengajukan transparansi kontinjensi bersyarat mengeliminasi padding oportunistik.",
-        cognitive_trap: "Budget Padding & Cushion Bias (menggelembungkan pagu pengeluaran secara sepihak untuk menciptakan zona nyaman pribadi).",
-        narrative_id: "Kebutuhan anggaran riil departemen Anda adalah Rp 500 Juta. Direksi tidak memiliki informasi detail mengenai vendor lokal dan memberi Anda keleluasaan menentukan pagu pengajuan.",
+        theoretical_defense: "Meniadakan budgetary slack tersembunyi dengan tetap mengakomodasi risiko operasional secara terbuka dan akuntabel.",
+        cognitive_trap: "Budget Cushion Trap (menggelembungkan biaya secara sistematis demi zona nyaman).",
+        narrative_id: "Estimasi biaya riil divisi Anda adalah Rp 500 Juta. Direksi tidak memiliki rincian teknis vendor lokal dan memberikan Anda wewenang penuh menetapkan angka pagu.",
         options: [
-          { id: "opt_a", label_id: "Opsi A (Padding Ekstrem): Mengajukan anggaran Rp 750 Juta (Slack 50%) agar divisi bekerja santai dan bonus terjamin.", consequence_id: "Menciptakan inefisiensi alokasi modal besar dan merugikan dividen pemegang saham.", metrics: { ethic: -25, skeptic: -15, slack: -30, risk: -20 } },
-          { id: "opt_b", label_id: "Opsi B (Slack Moderat): Mengajukan Rp 625 Juta (Slack 25%) dengan alasan cadangan risiko inflasi tak terduga.", consequence_id: "Bantalan anggaran masih berlebihan dan mengindikasikan eksploitasi asimetri informasi.", metrics: { ethic: -10, skeptic: -5, slack: -15, risk: -10 } },
-          { id: "opt_c", label_id: "Opsi C (Cadangan Kontinjensi Transparan): Mengajukan biaya pokok Rp 500 Juta ditambah dana kontinjensi bersyarat 5% dengan otorisasi ketat.", consequence_id: "Menjaga kejujuran fidusia sekaligus memberi fleksibilitas operasional yang akuntabel.", metrics: { ethic: 20, skeptic: 15, slack: 20, risk: 15 } },
-          { id: "opt_d", label_id: "Opsi D (Underbudgeting Tidak Realistis): Mengajukan Rp 450 Juta di bawah estimasi wajar demi reputasi efisiensi di mata direksi.", consequence_id: "Menyebabkan kemacetan operasional di tengah tahun karena kekurangan likuiditas riil.", metrics: { ethic: 5, skeptic: -15, slack: -10, risk: -20 } }
+          { id: "opt_a", label_id: "Opsi A (Padding Ekstrem): Mengajukan pagu Rp 750 Juta (Slack 50%) agar pencapaian target sangat mudah.", consequence_id: "Menimbulkan pemborosan alokasi modal pemegang saham dan inefisiensi berat.", metrics: { ethic: -25, skeptic: -15, slack: -30, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Slack Moderat): Mengajukan Rp 625 Juta (Slack 25%) sebagai bantalan aman pribadi.", consequence_id: "Bantalan tersembunyi merugikan likuiditas divisi lain yang membutuhkan modal.", metrics: { ethic: -10, skeptic: -5, slack: -15, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Anggaran Riil + Kontinjensi Terbuka): Mengajukan Rp 500 Juta dengan cadangan risiko transparan 5% berbasis persetujuan.", consequence_id: "Menjaga kejujuran anggaran dan integritas alokasi sumber daya perusahaan.", metrics: { ethic: 20, skeptic: 15, slack: 20, risk: 15 } },
+          { id: "opt_d", label_id: "Opsi D (Underbudgeting Palsu): Mengajukan Rp 450 Juta di bawah estimasi wajar demi pujian direksi.", consequence_id: "Menyebabkan kemacetan operasional di tengah tahun karena anggaran tidak realistis.", metrics: { ethic: 5, skeptic: -15, slack: -10, risk: -20 } }
         ]
+      },
+      {
+        session: 6,
+        title_id: "Penilaian Kinerja & Motivasi",
+        phase_id: "Fase Evaluasi Strategis",
+        is_pjbl: false,
+        theory_summary_id: "Controllability Principle & Common Measures Bias (Lipe & Salterio, 2000)",
+        theory_id: "<p>Evaluasi kinerja sering kali terjebak pada metrik keuangan bersama (<em>common measures bias</em>) dan menghukum manajer atas faktor eksternal tak terkendali (<em>outcome bias</em>).</p>",
+        required_keywords: ["penilaian kinerja", "motivasi", "controllability", "common measures", "outcome bias", "balanced scorecard", "evaluasi"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Dekomposisi Kinerja Terkendali & Apresiasi Metrik Strategis)",
+        theoretical_defense: "Menerapkan controllability principle agar evaluasi memotivasi manajer berkinerja unggul tanpa terdemotivasi oleh guncangan makro.",
+        cognitive_trap: "Outcome Bias (menilai kualitas manajer hanya dari angka laba akhir tanpa menganalisis faktor proses kerja).",
+        narrative_id: "Divisi A gagal memenuhi target laba bersih akibat lonjakan inflasi dan kurs valas global, namun kepuasan pelanggan dan efisiensi energi mencapai rekor 98%.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Hukum Finansial Mutlak): Memberikan predikat kinerja buruk semata karena laba finansial merah.", consequence_id: "Terjebak outcome bias; talenta terbaik demotivasi dan mengundurkan diri.", metrics: { ethic: -15, skeptic: -15, slack: -5, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Manipulasi Nilai): Mengubah bobot indikator secara diam-diam agar divisi tetap tampak hijau.", consequence_id: "Melanggar objektivitas audit pengukuran kinerja.", metrics: { ethic: -15, skeptic: -10, slack: -5, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Abaikan Metrik Finansial): Menghilangkan perspektif keuangan dari evaluasi tahunan.", consequence_id: "Menghilangkan akuntabilitas terhadap pengembalian investasi pemegang saham.", metrics: { ethic: 0, skeptic: -10, slack: 5, risk: -10 } },
+          { id: "opt_d", label_id: "Opsi D (Dekomposisi Kinerja Terkendali): Mengisolasi dampak kurs tak terkendali dan mengapresiasi pencapaian efisiensi non-keuangan.", consequence_id: "Menegakkan prinsip keterkendalian (controllability principle) dan mempertahankan loyalitas staf.", metrics: { ethic: 20, skeptic: 20, slack: 15, risk: 15 } }
+        ]
+      },
+      {
+        session: 7,
+        title_id: "Bias Kognitif & Heuristik",
+        phase_id: "Fase Keputusan Keuangan",
+        is_pjbl: false,
+        theory_summary_id: "Prospect Theory (Kahneman & Tversky, 1979) & Anchoring Heuristic",
+        theory_id: "<p>Pengambil keputusan bersikap *risk-averse* pada bingkai keuntungan (*gain frame*), namun bersikap *risk-seeking* spekulatif pada bingkai kerugian (*loss frame*) akibat *loss aversion*.</p>",
+        required_keywords: ["bias kognitif", "heuristik", "prospect theory", "framing", "loss aversion", "anchoring", "risk seeking", "risk averse"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Normalisasi Nilai Harapan / Expected Value Matematis)",
+        theoretical_defense: "Mendekonstruksi pembingkaian linguistik proposal menjadi matriks probabilitas objektif bebas bias psikologis.",
+        cognitive_trap: "Loss Aversion Trap (mengambil judi spekulatif berisiko tinggi hanya demi menghindari pencatatan rugi pasti).",
+        narrative_id: "Proyek pabrik bernilai Rp 50 Miliar macet. Konsultan menyajikan dua proposal yang dibingkai sebagai 'Penyelamatan Modal Pasti' versus 'Peluang Menghindari Kerugian Total'.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Judi Spekulatif Loss Frame): Memilih opsi judi 50/50 demi menghindari pencatatan rugi buku.", consequence_id: "Terjebak loss aversion; perusahaan berisiko pailit total jika judi gagal.", metrics: { ethic: -15, skeptic: -20, slack: -10, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Anchoring Angka Konsultan): Langsung menyetujui rekomendasi angka pertama konsultan.", consequence_id: "Menunjukkan kegagalan penyesuaian kognitif terhadap estimasi independen.", metrics: { ethic: -5, skeptic: -15, slack: 0, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Tunda Keputusan): Membiarkan proyek mengambang tanpa restrukturisasi.", consequence_id: "Biaya hangus membengkak setiap bulan tanpa penyelesaian.", metrics: { ethic: -10, skeptic: -10, slack: -5, risk: -15 } },
+          { id: "opt_d", label_id: "Opsi D (Normalisasi Expected Value): Menghitung nilai harapan matematis independen bebas dari bias framing konsultan.", consequence_id: "Mengambil keputusan modal rasional berdasarkan nilai bersih terbobot risiko.", metrics: { ethic: 20, skeptic: 20, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 8,
+        title_id: "Pertimbangan Audit",
+        phase_id: "Fase Skeptisisme & Bukti",
+        is_pjbl: false,
+        theory_summary_id: "Professional Skepticism (Hurtt, 2010) & Audit Quality Reduction",
+        theory_id: "<p>Tekanan anggaran waktu audit (<em>time budget pressure</em>) memicu perilaku disfungsional penghentian prosedur audit secara prematur (<em>premature sign-off</em>).</p>",
+        required_keywords: ["pertimbangan audit", "audit judgment", "skeptisisme", "premature sign-off", "tekanan waktu", "bukti audit", "kertas kerja", "independensi"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Eskalasi Transparan Kendala Waktu & Stratifikasi Audit Berbasis Risiko)",
+        theoretical_defense: "Mempertahankan skeptisisme profesional tanpa kompromi integritas pengujian bukti fisik.",
+        cognitive_trap: "Premature Sign-Off (menandatangani kertas kerja pemeriksaan tanpa memeriksa bukti fisik riil).",
+        narrative_id: "Sisa waktu audit hanya 2 jam, namun 300 sampel faktur piutang bernilai tinggi belum diverifikasi dokumen fisiknya. Senior auditor menuntut pekerjaan selesai malam ini.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Premature Sign-Off): Menandatangani kertas kerja sampel tanpa mencocokkan faktur fisik.", consequence_id: "Pelanggaran fatal SPAP/ISA; faktur fiktif lolos dan kantor akuntan terancam tuntutan hukum.", metrics: { ethic: -25, skeptic: -25, slack: -5, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Palsukan Tanggal): Mengubah tanggal kertas kerja seolah-olah diverifikasi minggu depan.", consequence_id: "Tindakan manipulasi administratif yang melanggar kode etik integritas.", metrics: { ethic: -20, skeptic: -15, slack: -5, risk: -15 } },
+          { id: "opt_c", label_id: "Opsi C (Periksa 5 Sampel Acak): Hanya memeriksa 5 sampel dan menganggap sisanya benar.", consequence_id: "Ukuran sampel tidak memadai untuk mendeteksi risiko salah saji material.", metrics: { ethic: -10, skeptic: -15, slack: 0, risk: -15 } },
+          { id: "opt_d", label_id: "Opsi D (Eskalasi Risiko & Tambahan Jam Audit): Melaporkan kendala ke partner audit untuk menambah jam uji substantif.", consequence_id: "Menjaga skeptisisme profesional dan keandalan opini audit independen.", metrics: { ethic: 20, skeptic: 25, slack: 10, risk: 20 } }
+        ]
+      },
+      {
+        session: 9,
+        title_id: "Keputusan Investasi & Valuasi",
+        phase_id: "Fase Eskalasi & Sunk Cost",
+        is_pjbl: false,
+        theory_summary_id: "Escalation of Commitment & Sunk Cost Fallacy (Barry Staw, 1976)",
+        theory_id: "<p>Manajer cenderung mengucurkan dana tambahan pada proyek gagal demi mempertahankan reputasi masa lalu (*self-justification*) alih-alih mengabaikan biaya tertanam (*sunk cost*).</p>",
+        required_keywords: ["keputusan investasi", "valuasi", "sunk cost", "eskalasi komitmen", "self-justification", "cut loss", "npv", "arus kas"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Audit Independen & Penghentian Proyek / Cut-Loss Berbasis NPV Prospektif)",
+        theoretical_defense: "Memisahkan biaya historis hangus dari analisis arus kas masa depan demi menjaga solvabilitas korporasi.",
+        cognitive_trap: "Sunk Cost Trap (terjebak pembenaran diri untuk menyelamatkan modal masa lalu yang tak dapat dipulihkan).",
+        narrative_id: "Proyek software digital yang Anda inisiasi telah menghabiskan Rp 10 Miliar namun terbukti gagal secara arsitektur sistem. Tim meminta suntikan Rp 4 Miliar lagi.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Suntik Dana Tambahan): Mengucurkan Rp 4 Miliar lagi demi menyelamatkan gengsi keputusan awal Anda.", consequence_id: "Terjebak eskalasi komitmen; modal baru kembali hangus tanpa perbaikan performa.", metrics: { ethic: -15, skeptic: -20, slack: -15, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Sembunyikan Kegagalan): Menutupi laporan kendala software agar tidak ditegur dewan komisaris.", consequence_id: "Informasi menyesatkan pemegang saham dan menumpuk liabilitas tersembunyi.", metrics: { ethic: -25, skeptic: -20, slack: -10, risk: -25 } },
+          { id: "opt_c", label_id: "Opsi C (Pindahkan Proyek): Mengalihkan proyek ke divisi lain tanpa menyelesaikan akar masalah.", consequence_id: "Memindahkan beban inefisiensi kepada kolega manajer lain.", metrics: { ethic: -10, skeptic: -10, slack: -5, risk: -15 } },
+          { id: "opt_d", label_id: "Opsi D (Hentikan Proyek & Cut-Loss): Menghentikan pendanaan secara rasional berdasarkan analisis NPV prospektif negatif.", consequence_id: "Menyelamatkan sisa likuiditas korporasi dari jebakan biaya tertanam.", metrics: { ethic: 20, skeptic: 20, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 10,
+        title_id: "Kecurangan Laporan Keuangan",
+        phase_id: "Fase Fraud & Rasionalisasi",
+        is_pjbl: false,
+        theory_summary_id: "Fraud Triangle (Cressey, 1953) & Moral Disengagement (Bandura, 1999)",
+        theory_id: "<p>Kecurangan finansial memerlukan konvergensi tekanan, peluang, dan rasionalisasi moral. Pelaku menonaktifkan kontrol moral dengan eufemisme 'hanya pinjaman sementara'.</p>",
+        required_keywords: ["kecurangan", "fraud", "fraud triangle", "rasionalisasi", "moral disengagement", "pengendalian intern", "tekanan", "peluang"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Tegakkan Opname Kas & Bantuan Dana Kesejahteraan Formal)",
+        theoretical_defense: "Menghilangkan peluang dan rasionalisasi moral melalui kepatuhan SOP kontrol intern tanpa mengabaikan saluran legal.",
+        cognitive_trap: "Moral Rationalization Trap (membenarkan pelanggaran kas kecil atas dasar empati emosional personal).",
+        narrative_id: "Kasir senior tertangkap tangan meminjam uang kas kecil Rp 15 Juta tanpa pencatatan untuk biaya operasi keluarga, berniat mengembalikannya saat gajian bulan depan.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Tutup Mata Karena Empati): Membiarkan selisih kas tanpa dicatat karena kasir berjanji menggantinya.", consequence_id: "Melegalkan rasionalisasi fraud; selisih kas merembet ke departemen lain.", metrics: { ethic: -25, skeptic: -20, slack: -15, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Catat Beban Fiktif): Membuat faktur pengeluaran fiktif untuk menyeimbangkan saldo kas.", consequence_id: "Tindak pidana pemalsuan dokumen akuntansi yang menyeret Anda ke sanksi hukum.", metrics: { ethic: -30, skeptic: -25, slack: -20, risk: -30 } },
+          { id: "opt_c", label_id: "Opsi C (Sanksi Sepihak Tanpa Lapor): Meminta kasir mengembalikan uang dengan bunga pribadi.", consequence_id: "Penyalahgunaan wewenang manajerial dan pemerasan rekan kerja.", metrics: { ethic: -25, skeptic: -15, slack: -10, risk: -20 } },
+          { id: "opt_d", label_id: "Opsi D (Tegakkan Kontrol Kas & Solusi Formal): Menegakkan berita acara selisih kas dan memfasilitasi pinjaman darurat resmi koperasi.", consequence_id: "Menjaga integritas sistem pengendalian intern tanpa mengorbankan empati legal.", metrics: { ethic: 25, skeptic: 20, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 11,
+        title_id: "Whistleblowing & Etika Organisasi",
+        phase_id: "Fase Keberanian Moral",
+        is_pjbl: false,
+        theory_summary_id: "Theory of Planned Behavior (Ajzen, 1991) & Bystander Apathy",
+        theory_id: "<p>Niat melaporkan kecurangan ditentukan sikap moral dan kontrol perilaku. Ketakutan akan retaliasi dan difusi tanggung jawab (*bystander effect*) sering melumpuhkan akuntan.</p>",
+        required_keywords: ["whistleblowing", "etika organisasi", "bystander", "retaliasi", "keberanian moral", "planned behavior", "saluran pelaporan", "transparansi"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Pelaporan Terenkripsi Melalui Saluran Independen Eksternal)",
+        theoretical_defense: "Mewujudkan keberanian moral fidusia dengan proteksi bukti hukum resmi guna memitigasi retaliasi korporat.",
+        cognitive_trap: "Bystander Apathy (berdiam diri karena menganggap rekan kerja lain yang berwenang melapor).",
+        narrative_id: "Anda menemukan bukti transfer fiktif direksi sebesar Rp 20 Miliar ke rekening pribadi. Rekan kerja mengingatkan risiko pemecatan jika Anda melaporkan temuan tersebut.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Hapus Kertas Kerja): Memusnahkan bukti demi mengamankan jenjang karier dan pekerjaan Anda.", consequence_id: "Gagal menjalankan etika fidusia; Anda ikut terseret sebagai pihak yang bersekongkol.", metrics: { ethic: -30, skeptic: -25, slack: -15, risk: -30 } },
+          { id: "opt_b", label_id: "Opsi B (Bocorkan Anonim ke Media Sosial): Mengunggah dokumen rahasia ke media sosial tanpa verifikasi hukum.", consequence_id: "Melanggar kerahasiaan data dan terancam sanksi pencemaran nama baik.", metrics: { ethic: -15, skeptic: -15, slack: -5, risk: -25 } },
+          { id: "opt_c", label_id: "Opsi C (Gunakan Bukti untuk Negosiasi): Memakai bukti untuk meminta kenaikan jabatan ke direksi.", consequence_id: "Tindak pidana pemerasan yang menghancurkan masa depan profesional Anda.", metrics: { ethic: -35, skeptic: -20, slack: -20, risk: -35 } },
+          { id: "opt_d", label_id: "Opsi D (Whistleblowing Independen Resmi): Mengirim laporan ke saluran whistleblowing terenkripsi Komite Audit dan regulator.", consequence_id: "Menjunjung tinggi standar etika tertinggi profesi dan memicu perbaikan tata kelola.", metrics: { ethic: 30, skeptic: 25, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 12,
+        title_id: "AI, Otomasi & Dimensi Keperilakuan",
+        phase_id: "Fase Teknologi & Kognisi",
+        is_pjbl: false,
+        theory_summary_id: "Automation Bias vs Human-in-the-Loop Paradigm (Parasuraman, 2010)",
+        theory_id: "<p>Ketergantungan pasif pada komputasi algoritma otomatis (*automation bias*) menurunkan kewaspadaan kritis. Akuntan wajib menerapkan pendekatan *Human-in-the-Loop*.</p>",
+        required_keywords: ["ai", "otomasi", "automation bias", "human in the loop", "algoritma", "skeptisisme", "pertimbangan manusia", "validasi"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Pendekatan Human-in-the-Loop & Cross-Validasi Lapangan)",
+        theoretical_defense: "Menggabungkan kecepatan komputasi prediktif AI dengan skeptisisme kualitatif pertimbangan manusia.",
+        cognitive_trap: "Automation Bias (menyetujui rekomendasi mesin secara buta tanpa pembuktian independen).",
+        narrative_id: "Sistem AI audit merekomendasikan penghapusan piutang pelanggan B sebesar Rp 2 Miliar karena prediktor kredit merah. Anda mengetahui pelanggan B baru saja memenangkan proyek APBN besar.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Setujui Buta AI): Langsung menyetujui write-off piutang karena mempercayai AI 100%.", consequence_id: "Terkena Automation Bias; perusahaan kehilangan piutang bernilai tinggi yang sanggup bayar.", metrics: { ethic: -15, skeptic: -25, slack: -5, risk: -20 } },
+          { id: "opt_b", label_id: "Opsi B (Matikan Total AI): Menolak penggunaan teknologi otomatis dan kembali ke audit manual lambat.", consequence_id: "Menolak efisiensi teknologi dan menurunkan daya saing audit firma.", metrics: { ethic: -5, skeptic: -10, slack: 0, risk: -10 } },
+          { id: "opt_c", label_id: "Opsi C (Ubah Parameter Diam-diam): Memanipulasi parameter algoritma AI agar hasilnya sesuai kehendak Anda.", consequence_id: "Merusak tata kelola model AI dan mengaburkan jejak audit sistem.", metrics: { ethic: -15, skeptic: -15, slack: -5, risk: -15 } },
+          { id: "opt_d", label_id: "Opsi D (Human-in-the-Loop Cross-Validation): Menggunakan output AI sebagai peringatan awal namun menagih piutang berbasis bukti kontrak baru.", consequence_id: "Piutang tertagih penuh; membuktikan sinergi ideal kecerdasan buatan dan pertimbangan manusia.", metrics: { ethic: 20, skeptic: 25, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 13,
+        title_id: "Tata Kelola & Pengendalian Internal",
+        phase_id: "Fase Pengendalian & Budaya",
+        is_pjbl: false,
+        theory_summary_id: "Tone at the Top & COSO Internal Control Behavioral Dimensions",
+        theory_id: "<p>Pengendalian internal tidak sekadar prosedur teknis, melainkan atmosfer integritas kepemimpinan (*tone at the top*) yang membentuk kepatuhan perilaku di seluruh lini entitas.</p>",
+        required_keywords: ["tata kelola", "pengendalian internal", "tone at the top", "coso", "budaya organisasi", "integritas", "lingkungan pengendalian", "kepatuhan"],
+        min_keywords_needed: 2,
+        golden_option: "Opsi D (Restrukturisasi Lingkungan Pengendalian & Evaluasi Berbasis COSO)",
+        theoretical_defense: "Membangun tone at the top yang kredibel dan lingkungan pengendalian yang memperkuat perilaku etis kolektif.",
+        cognitive_trap: "Form-over-Substance Trap (menganggap sistem kontrol internal sudah berjalan hanya karena memiliki dokumen SOP di atas kertas).",
+        narrative_id: "Perusahaan memiliki buku SOP pengendalian internal lengkap, namun direktur operasional sering melanggar prosedur otorisasi pengadaan barang dengan dalih 'kondisi darurat bisnis'.",
+        options: [
+          { id: "opt_a", label_id: "Opsi A (Normalisasi Pelanggaran): Mengizinkan pengecualian otorisasi berkelanjutan demi fleksibilitas direktur.", consequence_id: "Merusak tone at the top; staf lain mulai mengabaikan SOP pengadaan barang.", metrics: { ethic: -20, skeptic: -20, slack: -15, risk: -25 } },
+          { id: "opt_b", label_id: "Opsi B (Formalitas Kertas Kerja): Menandatangani persetujuan mundur seolah-olah otorisasi dilakukan tepat waktu.", consequence_id: "Memalsukan dokumen kepatuhan internal dan mengaburkan defisiensi kontrol.", metrics: { ethic: -25, skeptic: -20, slack: -10, risk: -20 } },
+          { id: "opt_c", label_id: "Opsi C (Teguran Tertutup Tanpa Sistem): Menegur direktur secara lisan tanpa mencatat defisiensi pengendalian.", consequence_id: "Tidak ada perbaikan sistemik; risiko kebocoran kas terus berulang.", metrics: { ethic: -5, skeptic: -10, slack: -5, risk: -10 } },
+          { id: "opt_d", label_id: "Opsi D (Restrukturisasi Lingkungan Pengendalian): Mencatat temuan material ke Komite Audit dan merevisi matriks wewenang darurat yang transparan.", consequence_id: "Menegakkan tone at the top yang kokoh dan menyelaraskan budaya kepatuhan organisasi.", metrics: { ethic: 25, skeptic: 20, slack: 15, risk: 20 } }
+        ]
+      },
+      {
+        session: 14,
+        title_id: "Studi Kasus & Integrasi",
+        phase_id: "Project Based Learning (PjBL)",
+        is_pjbl: true, // FORMAT ESAI MINIMAL 250 KATA DENGAN DUKUNGAN TEORI
+        theory_summary_id: "Integrative Behavioral Governance, Agency Theory, Fraud Triangle & COSO Framework",
+        theory_id: "<p><strong>Project Based Learning (PjBL) Capstone:</strong> Mahasiswa menyusun esai analitis komprehensif (minimal 250 kata) berlandaskan referensi teori akuntansi keperilakuan guna merancang arsitektur tata kelola, memutus senjangan anggaran oportunistik, menghentikan eskalasi komitmen, serta membangun sistem pengendalian internal beretika.</p>",
+        required_keywords: ["bounded rationality", "agency theory", "teori agensi", "budgetary slack", "fraud triangle", "sunk cost", "coso", "tata kelola", "whistleblowing", "integritas", "fidusia", "balanced scorecard"],
+        min_keywords_needed: 4,
+        golden_option: "Blueprint Tata Kelola Keperilakuan Terpadu & Kerangka Kerja Holistik",
+        theoretical_defense: "Solusi PjBL yang valid mensyaratkan: (1) Penyelarasan Agency Theory melalui desain kompensasi Balanced Scorecard, (2) Mitigasi Budgetary Slack melalui partisipasi anggaran transparan, (3) Eliminasi rasionalisasi Fraud Triangle melalui lingkungan pengendalian COSO dan whistleblowing independen, serta (4) Protokol cut-loss independen berbasis NPV prospektif untuk memutus Sunk Cost Fallacy.",
+        cognitive_trap: "Analisis teknis dangkal (< 250 kata) tanpa rujukan teori akuntansi keperilakuan atau mengabaikan dimensi perilaku manusia dalam tata kelola.",
+        narrative_id: "TUGAS PROYEK INTEGRATIF (PjBL) - ESAI ANALITIS (MINIMAL 250 KATA):<br><br>PT Bahtera Nusantara mengalami krisis multidimensi: manipulasi laba oleh direksi (tekanan pasar modal), manajer divisi menciptakan senjangan anggaran (slack 40%), pembengkakan biaya sunk cost software ERP yang gagal (eskalasi komitmen), dan ketakutan staf untuk melapor (bystander effect).<br><br><strong>Instruksi PjBL:</strong> Tuliskan esai solusi komprehensif Anda (minimal 250 kata). Uraikan diagnosis masalah dan rancang blueprint tata kelola terpadu dengan mengintegrasikan minimal 4 teori akuntansi keperilakuan yang relevan (seperti Agency Theory, Fraud Triangle, COSO Framework, Bounded Rationality, atau Sunk Cost Theory).",
+        options: [] // Tidak menggunakan pilihan ganda
       }
     ];
-
-    for (let i = 5; i <= 14; i++) {
-      const titles = {
-        5: { t: "Partisipasi Anggaran & Komitmen Kinerja", th: "Goal-Setting Theory (Locke & Latham) & Psychological Ownership", kw: ["goal setting", "partisipasi anggaran", "komitmen", "psychological ownership", "target"], gold: "Opsi D (Target Menantang Realistis & Peta Risiko)", def: "Locke & Latham membuktikan target spesifik dan menantang menghasilkan performa superior dibanding sasaran mudah (sandbagging).", trap: "Sandbagging Trap (menurunkan target agar mudah dicapai)." },
-        6: { t: "Balanced Scorecard & Evaluasi Kinerja Subjektif", th: "Common Measures Bias & Outcome Bias (Lipe & Salterio, 2000)", kw: ["common measures", "outcome bias", "balanced scorecard", "subjektif", "evaluasi"], gold: "Opsi D (Evaluasi Holistik Isolasi Kurs Makro)", def: "Lipe & Salterio menunjukkan penilai cenderung hanya mengamati common financial measures. Mengisolasi faktor eksternal menjaga prinsip keterkendalian (controllability).", trap: "Common Measures & Outcome Bias." },
-        7: { t: "Tekanan Waktu & Perilaku Disfungsional Audit", th: "Audit Quality Reduction & Premature Sign-Off (Herrbach, 2001)", kw: ["premature sign-off", "tekanan waktu", "audit quality", "skeptisisme", "kertas kerja"], gold: "Opsi D (Transparansi Kendala & Stratifikasi Audit Berbasis Risiko)", def: "Herrbach (2001) memetakan premature sign-off sebagai reduksi mutu fatal. Eskalasi risiko menjaga standar skeptisisme profesional.", trap: "Premature Sign-Off (menandatangani kertas kerja tanpa bukti fisik)." },
-        8: { t: "Framing Effect & Prospect Theory dalam Keputusan Modal", th: "Prospect Theory & Loss Aversion (Kahneman & Tversky, 1979)", kw: ["prospect theory", "framing", "loss aversion", "risk averse", "risk seeking"], gold: "Opsi D (Normalisasi Nilai Harapan / Expected Value Matematis)", def: "Kahneman & Tversky membuktikan fungsi nilai S-curve asimetris: risk-seeking pada domain kerugian. Normalisasi matematis memutus framing effect.", trap: "Loss Aversion Trap (berjudi spekulatif saat keputusan dibingkai sebagai kerugian pasti)." },
-        9: { t: "Eskalasi Komitmen & Sunk Cost Fallacy", th: "Self-Justification Theory & Sunk Cost Fallacy (Barry Staw, 1976)", kw: ["sunk cost", "eskalasi komitmen", "self-justification", "cut loss", "npv"], gold: "Opsi D (Audit Independen & Cut-Loss Berbasis NPV Prospektif)", def: "Barry Staw (1976) meneliti entrapment psikologis. Pemisahan sunk cost historis dari arus kas masa depan mutlak untuk alokasi modal rasional.", trap: "Sunk Cost Fallacy (mengucurkan dana baru demi membela reputasi masa lalu)." },
-        10: { t: "Anchoring & Adjustment dalam Audit Forecasting", th: "Anchoring Heuristic (Tversky & Kahneman, 1974)", kw: ["anchoring", "adjustment", "jangkar", "peramalan", "independen"], gold: "Opsi D (Membangun Model Ekonometrika Independen dari Nol)", def: "Epley & Gilovich menunjukkan penyesuaian mental dari anchor berhenti terlalu dini (insufficient adjustment). Model ekonometrika independen melindungi estimasi.", trap: "Insufficient Adjustment Bias (mengikuti angka awal klien)." },
-        11: { t: "Fraud Triangle & Rasionalisasi Moral Akuntan", th: "Fraud Triangle (Cressey, 1953) & Moral Disengagement", kw: ["fraud triangle", "rasionalisasi", "tekanan", "peluang", "pengendalian intern"], gold: "Opsi D (Tegakkan Opname Kas & Bantuan Jalur Institusional Formal)", def: "Cressey (1953) menegaskan rasionalisasi ('hanya meminjam sementara') merusak sistem. Kontrol kas ketat dipadukan bantuan legal memutus segitiga kecurangan.", trap: "Moral Disengagement (meringankan rasa bersalah karena simpati emosional)." },
-        12: { t: "Dilema Whistleblowing & Teori Perilaku Terencana", th: "Theory of Planned Behavior (Ajzen) & Bystander Effect", kw: ["whistleblowing", "bystander", "planned behavior", "retaliasi", "keberanian moral"], gold: "Opsi D (Laporan Enkripsi Saluran Independen & Kertas Kerja Otentik)", def: "Ajzen (1991) memodelkan kontrol perilaku. Saluran pelaporan berenkripsi memitigasi bystander effect dan rasa takut akan retaliasi.", trap: "Bystander Apathy (diam karena berasumsi orang lain yang akan melapor)." },
-        13: { t: "Kepercayaan Kognitif pada AI & Sistem Otomasi Akuntansi", th: "Automation Bias vs Human-in-the-Loop (Parasuraman, 2010)", kw: ["automation bias", "human in the loop", "algoritma", "otomasi", "skeptisisme"], gold: "Opsi D (Pendekatan Human-in-the-Loop Cross-Validasi Lapangan)", def: "Parasuraman (2010) memaparkan complacency dalam bias otomasi. Kedaulatan penilaian fidusia tetap menuntut skeptisisme manusia.", trap: "Automation Bias (menyetujui rekomendasi mesin secara pasif tanpa telaah)." },
-        14: { t: "Refleksi Holistik: Akuntan Masa Depan Beretika", th: "Virtue Ethics (Aristoteles, MacIntyre) & Standar IFAC IES 4", kw: ["virtue ethics", "etika keutamaan", "ies 4", "fidusia", "integritas", "holistik"], gold: "Opsi D (Manifesto Kepemimpinan Akuntansi Berkelanjutan & IES 4)", def: "Virtue Ethics memandang akuntan sebagai penjaga kepentingan publik pasar modal dunia. Penguasaan aspek keperilakuan membangun ketahanan karakter.", trap: "Instrumentalisme kaku (mengabaikan substansi keperilakuan di balik angka)." }
-      };
-
-      const cur = titles[i];
-      CURRICULUM_MEETINGS.push({
-        session: i,
-        phase_id: `Fase ${i <= 7 ? 'III' : i <= 10 ? 'IV' : i <= 12 ? 'V' : 'VI'}: Studi Lanjutan`,
-        title_id: `P${i}: ${cur.t}`,
-        theory_summary_id: cur.th,
-        theory_id: `<p>Menganalisis fenomena psikologis dan perilaku keuangan dalam <strong>${cur.t}</strong> berbasis teori ${cur.th}. Mahasiswa dituntut menguraikan implikasi kepatuhan dan mitigasi bias.</p>`,
-        required_keywords: cur.kw,
-        min_keywords_needed: 2,
-        golden_option: cur.gold,
-        theoretical_defense: cur.def,
-        cognitive_trap: cur.trap,
-        narrative_id: `Skenario kasus simulasi laboratorium ke-${i}. Anda dihadapkan pada dilema manajerial yang memerlukan pertimbangan analitis mendalam serta objektivitas profesional tingkat tinggi.`,
-        options: [
-          { id: "opt_a", label_id: "Opsi A (Pilihan Oportunistik/Jalan Pintas): Memprioritaskan kepentingan personal atau angka jangka pendek tanpa verifikasi mendalam.", consequence_id: "Menimbulkan bias kognitif dan melanggar prinsip kehati-hatian profesi.", metrics: { ethic: -20, skeptic: -15, slack: -15, risk: -20 } },
-          { id: "opt_b", label_id: "Opsi B (Kepatuhan Formal Kaku): Mengikuti instruksi secara administratif tanpa telaah kritis terhadap dampak substansi bisnis.", consequence_id: "Menghindari sanksi langsung namun gagal menjalankan skeptisisme profesional.", metrics: { ethic: -5, skeptic: -5, slack: 0, risk: -5 } },
-          { id: "opt_c", label_id: "Opsi C (Solusi Kompromi Parsial): Mengambil keputusan tengah yang meredam konflik namun menyisakan distorsi akuntansi terselubung.", consequence_id: "Bukan solusi tuntas; risiko bias sistemik masih mengancam tata kelola organisasi.", metrics: { ethic: 0, skeptic: 5, slack: -5, risk: -5 } },
-          { id: "opt_d", label_id: "Opsi D (Prinsip Keutamaan & Tata Kelola Fidusia): Menegakkan standar etika, mitigasi bias kognitif, dan transparansi laporan secara menyeluruh.", consequence_id: "Menjunjung tinggi standar IES 4 dan menghasilkan nilai akuntabilitas berkelanjutan.", metrics: { ethic: 20, skeptic: 20, slack: 15, risk: 15 } }
-        ]
-      });
-    }
 
     let appState = {
       isLoggedIn: false,
@@ -939,32 +1182,37 @@
       currentWorkspaceMeeting: null,
       tempChoices: {},
       radarChartInstance: null,
-      currentSlideSession: 1,
-      currentSlideStep: 0
+      activeDiscussSession: 1,
+      activeDiscussStep: 0
     };
 
     function getSessionControls() {
-      const stored = safeStorage.getItem("behave_ctrls_v5");
+      const stored = safeStorage.getItem("behave_ctrls_v8");
       if (stored) { try { return JSON.parse(stored); } catch (e) {} }
       const init = {};
-      CURRICULUM_MEETINGS.forEach(m => init[m.session] = { session: m.session, isOpen: m.session === 1 });
+      CURRICULUM_MEETINGS.forEach(m => {
+        init[m.session] = {
+          session: m.session,
+          isOpen: (m.session === 1 || m.session === 14)
+        };
+      });
       return init;
     }
     function saveSessionControls(ctrls, sync = true) {
-      safeStorage.setItem("behave_ctrls_v5", JSON.stringify(ctrls));
+      safeStorage.setItem("behave_ctrls_v8", JSON.stringify(ctrls));
       if (sync) Object.keys(ctrls).forEach(k => syncControlToCloud(k, ctrls[k]));
     }
     function getSessionControl(s) {
-      return getSessionControls()[s] || { session: s, isOpen: false };
+      return getSessionControls()[s] || { session: s, isOpen: (s === 1 || s === 14) };
     }
 
     function getRegisteredStudents() {
-      const stored = safeStorage.getItem("behave_students_v5");
+      const stored = safeStorage.getItem("behave_students_v8");
       if (stored) { try { return JSON.parse(stored); } catch (e) {} }
       return [];
     }
     function saveRegisteredStudents(students, sync = true) {
-      safeStorage.setItem("behave_students_v5", JSON.stringify(students));
+      safeStorage.setItem("behave_students_v8", JSON.stringify(students));
       renderLandingLeaderboard();
       updateLiveUserCount();
     }
@@ -979,14 +1227,23 @@
       syncStudentToCloud(st);
     }
 
+    // Perhitungan Total Skor (Sesi 14 hanya diperhitungkan jika Sesi 13 sudah tuntas)
     function calculateTotalScore(st) {
       if (!st) return 0;
       const completed = st.completedSessions || {};
+      const isSession13Done = !!completed[13];
       let passedCount = 0;
-      Object.values(completed).forEach(item => {
+
+      Object.keys(completed).forEach(sNum => {
+        const item = completed[sNum];
+        // Aturan: Sesi 14 ditunda publikasi kelulusan & skornya hingga Sesi 13 tuntas
+        if (parseInt(sNum) === 14 && !isSession13Done) {
+          return;
+        }
         if (item.statusGrade === "LULUS") passedCount += 1;
         else if (item.statusGrade === "LULUS BERSYARAT") passedCount += 0.5;
       });
+
       const progress = Math.round((passedCount / 14) * 600);
       const m = st.metrics || { ethic: 50, skeptic: 50, slack: 50, risk: 50 };
       const avg = (m.ethic + m.skeptic + m.slack + m.risk) / 4;
@@ -1015,12 +1272,17 @@
 
       let filtered = list.map(s => {
         const completed = s.completedSessions || {};
+        const is13Done = !!completed[13];
         let passed = 0, conditionallyPassed = 0, failed = 0;
-        Object.values(completed).forEach(item => {
+
+        Object.keys(completed).forEach(sNum => {
+          const item = completed[sNum];
+          if (parseInt(sNum) === 14 && !is13Done) return; // Pending
           if (item.statusGrade === "LULUS") passed++;
           else if (item.statusGrade === "LULUS BERSYARAT") conditionallyPassed++;
           else failed++;
         });
+
         return {
           ...s,
           totalScore: calculateTotalScore(s),
@@ -1072,11 +1334,11 @@
         card.innerHTML = `
           <div class="flex justify-between items-center">
             <span class="px-2.5 py-0.5 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/40 font-mono font-bold text-xs">P${m.session}</span>
-            <span class="text-[10px] text-indigo-400">${m.phase_id}</span>
+            <span class="text-[10px] text-indigo-400 font-bold">${m.phase_id}</span>
           </div>
           <h4 class="font-extrabold text-white text-xs">${m.title_id}</h4>
           <p class="text-slate-400 text-[11px]">${m.theory_summary_id}</p>
-          <div class="text-[10px] text-slate-500 font-mono">Konsep Wajib: ${m.required_keywords.join(', ')}</div>
+          <div class="text-[10px] text-slate-500 font-mono">${m.is_pjbl ? 'Format: Esai PjBL (Min. 250 Kata) • Teori Wajib: ' : 'Konsep Wajib: '}${m.required_keywords.join(', ')}</div>
         `;
         body.appendChild(card);
       });
@@ -1194,6 +1456,7 @@
       else openAuthModal('login');
     }
 
+    /* RENDER PORTAL MAHASISWA & PENUNDAAN STATUS PUBLIKASI SESI 14 PJBL */
     function renderStudentPortal() {
       if (!appState.activeStudent) return;
       const s = appState.activeStudent;
@@ -1202,6 +1465,7 @@
       document.getElementById("spStudentNIM").innerText = s.nim;
 
       const completed = s.completedSessions || {};
+      const isSession13Done = !!completed[13];
       const count = Object.keys(completed).length;
       document.getElementById("spProgressCount").innerText = `${count} / 14 Sesi Selesai`;
 
@@ -1219,33 +1483,52 @@
         const item = completed[meet.session];
         const isDone = !!item;
         const ctrl = getSessionControl(meet.session);
+        const isOpen = ctrl.isOpen;
 
         let badgeStatus = '<span class="text-[10px] font-bold text-slate-400">Tersedia</span>';
+
         if (isDone) {
-          if (item.statusGrade === "LULUS") badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">LULUS</span>';
-          else if (item.statusGrade === "LULUS BERSYARAT") badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">LULUS BERSYARAT</span>';
-          else badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px] font-bold">TIDAK LULUS</span>';
-        } else if (!ctrl.isOpen) {
+          // LOGIKA KHUSUS SESI 14 PJBL: Status kelulusan hanya dipublish jika Sesi 13 tuntas
+          if (meet.session === 14 && !isSession13Done) {
+            badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold"><i class="fa-solid fa-clock mr-1"></i>TERKIRIM (MENUNGGU PENYELESAIAN SESI 13)</span>';
+          } else if (item.statusGrade === "LULUS") {
+            badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">LULUS</span>';
+          } else if (item.statusGrade === "LULUS BERSYARAT") {
+            badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">LULUS BERSYARAT</span>';
+          } else {
+            badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px] font-bold">TIDAK LULUS</span>';
+          }
+        } else if (!isOpen) {
           badgeStatus = '<span class="text-[10px] font-bold text-rose-400">Ditutup Pengampu</span>';
+        } else if (meet.session === 14) {
+          badgeStatus = '<span class="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold">PROYEK ESAI TERBUKA</span>';
         }
 
         const card = document.createElement("div");
-        card.className = `p-5 rounded-3xl border flex flex-col justify-between ${isDone ? 'bg-slate-900/80 border-slate-700' : !ctrl.isOpen ? 'bg-slate-950/60 border-slate-800 opacity-60' : 'bg-slate-900 border-teal-500/30'}`;
+        card.className = `p-5 rounded-3xl border flex flex-col justify-between ${
+          isDone ? 'bg-slate-900/80 border-slate-700' :
+          !isOpen ? 'bg-slate-950/60 border-slate-800 opacity-60' :
+          meet.session === 14 ? 'bg-slate-900 border-indigo-500/50 shadow-lg shadow-indigo-500/10' :
+          'bg-slate-900 border-teal-500/30'
+        }`;
         
         let actionButtonHTML = "";
         if (isDone) {
           actionButtonHTML = `
-            <div class="flex items-center space-x-1.5 text-xs text-slate-400 font-bold">
-              <i class="fa-solid fa-lock text-slate-500"></i>
-              <span>Sesi Tuntas (Terkunci)</span>
+            <div class="flex items-center space-x-2">
+              <span class="text-[11px] font-bold text-slate-400"><i class="fa-solid fa-lock text-slate-500 mr-1"></i>Tuntas</span>
+              <button onclick="openDiscussionSlidesModal(${meet.session})" class="px-3 py-1.5 rounded-xl bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white border border-indigo-500/40 font-bold text-xs flex items-center space-x-1 transition shadow-sm">
+                <i class="fa-solid fa-person-chalkboard text-teal-400"></i>
+                <span>Buka Slide Pembahasan</span>
+              </button>
             </div>
           `;
-        } else if (!ctrl.isOpen) {
+        } else if (!isOpen) {
           actionButtonHTML = `<button disabled class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-slate-800 text-slate-500 cursor-not-allowed">Terkunci</button>`;
         } else {
           actionButtonHTML = `
-            <button onclick="openMeetingWorkspace(${meet.session})" class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-teal-500 hover:bg-teal-400 text-slate-950 transition shadow-md">
-              Mulai Lab
+            <button onclick="openMeetingWorkspace(${meet.session})" class="px-3.5 py-1.5 rounded-xl font-bold text-xs ${meet.session === 14 ? 'bg-indigo-600 hover:bg-indigo-500 text-white' : 'bg-teal-500 hover:bg-teal-400 text-slate-950'} transition shadow-md">
+              ${meet.session === 14 ? 'Mulai Esai PjBL' : 'Mulai Lab'}
             </button>
           `;
         }
@@ -1253,14 +1536,14 @@
         card.innerHTML = `
           <div class="space-y-2">
             <div class="flex justify-between items-center">
-              <span class="px-2 py-0.5 rounded-lg text-xs font-mono font-bold ${isDone ? 'bg-slate-800 text-slate-300' : 'bg-teal-500 text-slate-950'}">P${meet.session}</span>
+              <span class="px-2 py-0.5 rounded-lg text-xs font-mono font-bold ${isDone ? 'bg-slate-800 text-slate-300' : meet.session === 14 ? 'bg-indigo-500 text-white' : 'bg-teal-500 text-slate-950'}">P${meet.session}</span>
               ${badgeStatus}
             </div>
             <h4 class="font-extrabold text-sm text-white">${meet.title_id}</h4>
             <p class="text-xs text-slate-400 line-clamp-2">${meet.theory_summary_id}</p>
           </div>
           <div class="pt-4 border-t border-slate-800 mt-4 flex justify-between items-center">
-            <span class="text-[10px] text-slate-500">${isDone ? 'Asesmen Tunggal' : 'Uji Pemahaman'}</span>
+            <span class="text-[10px] text-slate-500">${meet.session === 14 ? 'Project Based Learning (Esai Min 250 Kata)' : 'Asesmen Kasus'}</span>
             ${actionButtonHTML}
           </div>
         `;
@@ -1293,27 +1576,58 @@
       });
     }
 
-    /* SISTEM REVIEW JAWABAN MAHASISWA BERBASIS KESESUAIAN TEORI */
+    function countWords(str) {
+      return str.trim().split(/\s+/).filter(Boolean).length;
+    }
+
+    // REVIEW AI PRESISI DENGAN VALIDASI KATA & REFERENSI TEORI
     function evaluateStudentTheoryAlignment(text, meeting) {
       const lower = text.toLowerCase();
       const matched = meeting.required_keywords.filter(kw => lower.includes(kw.toLowerCase()));
       const matchCount = matched.length;
+      const wordCount = countWords(text);
 
       let grade = "TIDAK LULUS";
       let feedback = "";
+      let isValid = false;
 
-      if (matchCount >= 3 && text.length >= 60) {
-        grade = "LULUS";
-        feedback = `Refleksi Sangat Baik & Presisi! Anda berhasil mengintegrasikan teori (${matched.join(', ')}) ke dalam analisis keputusan secara komprehensif.`;
-      } else if (matchCount >= meeting.min_keywords_needed && text.length >= 40) {
-        grade = "LULUS BERSYARAT";
-        feedback = `Refleksi Cukup Baik. Teori (${matched.join(', ')}) telah teridentifikasi, namun elaborasi argumentasi mitigasi bias perlu diperdalam lagi.`;
+      // VALIDASI KHUSUS SESI 14 (PjBL ESAI MINIMAL 250 KATA)
+      if (meeting.is_pjbl) {
+        if (wordCount < 250) {
+          grade = "TIDAK LULUS";
+          feedback = `Panjang esai Anda saat ini baru ${wordCount} kata. Skenario Project Based Learning Sesi 14 mewajibkan esai analitis minimal 250 kata yang mengelaborasi arsitektur tata kelola dan pencegahan bias.`;
+          isValid = false;
+        } else if (matchCount >= meeting.min_keywords_needed) {
+          grade = "LULUS";
+          feedback = `Analisis Esai PjBL Sangat Presisi! Anda berhasil mengelaborasi ${wordCount} kata dengan menyintesis rujukan teori kunci (${matched.join(', ')}).`;
+          isValid = true;
+        } else if (matchCount >= 2) {
+          grade = "LULUS BERSYARAT";
+          feedback = `Esai Anda telah memenuhi panjang ${wordCount} kata, namun baru mengaitkan sedikit teori (${matched.join(', ')}). Diperlukan integrasi teori agensi dan pengendalian internal yang lebih komprehensif.`;
+          isValid = true;
+        } else {
+          grade = "TIDAK LULUS";
+          feedback = `Meskipun telah mencapai ${wordCount} kata, esai Anda belum mengaitkan referensi teori akuntansi keperilakuan yang dipelajari (misal: Agency Theory, Fraud Triangle, COSO Framework, Bounded Rationality).`;
+          isValid = false;
+        }
       } else {
-        grade = "TIDAK LULUS";
-        feedback = `Argumentasi Belum Sesuai Teori Akuntansi Keperilakuan. Jawaban belum menguraikan konstruk teoretis utama (misal: ${meeting.required_keywords.slice(0, 3).join(', ')}).`;
+        // SESI 1-13 (KASUS HARIAN)
+        if (matchCount >= meeting.min_keywords_needed + 1 && text.length >= 60) {
+          grade = "LULUS";
+          feedback = `Analisis Sangat Baik & Presisi! Anda mengintegrasikan teori (${matched.join(', ')}) ke dalam penyelesaian studi kasus.`;
+          isValid = true;
+        } else if (matchCount >= meeting.min_keywords_needed && text.length >= 40) {
+          grade = "LULUS BERSYARAT";
+          feedback = `Analisis Cukup Baik. Teori (${matched.join(', ')}) teridentifikasi, namun elaborasi argumentasi mitigasi risiko perlu diperdalam lagi.`;
+          isValid = true;
+        } else {
+          grade = "TIDAK LULUS";
+          feedback = `Argumentasi Belum Sesuai Teori Akuntansi Keperilakuan. Jawaban belum menguraikan konsep wajib (misal: ${meeting.required_keywords.slice(0, 3).join(', ')}).`;
+          isValid = false;
+        }
       }
 
-      return { grade, feedback, matched, matchCount };
+      return { grade, feedback, matched, matchCount, wordCount, isValid };
     }
 
     function openMeetingWorkspace(sNum) {
@@ -1321,7 +1635,7 @@
       if (!meet) return;
 
       if (appState.activeStudent?.completedSessions?.[sNum]) {
-        showToast("Sesi ini sudah Anda selesaikan. Fitur uji ulang ditiadakan untuk menjaga objektivitas hasil asesmen.", "warning");
+        showToast("Sesi ini sudah Anda selesaikan. Silakan tinjau Slide Pembahasan di portal.", "warning");
         return;
       }
 
@@ -1342,26 +1656,48 @@
       document.getElementById("wsKeyTheoryConcepts").innerText = meet.required_keywords.join(" • ");
       document.getElementById("wsCaseNarrative").innerHTML = `<p>${meet.narrative_id}</p>`;
 
+      const optContainer = document.getElementById("wsOptionsContainer");
       const ctrlArea = document.getElementById("wsInteractiveControlArea");
-      ctrlArea.innerHTML = "";
-      document.getElementById("wsConsequenceBox").classList.add("hidden");
+      const conseqBox = document.getElementById("wsConsequenceBox");
+      const refHeading = document.getElementById("wsReflectionLabelHeading");
+      const refInput = document.getElementById("wsReflectionText");
+      const charBadge = document.getElementById("wsCharCountBadge");
+      const aiFeedbackBox = document.getElementById("wsAIFeedbackPrecisionBox");
 
-      meet.options.forEach((opt, idx) => {
-        const card = document.createElement("div");
-        card.id = `optCard_${idx}`;
-        card.className = "p-3.5 rounded-xl border border-slate-700 bg-slate-950 hover:border-teal-500 cursor-pointer transition space-y-1";
-        card.onclick = () => selectWorkspaceOption(meet.session, opt, idx);
-        card.innerHTML = `
-          <div class="flex items-start space-x-2.5">
-            <span class="w-6 h-6 rounded-lg bg-slate-800 text-teal-300 flex items-center justify-center font-bold text-xs flex-shrink-0">${String.fromCharCode(65 + idx)}</span>
-            <span class="font-bold text-white text-xs leading-snug">${opt.label_id}</span>
-          </div>
-        `;
-        ctrlArea.appendChild(card);
-      });
+      aiFeedbackBox.classList.add("hidden");
+      conseqBox.classList.add("hidden");
 
-      document.getElementById("wsReflectionText").value = "";
-      document.getElementById("wsCharCountBadge").innerText = "Min. 40 Karakter & Relevan Teori";
+      // JIKA SESI 14 (PjBL ESAI): Sembunyikan opsi pilihan ganda
+      if (meet.is_pjbl) {
+        optContainer.classList.add("hidden");
+        refHeading.innerHTML = `<i class="fa-solid fa-file-pen mr-1"></i> Lembar Esai Blueprint Proyek Terpadu (Wajib Min. 250 Kata)`;
+        refInput.placeholder = "Tuliskan esai solusi proyek Anda di sini (minimal 250 kata). Uraikan diagnosis masalah dan blueprint mitigasi tata kelola dengan mengintegrasikan referensi teori akuntansi keperilakuan yang relevan (seperti Agency Theory, Fraud Triangle, COSO, Bounded Rationality, dll)...";
+        refInput.rows = 11;
+        charBadge.innerText = "0 / 250 Kata (Wajib)";
+      } else {
+        optContainer.classList.remove("hidden");
+        ctrlArea.innerHTML = "";
+        refHeading.innerHTML = `<i class="fa-solid fa-pen-fancy mr-1"></i> Lembar Analisis & Refleksi Mandiri Mahasiswa`;
+        refInput.placeholder = "Uraikan dasar pertimbangan Anda: kaitkan keputusan di atas dengan teori akuntansi keperilakuan yang relevan, identifikasi bias kognitif yang timbul, dan rumuskan mitigasinya...";
+        refInput.rows = 4;
+        charBadge.innerText = "Min. 40 Karakter & Relevan Teori";
+
+        meet.options.forEach((opt, idx) => {
+          const card = document.createElement("div");
+          card.id = `optCard_${idx}`;
+          card.className = "p-3.5 rounded-xl border border-slate-700 bg-slate-950 hover:border-teal-500 cursor-pointer transition space-y-1";
+          card.onclick = () => selectWorkspaceOption(meet.session, opt, idx);
+          card.innerHTML = `
+            <div class="flex items-start space-x-2.5">
+              <span class="w-6 h-6 rounded-lg bg-slate-800 text-teal-300 flex items-center justify-center font-bold text-xs flex-shrink-0">${String.fromCharCode(65 + idx)}</span>
+              <span class="font-bold text-white text-xs leading-snug">${opt.label_id}</span>
+            </div>
+          `;
+          ctrlArea.appendChild(card);
+        });
+      }
+
+      refInput.value = "";
       document.getElementById("wsReviewStatusBadge").innerText = "";
       document.getElementById("modalMeetingWorkspace").classList.remove("hidden");
     }
@@ -1386,51 +1722,304 @@
     function closeMeetingWorkspace() { document.getElementById("modalMeetingWorkspace").classList.add("hidden"); }
 
     function handleReflectionTextInput() {
-      const len = document.getElementById("wsReflectionText").value.trim().length;
-      document.getElementById("wsCharCountBadge").innerText = `${len} Karakter`;
-      document.getElementById("wsCharCountBadge").className = len >= 40 ? "text-[10px] text-teal-400 font-bold" : "text-[10px] text-slate-400";
+      const text = document.getElementById("wsReflectionText").value;
+      const m = appState.currentWorkspaceMeeting;
+      const charBadge = document.getElementById("wsCharCountBadge");
+      if (!m) return;
+
+      if (m.is_pjbl) {
+        const words = countWords(text);
+        charBadge.innerText = `${words} / 250 Kata`;
+        charBadge.className = words >= 250 ? "text-[10px] text-teal-400 font-bold font-mono" : "text-[10px] text-amber-400 font-mono";
+      } else {
+        const len = text.trim().length;
+        charBadge.innerText = `${len} Karakter`;
+        charBadge.className = len >= 40 ? "text-[10px] text-teal-400 font-bold font-mono" : "text-[10px] text-slate-400 font-mono";
+      }
     }
 
+    // SUBMIT SESI DENGAN VALIDASI AI & PENUNDAAN STATUS PUBLIKASI SESI 14
     function handleFinishMeetingSession() {
       const m = appState.currentWorkspaceMeeting;
-      const choice = appState.tempChoices[m.session];
-      if (!choice) { showToast("Pilih salah satu alternatif keputusan terlebih dahulu!", "error"); return; }
-      
       const text = document.getElementById("wsReflectionText").value.trim();
-      if (text.length < 40) { showToast("Uraikan refleksi minimal 40 karakter!", "warning"); return; }
+      const aiFeedbackBox = document.getElementById("wsAIFeedbackPrecisionBox");
+      const aiMsg = document.getElementById("wsAIFeedbackMessage");
+      const aiGold = document.getElementById("wsAIGoldenAnswerText");
+      const aiGrade = document.getElementById("wsAIGradeTag");
+
+      // Validasi Khusus Sesi 1-13: Wajib pilih opsi
+      if (!m.is_pjbl) {
+        const choice = appState.tempChoices[m.session];
+        if (!choice) { showToast("Pilih salah satu alternatif keputusan terlebih dahulu!", "error"); return; }
+        if (text.length < 40) { showToast("Uraikan refleksi minimal 40 karakter!", "warning"); return; }
+      } else {
+        // Validasi Sesi 14 PjBL: Wajib esai min 250 kata
+        const words = countWords(text);
+        if (words < 250) {
+          showToast(`Panjang esai baru ${words} kata. Minimal 250 kata untuk Proyek PjBL Sesi 14!`, "error");
+          evalAIAndShowFeedback(text, m);
+          return;
+        }
+      }
 
       const evalResult = evaluateStudentTheoryAlignment(text, m);
 
+      // JIKA JAWABAN TIDAK VALID / TIDAK MEMENUHI TEORI
+      if (!evalResult.isValid) {
+        evalAIAndShowFeedback(text, m);
+        showToast("Jawaban Anda belum memenuhi standar teori akuntansi keperilakuan! Periksa telaah AI di bawah.", "error");
+        return;
+      }
+
+      // CEK STATUS SESI 13 UNTUK PENUNDAAN PUBLIKASI SESI 14
+      const is13Done = !!appState.activeStudent?.completedSessions?.[13];
+      const willBePending = (m.session === 14 && !is13Done);
+
+      let confirmMsg = `Hasil Review Teori Akuntansi Keperilakuan: "${evalResult.grade}"\n\nCatatan Evaluasi: ${evalResult.feedback}\n\n`;
+      if (willBePending) {
+        confirmMsg += `PEMBERITAHUAN PENTING: Karena Anda belum menyelesaikan Soal Kasus Pertemuan 13, status kelulusan dan nilai PjBL Sesi 14 akan DITUNDA dan baru otomatis dipublikasikan setelah Anda menyelesaikan Pertemuan 13.\n\nLanjutkan penyimpanan?`;
+      } else {
+        confirmMsg += `Perhatian: Sesi ini akan TERKUNCI PERMANEN dan tidak dapat diubah kembali. Lanjutkan penyimpanan?`;
+      }
+
       openConfirmModal(
         "Kunci Keputusan & Hasil Evaluasi Teori",
-        `Hasil Review Teori Akuntansi Keperilakuan: "${evalResult.grade}"\n\nCatatan Evaluasi: ${evalResult.feedback}\n\nPerhatian: Sesi ini akan TERKUNCI PERMANEN dan tidak dapat diubah kembali. Lanjutkan penyimpanan?`,
+        confirmMsg,
         (accepted) => {
           if (!accepted) return;
 
           if (!appState.activeStudent.completedSessions) appState.activeStudent.completedSessions = {};
           
+          const defaultMetrics = m.is_pjbl ? { ethic: 30, skeptic: 30, slack: 25, risk: 25 } : appState.tempChoices[m.session]?.metrics;
+          const selectedLabel = m.is_pjbl ? "Solusi Proyek Blueprint PjBL Esai Terpadu" : appState.tempChoices[m.session]?.label_id;
+
           appState.activeStudent.completedSessions[m.session] = {
             session: m.session,
             completedAt: new Date().toISOString(),
-            selectedOption: choice.label_id,
+            selectedOption: selectedLabel,
             reflectionText: text,
             statusGrade: evalResult.grade,
             theoryMatchCount: evalResult.matchCount,
-            metrics: choice.metrics
+            wordCount: evalResult.wordCount,
+            metrics: defaultMetrics
           };
 
-          Object.keys(choice.metrics).forEach(k => {
-            const delta = evalResult.grade === "LULUS" ? choice.metrics[k] : Math.round(choice.metrics[k] * 0.5);
-            appState.activeStudent.metrics[k] = Math.max(10, Math.min(100, appState.activeStudent.metrics[k] + delta));
-          });
+          // Update psikometri
+          if (!willBePending && defaultMetrics) {
+            Object.keys(defaultMetrics).forEach(k => {
+              const delta = evalResult.grade === "LULUS" ? defaultMetrics[k] : Math.round(defaultMetrics[k] * 0.5);
+              appState.activeStudent.metrics[k] = Math.max(10, Math.min(100, appState.activeStudent.metrics[k] + delta));
+            });
+          }
+
+          // OTOMATIS AKTIFKAN PUBLIKASI SESI 14 JIKA INI ADALAH PENYELESAIAN SESI 13
+          if (m.session === 13 && appState.activeStudent.completedSessions[14]) {
+            const p14 = appState.activeStudent.completedSessions[14];
+            if (p14.metrics) {
+              Object.keys(p14.metrics).forEach(k => {
+                const delta = p14.statusGrade === "LULUS" ? p14.metrics[k] : Math.round(p14.metrics[k] * 0.5);
+                appState.activeStudent.metrics[k] = Math.max(10, Math.min(100, appState.activeStudent.metrics[k] + delta));
+              });
+            }
+            showToast("Selamat! Karena Sesi 13 telah tuntas, status kelulusan PjBL Pertemuan 14 kini resmi dipublikasikan!", "success");
+          }
 
           updateStudentInRegistry(appState.activeStudent);
-          showToast(`Sesi P${m.session} berhasil dikunci: Predikat ${evalResult.grade}`, "success");
+          showToast(`Sesi P${m.session} berhasil disimpan!`, "success");
           closeMeetingWorkspace();
           renderStudentPortal();
           renderLandingLeaderboard();
+
+          setTimeout(() => {
+            openDiscussionSlidesModal(m.session);
+          }, 400);
         }
       );
+    }
+
+    function evalAIAndShowFeedback(text, m) {
+      const evalResult = evaluateStudentTheoryAlignment(text, m);
+      const aiFeedbackBox = document.getElementById("wsAIFeedbackPrecisionBox");
+      const aiMsg = document.getElementById("wsAIFeedbackMessage");
+      const aiGold = document.getElementById("wsAIGoldenAnswerText");
+      const aiGrade = document.getElementById("wsAIGradeTag");
+
+      aiFeedbackBox.classList.remove("hidden");
+      aiGrade.innerText = evalResult.grade;
+      aiMsg.innerText = evalResult.feedback;
+      aiGold.innerText = m.theoretical_defense;
+      aiFeedbackBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* SLIDE PRESENTASI PEMBAHASAN DETAIL */
+    function openDiscussionSlidesModal(sessionNum) {
+      appState.activeDiscussSession = parseInt(sessionNum);
+      appState.activeDiscussStep = 0;
+      renderDetailedSlideView("discussSlideContentBody", "discussSlideIndicatorBadge", "btnDiscussSlidePrev", "btnDiscussSlideNext", appState.activeDiscussSession, appState.activeDiscussStep);
+      
+      const m = CURRICULUM_MEETINGS.find(item => item.session === appState.activeDiscussSession);
+      if (m) {
+        document.getElementById("discussModalTitle").innerText = `P${m.session}: ${m.title_id}`;
+        document.getElementById("discussModalSubtitle").innerText = `Slide Pembahasan Teoretis • ${m.phase_id}`;
+      }
+      document.getElementById("modalDiscussionSlides").classList.remove("hidden");
+    }
+
+    function closeDiscussionSlidesModal() {
+      document.getElementById("modalDiscussionSlides").classList.add("hidden");
+    }
+
+    function navigateDiscussSlideStep(delta) {
+      const totalSteps = 4;
+      appState.activeDiscussStep = Math.max(0, Math.min(totalSteps - 1, appState.activeDiscussStep + delta));
+      renderDetailedSlideView("discussSlideContentBody", "discussSlideIndicatorBadge", "btnDiscussSlidePrev", "btnDiscussSlideNext", appState.activeDiscussSession, appState.activeDiscussStep);
+    }
+
+    function loadSlideSession(sessionNum) {
+      appState.activeDiscussSession = parseInt(sessionNum);
+      appState.activeDiscussStep = 0;
+      renderDetailedSlideView("lecSlideContentBody", "slideIndicatorBadge", "btnSlidePrev", "btnSlideNext", appState.activeDiscussSession, appState.activeDiscussStep);
+    }
+
+    function navigateSlideStep(delta) {
+      const totalSteps = 4;
+      appState.activeDiscussStep = Math.max(0, Math.min(totalSteps - 1, appState.activeDiscussStep + delta));
+      renderDetailedSlideView("lecSlideContentBody", "slideIndicatorBadge", "btnSlidePrev", "btnSlideNext", appState.activeDiscussSession, appState.activeDiscussStep);
+    }
+
+    function renderDetailedSlideView(containerId, indicatorId, prevBtnId, nextBtnId, sessionNum, step) {
+      const m = CURRICULUM_MEETINGS.find(item => item.session === sessionNum);
+      const container = document.getElementById(containerId);
+      const indicator = document.getElementById(indicatorId);
+      const btnPrev = document.getElementById(prevBtnId);
+      const btnNext = document.getElementById(nextBtnId);
+      if (!container || !m) return;
+
+      if (indicator) indicator.innerText = `Slide ${step + 1} / 4`;
+      if (btnPrev) {
+        btnPrev.disabled = step === 0;
+        btnPrev.className = step === 0 ? "px-4 py-2 rounded-xl bg-slate-900 text-slate-600 font-bold text-xs cursor-not-allowed" : "px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs flex items-center space-x-2 transition";
+      }
+      if (btnNext) {
+        btnNext.disabled = step === 3;
+        btnNext.className = step === 3 ? "px-4 py-2 rounded-xl bg-slate-900 text-slate-600 font-bold text-xs cursor-not-allowed" : "px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs flex items-center space-x-2 transition shadow-md shadow-teal-500/20";
+      }
+
+      let slideHTML = "";
+
+      if (step === 0) {
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-teal-500/20 text-teal-300 font-mono font-black text-xs sm:text-sm">SLIDE 1: INTISARI KASUS & DINAMIKA KEPUTUSAN</span>
+              <span class="text-xs text-indigo-400 font-bold">P${m.session} • ${m.phase_id}</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white leading-tight">${m.title_id}</h2>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-slate-300 text-xs sm:text-sm leading-relaxed space-y-2.5">
+              <div class="text-teal-400 font-bold flex items-center gap-2">
+                <i class="fa-solid fa-file-contract"></i>
+                <span>${m.is_pjbl ? 'Instruksi Terpadu Project Based Learning (PjBL Esai Min. 250 Kata):' : 'Skenario Dilema Keputusan Manajerial:'}</span>
+              </div>
+              <p class="leading-relaxed">${m.narrative_id}</p>
+            </div>
+            <div class="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/40 text-xs text-indigo-200 leading-relaxed space-y-1">
+              <strong class="text-amber-300 block flex items-center gap-1.5"><i class="fa-solid fa-compass"></i> Tujuan Kompetensi & Sensitivitas Keperilakuan:</strong>
+              <p>Membekali akuntan mengenali tekanan kognitif, asimetri informasi, dan dorongan rasionalisasi dalam keputusan keuangan nyata.</p>
+            </div>
+          </div>
+        `;
+      } else if (step === 1) {
+        let optionsCards = "";
+        if (m.is_pjbl) {
+          optionsCards = `
+            <div class="p-4 rounded-2xl border border-teal-500/60 bg-teal-950/30 col-span-2 space-y-2">
+              <strong class="text-teal-300 text-sm font-bold block flex items-center gap-1.5"><i class="fa-solid fa-award"></i> Format PjBL: Esai Blueprint Solutif (Min. 250 Kata)</strong>
+              <p class="text-slate-300 text-xs leading-relaxed">Berbeda dengan sesi harian berbentuk kasus pilihan berganda, Sesi 14 menuntut penulisan esai terpadu yang mendiagnosis kegagalan tata kelola serta merancang sistem mitigasi menyeluruh menggunakan multi-teori keperilakuan.</p>
+            </div>
+          `;
+        } else {
+          m.options.forEach((opt, idx) => {
+            const isGold = opt.label_id.includes("Opsi C") && (m.session <= 5) || opt.label_id.includes("Opsi D");
+            optionsCards += `
+              <div class="p-3.5 rounded-2xl border ${isGold ? 'border-teal-500/70 bg-teal-950/40' : 'border-slate-800 bg-slate-950/70'} space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <strong class="text-xs ${isGold ? 'text-teal-300 font-black' : 'text-slate-300'}">${String.fromCharCode(65 + idx)}. ${opt.label_id.split(':')[0]}</strong>
+                  ${isGold ? '<span class="px-2.5 py-0.5 rounded-full bg-teal-400 text-slate-950 text-[10px] font-black">SOLUSI REKOMENDASI</span>' : '<span class="text-[10px] text-rose-400 font-bold">JEBAKAN BIAS / DISTRAKTOR</span>'}
+                </div>
+                <p class="text-[11px] text-slate-300 leading-relaxed">${opt.label_id}</p>
+                <div class="text-[10px] ${isGold ? 'text-teal-400 font-bold' : 'text-slate-500'} pt-1 border-t border-slate-800/80">
+                  <i class="fa-solid fa-circle-info mr-1"></i>Dampak: ${opt.consequence_id}
+                </div>
+              </div>
+            `;
+          });
+        }
+
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-teal-500/20 text-teal-300 font-mono font-black text-xs sm:text-sm">SLIDE 2: ${m.is_pjbl ? 'STRUKTUR INSTRUKSI PROYEK ESAI' : 'DEKOMPOSISI & KOMPARASI KEPUTUSAN'}</span>
+              <span class="text-xs text-indigo-400 font-bold">P${m.session} • Dekomposisi Solusi</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              ${optionsCards}
+            </div>
+          </div>
+        `;
+      } else if (step === 2) {
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-indigo-500/20 text-indigo-300 font-mono font-black text-xs sm:text-sm">SLIDE 3: LANDASAN TEORI KEPERILAKUAN & ARGUMEN ILMIAH</span>
+              <span class="text-xs text-teal-400 font-bold">P${m.session} • Sintesis Ilmiah</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-indigo-950/50 border border-indigo-500/50 space-y-2.5">
+              <div class="text-amber-400 font-black text-sm flex items-center gap-2">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>${m.theory_summary_id}</span>
+              </div>
+              <div class="text-slate-200 text-xs sm:text-sm leading-relaxed">${m.theory_id}</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-teal-500/40 text-xs space-y-2">
+              <strong class="text-teal-300 block flex items-center gap-1.5 text-xs sm:text-sm font-bold">
+                <i class="fa-solid fa-circle-check text-teal-400"></i>
+                Argumen Teoritis Solusi Terbaik:
+              </strong>
+              <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">${m.theoretical_defense}</p>
+            </div>
+          </div>
+        `;
+      } else {
+        slideHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 font-mono font-black text-xs sm:text-sm">SLIDE 4: JEBAKAN KOGNITIF & RUBRIK PENILAIAN</span>
+              <span class="text-xs text-slate-400 font-bold">P${m.session} • Evaluasi Presisi</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-rose-950/40 border border-rose-500/40 text-xs space-y-2">
+              <strong class="text-rose-300 flex items-center gap-1.5 text-xs sm:text-sm font-bold">
+                <i class="fa-solid fa-triangle-exclamation text-rose-400"></i>
+                Jebakan Kognitif Mahasiswa (Cognitive Trap):
+              </strong>
+              <p class="text-slate-200 leading-relaxed text-xs sm:text-sm">${m.cognitive_trap}</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-2.5">
+              <strong class="text-indigo-300 flex items-center gap-1.5 font-bold">
+                <i class="fa-solid fa-spell-check text-indigo-400"></i>
+                Konstruk Kata Kunci Wajib Telaah:
+              </strong>
+              <div class="flex flex-wrap gap-2 pt-1">
+                ${m.required_keywords.map(kw => `<span class="px-3 py-1 rounded-xl bg-indigo-900/50 text-indigo-200 border border-indigo-700 font-mono text-xs font-bold">${kw}</span>`).join('')}
+              </div>
+              <p class="text-[11px] text-slate-400 pt-1 leading-relaxed">
+                ${m.is_pjbl ? 'Kriteria Kelulusan PjBL: Esai minimal 250 kata dan mengintegrasikan minimal 4 teori keperilakuan di atas.' : `Kriteria: Mengaitkan minimal ${m.min_keywords_needed + 1} konstruk teori dengan argumentasi mitigasi risiko yang logis.`}
+              </p>
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = slideHTML;
     }
 
     function openPortfolioModal() {
@@ -1438,14 +2027,22 @@
       if (!s) return;
       const paper = document.getElementById("portfolioPaperSheet");
       const completed = s.completedSessions || {};
+      const is13Done = !!completed[13];
       let rows = "";
+
       CURRICULUM_MEETINGS.forEach(m => {
         const item = completed[m.session];
         let statusBadge = '<span style="color:#94a3b8; font-weight:bold;">BELUM DIAMBIL</span>';
         if (item) {
-          if (item.statusGrade === "LULUS") statusBadge = '<span style="color:#047857; font-weight:bold; background:#ecfdf5; padding:2px 6px; border-radius:4px; border:1px solid #a7f3d0;">LULUS</span>';
-          else if (item.statusGrade === "LULUS BERSYARAT") statusBadge = '<span style="color:#b45309; font-weight:bold; background:#fffbeb; padding:2px 6px; border-radius:4px; border:1px solid #fef3c7;">LULUS BERSYARAT</span>';
-          else statusBadge = '<span style="color:#be123c; font-weight:bold; background:#fff1f2; padding:2px 6px; border-radius:4px; border:1px solid #fecdd3;">TIDAK LULUS</span>';
+          if (m.session === 14 && !is13Done) {
+            statusBadge = '<span style="color:#d97706; font-weight:bold; background:#fffbeb; padding:2px 6px; border-radius:4px; border:1px solid #fef3c7;">TERKIRIM (MENUNGGU SESI 13)</span>';
+          } else if (item.statusGrade === "LULUS") {
+            statusBadge = '<span style="color:#047857; font-weight:bold; background:#ecfdf5; padding:2px 6px; border-radius:4px; border:1px solid #a7f3d0;">LULUS</span>';
+          } else if (item.statusGrade === "LULUS BERSYARAT") {
+            statusBadge = '<span style="color:#b45309; font-weight:bold; background:#fffbeb; padding:2px 6px; border-radius:4px; border:1px solid #fef3c7;">LULUS BERSYARAT</span>';
+          } else {
+            statusBadge = '<span style="color:#be123c; font-weight:bold; background:#fff1f2; padding:2px 6px; border-radius:4px; border:1px solid #fecdd3;">TIDAK LULUS</span>';
+          }
         }
         rows += `
           <tr style="border-bottom:1px solid #e2e8f0; font-size:11px;">
@@ -1470,7 +2067,7 @@
             <strong>Nama Mahasiswa:</strong> ${s.nama} | <strong>NIM:</strong> ${s.nim} | <strong>Kelas:</strong> ${s.kelas} | <strong>Total Skor:</strong> ${calculateTotalScore(s)} Pts
           </div>
           <table style="width:100%; border-collapse:collapse; margin-top:10px;">
-            <thead><tr style="background:#f1f5f9; font-size:11px;"><th style="padding:6px; width:40px;">Sesi</th><th style="padding:6px; text-align:left;">Materi RPS & Konstruk Teori</th><th style="padding:6px; width:130px; text-align:center;">Status Kelulusan</th><th style="padding:6px; text-align:left;">Refleksi Mahasiswa</th></tr></thead>
+            <thead><tr style="background:#f1f5f9; font-size:11px;"><th style="padding:6px; width:40px;">Sesi</th><th style="padding:6px; text-align:left;">Materi RPS & Konstruk Teori</th><th style="padding:6px; width:130px; text-align:center;">Status Kelulusan</th><th style="padding:6px; text-align:left;">Refleksi / Hasil Esai PjBL</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
           <div style="margin-top:24px; display:flex; justify-content:space-between; font-size:11px;">
@@ -1515,7 +2112,7 @@
       });
 
       if (tab === 'sessions') renderLecturerSessions();
-      else if (tab === 'slides') renderLecturerSlideView();
+      else if (tab === 'slides') renderDetailedSlideView("lecSlideContentBody", "slideIndicatorBadge", "btnSlidePrev", "btnSlideNext", appState.activeDiscussSession, appState.activeDiscussStep);
       else if (tab === 'students') renderLecturerStudentsTable();
     }
 
@@ -1524,7 +2121,7 @@
       tbody.innerHTML = "";
       const ctrls = getSessionControls();
       CURRICULUM_MEETINGS.forEach(m => {
-        const ctrl = ctrls[m.session] || { session: m.session, isOpen: m.session === 1 };
+        const ctrl = ctrls[m.session] || { session: m.session, isOpen: (m.session === 1 || m.session === 14) };
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td class="p-3 text-center font-bold">P${m.session}</td>
@@ -1550,14 +2147,17 @@
     function bulkSetSessions(isOpen) {
       const ctrls = getSessionControls();
       CURRICULUM_MEETINGS.forEach(m => {
-        ctrls[m.session] = { session: m.session, isOpen: (!isOpen && m.session === 1) ? true : isOpen };
+        if (!isOpen) {
+          ctrls[m.session] = { session: m.session, isOpen: (m.session === 1 || m.session === 14) };
+        } else {
+          ctrls[m.session] = { session: m.session, isOpen: true };
+        }
       });
       saveSessionControls(ctrls);
       renderLecturerSessions();
-      showToast(isOpen ? "Semua sesi dibuka!" : "Sesi dikunci (kecuali P1)", "info");
+      showToast(isOpen ? "Semua 14 sesi perkuliahan dibuka!" : "Sesi dikunci (P1 dan P14 tetap terbuka)", "info");
     }
 
-    /* SLIDE PRESENTASI PEMBAHASAN RPS DOSEN */
     function populateLecturerSlideSessionDropdown() {
       const select = document.getElementById("lecSlideSessionSelect");
       if (!select) return;
@@ -1565,144 +2165,12 @@
       CURRICULUM_MEETINGS.forEach(m => {
         const opt = document.createElement("option");
         opt.value = m.session;
-        opt.innerText = `P${m.session}: ${m.title_id.slice(0, 38)}...`;
+        opt.innerText = `P${m.session}: ${m.title_id}`;
         select.appendChild(opt);
       });
-      select.value = appState.currentSlideSession;
+      select.value = appState.activeDiscussSession;
     }
 
-    function loadLecturerSlideSession(sessionNum) {
-      appState.currentSlideSession = parseInt(sessionNum);
-      appState.currentSlideStep = 0;
-      renderLecturerSlideView();
-    }
-
-    function navigateSlideStep(delta) {
-      const totalSteps = 4;
-      appState.currentSlideStep = Math.max(0, Math.min(totalSteps - 1, appState.currentSlideStep + delta));
-      renderLecturerSlideView();
-    }
-
-    function renderLecturerSlideView() {
-      const m = CURRICULUM_MEETINGS.find(item => item.session === appState.currentSlideSession);
-      const container = document.getElementById("lecSlideContentBody");
-      const indicator = document.getElementById("slideIndicatorBadge");
-      const btnPrev = document.getElementById("btnSlidePrev");
-      const btnNext = document.getElementById("btnSlideNext");
-      if (!container || !m) return;
-
-      const step = appState.currentSlideStep;
-      indicator.innerText = `Slide ${step + 1} / 4`;
-      btnPrev.disabled = step === 0;
-      btnPrev.className = step === 0 ? "px-4 py-2 rounded-xl bg-slate-900 text-slate-600 font-bold text-xs cursor-not-allowed" : "px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs flex items-center space-x-2 transition";
-      btnNext.disabled = step === 3;
-      btnNext.className = step === 3 ? "px-4 py-2 rounded-xl bg-slate-900 text-slate-600 font-bold text-xs cursor-not-allowed" : "px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs flex items-center space-x-2 transition shadow-md shadow-teal-500/20";
-
-      let slideHTML = "";
-
-      if (step === 0) {
-        slideHTML = `
-          <div class="space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-              <span class="px-3 py-1 rounded-xl bg-teal-500/20 text-teal-300 font-mono font-black text-sm">SLIDE 1: PENGANTAR KASUS & DILEMA</span>
-              <span class="text-xs text-indigo-400 font-bold">Sesi P${m.session} • ${m.phase_id}</span>
-            </div>
-            <h2 class="text-xl sm:text-2xl font-black text-white leading-tight">${m.title_id}</h2>
-            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-slate-300 text-xs sm:text-sm leading-relaxed space-y-2">
-              <div class="text-teal-400 font-bold flex items-center gap-2">
-                <i class="fa-solid fa-file-contract"></i>
-                <span>Skenario Kasus Keputusan Manajerial:</span>
-              </div>
-              <p>${m.narrative_id}</p>
-            </div>
-            <div class="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-500/40 text-xs text-indigo-200">
-              <i class="fa-solid fa-lightbulb text-amber-400 mr-1.5"></i>
-              <strong>Tujuan Instruksional:</strong> Menguji sensitivitas akuntan terhadap bias keputusan, dorongan heuristik, dan kepatuhan kode etik fidusia.
-            </div>
-          </div>
-        `;
-      } else if (step === 1) {
-        let optionsCards = "";
-        m.options.forEach((opt, idx) => {
-          const isGold = opt.label_id.includes("Opsi C") || opt.label_id.includes("Opsi D") && m.session >= 5;
-          optionsCards += `
-            <div class="p-3 rounded-xl border ${isGold ? 'border-teal-500/60 bg-teal-950/30' : 'border-slate-800 bg-slate-950/70'} space-y-1">
-              <div class="flex items-center justify-between">
-                <strong class="text-xs ${isGold ? 'text-teal-300 font-black' : 'text-slate-300'}">${String.fromCharCode(65 + idx)}. ${opt.label_id.split(':')[0]}</strong>
-                ${isGold ? '<span class="px-2 py-0.5 rounded-full bg-teal-400 text-slate-950 text-[9px] font-black">SOLUSI REKOMENDASI</span>' : '<span class="text-[9px] text-slate-500">DISTRAKTOR</span>'}
-              </div>
-              <p class="text-[11px] text-slate-400 leading-snug">${opt.label_id}</p>
-              <div class="text-[10px] text-slate-500 pt-1 border-t border-slate-800/80">Konsekuensi: ${opt.consequence_id}</div>
-            </div>
-          `;
-        });
-
-        slideHTML = `
-          <div class="space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-              <span class="px-3 py-1 rounded-xl bg-teal-500/20 text-teal-300 font-mono font-black text-sm">SLIDE 2: DEKOMPOSISI ALTERNATIF KEPUTUSAN</span>
-              <span class="text-xs text-indigo-400 font-bold">P${m.session} • Spektrum Opsi</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              ${optionsCards}
-            </div>
-          </div>
-        `;
-      } else if (step === 2) {
-        slideHTML = `
-          <div class="space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-              <span class="px-3 py-1 rounded-xl bg-indigo-500/20 text-indigo-300 font-mono font-black text-sm">SLIDE 3: SINTESIS LANDASAN TEORI KEPERILAKUAN</span>
-              <span class="text-xs text-teal-400 font-bold">P${m.session} • Teori Ilmiah</span>
-            </div>
-            <div class="p-4 rounded-2xl bg-indigo-950/50 border border-indigo-500/50 space-y-3">
-              <div class="text-amber-400 font-black text-sm flex items-center gap-2">
-                <i class="fa-solid fa-graduation-cap"></i>
-                <span>${m.theory_summary_id}</span>
-              </div>
-              <div class="text-slate-200 text-xs sm:text-sm leading-relaxed">${m.theory_id}</div>
-            </div>
-            <div class="p-4 rounded-2xl bg-slate-950 border border-teal-500/40 text-xs space-y-2">
-              <strong class="text-teal-300 block flex items-center gap-1.5">
-                <i class="fa-solid fa-circle-check text-teal-400"></i>
-                Argumen Teoritis Solusi Terbaik:
-              </strong>
-              <p class="text-slate-300 leading-relaxed">${m.theoretical_defense}</p>
-            </div>
-          </div>
-        `;
-      } else {
-        slideHTML = `
-          <div class="space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-              <span class="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 font-mono font-black text-sm">SLIDE 4: JEBAKAN KOGNITIF & RUBRIK PENILAIAN</span>
-              <span class="text-xs text-slate-400 font-bold">P${m.session} • Evaluasi Refleksi</span>
-            </div>
-            <div class="p-4 rounded-2xl bg-rose-950/40 border border-rose-500/40 text-xs space-y-2">
-              <strong class="text-rose-300 flex items-center gap-1.5">
-                <i class="fa-solid fa-triangle-exclamation text-rose-400"></i>
-                Jebakan Kognitif Mahasiswa (Cognitive Trap):
-              </strong>
-              <p class="text-slate-200 leading-relaxed">${m.cognitive_trap}</p>
-            </div>
-            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-2">
-              <strong class="text-indigo-300 flex items-center gap-1.5">
-                <i class="fa-solid fa-spell-check text-indigo-400"></i>
-                Kata Kunci Wajib Refleksi (Keyword Matching):
-              </strong>
-              <div class="flex flex-wrap gap-1.5 pt-1">
-                ${m.required_keywords.map(kw => `<span class="px-2.5 py-1 rounded-lg bg-indigo-900/50 text-indigo-200 border border-indigo-700 font-mono text-[11px]">${kw}</span>`).join('')}
-              </div>
-              <p class="text-[11px] text-slate-400 pt-1">Jawaban mahasiswa diklasifikasikan: <strong>LULUS (>=3 keywords)</strong>, <strong>LULUS BERSYARAT (>=2 keywords)</strong>, atau <strong>TIDAK LULUS</strong>.</p>
-            </div>
-          </div>
-        `;
-      }
-
-      container.innerHTML = slideHTML;
-    }
-
-    /* REKAP MAHASISWA & SEARCH ENGINE BERBASIS NIM */
     function renderLecturerStudentsTable(filterList = null) {
       const tbody = document.getElementById("lecStudentsTableBody");
       const empty = document.getElementById("lecStudentsEmptyBox");
@@ -1747,8 +2215,12 @@
 
       students.forEach(st => {
         const completed = st.completedSessions || {};
+        const is13Done = !!completed[13];
         let passed = 0, cond = 0, fail = 0;
-        Object.values(completed).forEach(item => {
+
+        Object.keys(completed).forEach(sNum => {
+          const item = completed[sNum];
+          if (parseInt(sNum) === 14 && !is13Done) return; // Pending
           if (item.statusGrade === "LULUS") passed++;
           else if (item.statusGrade === "LULUS BERSYARAT") cond++;
           else fail++;
@@ -1790,8 +2262,12 @@
       const exact = allStudents.find(s => String(s.nim).trim().toLowerCase() === query);
       if (exact) {
         const completed = exact.completedSessions || {};
+        const is13Done = !!completed[13];
         let passed = 0, cond = 0, fail = 0;
-        Object.values(completed).forEach(item => {
+
+        Object.keys(completed).forEach(sNum => {
+          const item = completed[sNum];
+          if (parseInt(sNum) === 14 && !is13Done) return;
           if (item.statusGrade === "LULUS") passed++;
           else if (item.statusGrade === "LULUS BERSYARAT") cond++;
           else fail++;
@@ -1839,8 +2315,11 @@
       let csv = "NIM,Nama,Kelas,PIN,Total Skor,Lab Selesai,Lulus,Lulus Bersyarat,Tidak Lulus\n";
       list.forEach(s => {
         const completed = s.completedSessions || {};
+        const is13Done = !!completed[13];
         let passed = 0, cond = 0, fail = 0;
-        Object.values(completed).forEach(item => {
+        Object.keys(completed).forEach(sNum => {
+          const item = completed[sNum];
+          if (parseInt(sNum) === 14 && !is13Done) return;
           if (item.statusGrade === "LULUS") passed++;
           else if (item.statusGrade === "LULUS BERSYARAT") cond++;
           else fail++;
@@ -1871,8 +2350,9 @@
       openLecturerConsole, closeLecturerConsole, switchLecturerTab,
       toggleSessionAccess, bulkSetSessions, exportClassGradesToCSV,
       toggleAudioChimes, renderLandingLeaderboard, closeConfirmModal,
-      loadLecturerSlideSession, navigateSlideStep, handleLecturerLiveSearchNIM,
-      renderLecturerStudentsTable
+      loadSlideSession, navigateSlideStep, handleLecturerLiveSearchNIM,
+      renderLecturerStudentsTable,
+      openDiscussionSlidesModal, closeDiscussionSlidesModal, navigateDiscussSlideStep
     });
 
     window.addEventListener("DOMContentLoaded", () => {
